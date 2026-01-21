@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sales_lines', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sales_id')->constrained('sales');
-            $table->foreignId('display_product_id')->constrained('product_displays');
+            $table->foreignId('product_display_id')->constrained('product_displays');
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->timestamps();
             $table->softDeletes();

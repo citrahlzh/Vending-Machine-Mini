@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('idempotency_key')->unique();
             $table->string('qris_id');
-            $table->datetime('trancolumn: saction_date');
+            $table->datetime('transaction_date');
             $table->enum('status', ['pending', 'paid', 'failed', 'expired']);
             $table->enum('dispense_status', ['pending', 'success', 'failed', 'partial']);
             $table->integer('total_amount');
