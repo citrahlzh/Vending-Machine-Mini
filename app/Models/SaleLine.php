@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Sales;
+use App\Models\Sale;
 use App\Models\ProductDisplay;
 
-class SalesLine extends Model
+class SaleLine extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'sales_id',
+        'sale_id',
         'product_display_id',
         'status'
     ];
 
     public function sales(){
-        return $this->belongsTo(Sales::class);
+        return $this->belongsTo(Sale::class);
     }
 
     public function productDisplay() {

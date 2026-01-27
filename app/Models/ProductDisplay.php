@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Price;
 use App\Models\Cell;
-use App\Models\SalesLine;
+use App\Models\SaleLine;
 
 class ProductDisplay extends Model
 {
@@ -40,6 +40,6 @@ class ProductDisplay extends Model
     }
 
     public function salesLines() {
-        return $this->hasMany(SalesLine::class);
+        return $this->hasMany(SaleLine::class);
     }
 }

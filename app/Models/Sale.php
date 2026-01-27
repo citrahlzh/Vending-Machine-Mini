@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\SalesLine;
+use App\Models\SaleLine;
 
-class Sales extends Model
+class Sale extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -25,6 +25,6 @@ class Sales extends Model
     ];
 
     public function salesLines() {
-        return $this->hasMany(SalesLine::class);
+        return $this->hasMany(SaleLine::class);
     }
 }

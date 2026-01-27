@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales_lines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sales_id')->constrained('sales');
+            $table->foreignId('sale_id')->constrained('sales');
             $table->foreignId('product_display_id')->constrained('product_displays');
             $table->enum('status', ['pending', 'success', 'failed']);
             $table->timestamps();
