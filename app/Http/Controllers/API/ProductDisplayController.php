@@ -26,7 +26,8 @@ class ProductDisplayController extends Controller
         ]);
 
         $productDisplay = ProductDisplay::create([
-            'user_id' => 1,
+            // 'user_id' => auth()->id(),
+            'user_id' => 1, // Temporary hardcoded user ID
             'product_id' => $validator['product_id'],
             'price_id' => $validator['price_id'],
             'cell_id' => $validator['cell_id'],

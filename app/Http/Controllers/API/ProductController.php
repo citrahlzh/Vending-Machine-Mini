@@ -28,7 +28,8 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create([
-            'user_id' => 1,
+            // 'user_id' => auth()->id(),
+            'user_id' => 1, // Temporary hardcoded user ID
             'category_id' => $validator['category_id'],
             'brand_id' => $validator['brand_id'],
             'packaging_type_id' => $validator['packaging_type_id'],

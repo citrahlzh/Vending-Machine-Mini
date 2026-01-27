@@ -23,7 +23,8 @@ class PackagingTypeController extends Controller
         ]);
 
         $packagingType = PackagingType::create([
-            'user_id' => 1,
+            // 'user_id' => auth()->id(),
+            'user_id' => 1, // Temporary hardcoded user ID
             'packaging_type' => $validator['packaging_type'],
         ]);
 
