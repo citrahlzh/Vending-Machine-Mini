@@ -11,6 +11,7 @@ use App\Http\Controllers\API\CellController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\PriceController;
 use App\Http\Controllers\API\ProductDisplayController;
+use App\Http\Controllers\API\AdController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -95,4 +96,13 @@ Route::group(['prefix'=>'product-display'], function () {
     Route::get('/edit/{id}', [ProductDisplayController::class, 'edit']);
     Route::post('/update/{id}', [ProductDisplayController::class, 'update']);
     Route::delete('/delete/{id}', [ProductDisplayController::class, 'destroy']);
+});
+
+Route::group(['prefix'=>'ad'], function () {
+    Route::get('/list', [AdController::class, 'index']);
+    Route::post('/store', [AdController::class, 'store']);
+    Route::get('/show/{id}', [AdController::class, 'show']);
+    Route::get('/edit/{id}', [AdController::class, 'edit']);
+    Route::post('/update/{id}', [AdController::class, 'update']);
+    Route::delete('/delete/{id}', [AdController::class, 'destroy']);
 });
