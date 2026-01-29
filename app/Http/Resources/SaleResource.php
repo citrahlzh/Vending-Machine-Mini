@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\SaleLineResource;
 
 class SaleResource extends JsonResource
 {
@@ -22,6 +23,7 @@ class SaleResource extends JsonResource
             'status' => $this->status,
             'dispense_status' => $this->dispense_status,
             'total_amount' => $this->total_amount,
+            'salesLines' => SaleLineResource::collection($this->whenLoaded('salesLines')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
