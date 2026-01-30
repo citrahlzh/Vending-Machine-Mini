@@ -8,11 +8,12 @@
 <body>
     @yield('content')
 
+    <footer>
+        @include('landing.partials.footer')
+    </footer>
+
     @include('landing.partials.script')
 
     @stack('script')
 </body>
-<footer>
-    @include('landing.partials.footer')
-</footer>
 </html>
