@@ -65,3 +65,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # Vending-Machine
+
+## Midtrans Webhook
+
+Set Midtrans notification URL to:
+
+`POST https://your-domain.com/api/webhooks/midtrans`
+
+Alternative (backward-compatible endpoint):
+
+`POST https://your-domain.com/api/transaction/notify`
+
+Notes:
+- Signature is verified using Midtrans `signature_key`.
+- When payment is `settlement/capture`, sale status becomes `paid` and product stock is reduced.
+- For local testing, expose app with tunnel (for example ngrok) and use the public HTTPS URL above.

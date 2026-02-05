@@ -16,7 +16,7 @@ class SaleLineResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'sales_id'=> $this->sales_id,
+            'sale_id'=> $this->sale_id,
             'product_display_id'=> $this->product_display_id,
             'status'=> $this->status,
             'created_at'=> $this->created_at,

@@ -12,6 +12,7 @@ use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\PriceController;
 use App\Http\Controllers\API\ProductDisplayController;
 use App\Http\Controllers\API\AdController;
+use App\Http\Controllers\API\TransactionController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -95,6 +96,7 @@ Route::group(['prefix'=>'product-display'], function () {
     Route::get('/show/{id}', [ProductDisplayController::class, 'show']);
     Route::get('/edit/{id}', [ProductDisplayController::class, 'edit']);
     Route::post('/update/{id}', [ProductDisplayController::class, 'update']);
+    Route::post('/restock/{id}', [ProductDisplayController::class, 'restock']);
     Route::delete('/delete/{id}', [ProductDisplayController::class, 'destroy']);
 });
 
@@ -106,3 +108,13 @@ Route::group(['prefix'=>'ad'], function () {
     Route::post('/update/{id}', [AdController::class, 'update']);
     Route::delete('/delete/{id}', [AdController::class, 'destroy']);
 });
+
+Route::group(['prefix'=>'transaction'], function () {
+    Route::post('/checkout', [TransactionController::class, 'checkout']);
+    Route::post('/notify', [TransactionController::class, 'notify']);
+    Route::get('/show/{id}', [TransactionController::class, 'show']);
+    Route::get('/status/{id}', [TransactionController::class, 'status']);
+    Route::post('/cancel/{id}', [TransactionController::class, 'cancel']);
+});
+
+Route::post('/webhooks/midtrans', [TransactionController::class, 'webhook']);

@@ -58,14 +58,15 @@
             data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative overflow-hidden rounded-base h-[220px]">
-                @for ($i = 0; $i < 5; $i++)
+                @foreach ($ads as $ad)
                     <div class="hidden duration-700 ease-in-out bg-cover shadow-[0_24px_60px_rgba(89,42,155,0.18)]"
                         data-carousel-item>
-                        <img src="{{ asset('assets/images/ads/ads.jpg') }}"
+                        <img src="{{ asset('/image/' . $ad->image_url) }}"
                             class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-[220px] sm:h-[220px] lg:h-[360px]"
                             alt="...">
                     </div>
-                @endfor
+                @endforeach
+
             </div>
         </div>
 
@@ -100,13 +101,6 @@
                         class="text-sm mt-[24px] w-full h-[44px] rounded-full bg-[#5c2a94] text-white font-semibold">
                         Bayar Sekarang
                     </button>
-                    <div class="mt-[20px] flex items-center justify-between text-[11px] text-[#6b5a84]">
-                        <div>Simulasi gagal:</div>
-                        <label class="flex items-center gap-2">
-                            <input id="toggle-fail" type="checkbox" class="h-4 w-4">
-                            <span>Aktifkan</span>
-                        </label>
-                    </div>
                 </div>
             </div>
         </div>
@@ -117,10 +111,10 @@
             <div class="text-[18px] font-semibold text-[#2b1a43] text-center">Pembayaran QRIS</div>
             <div
                 class="mt-[16px] mx-auto h-[220px] w-[220px] rounded-[16px] border border-[#e9dcf9] bg-gradient-to-br from-[#f6f0ff] to-white flex items-center justify-center">
-                {{-- <div class="text-[12px] text-[#6b5a84]">QR Code</div> --}}
-                <img src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code">
+                <img id="qris-image" src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code">
             </div>
-            <div class="mt-[12px] text-center text-[12px] text-[#6b5a84]">Scan untuk membayar</div>
+            <div id="payment-status-note" class="mt-[12px] text-center text-[12px] text-[#6b5a84]">Scan untuk membayar
+            </div>
             <div class="mt-[20px] flex gap-[10px]">
                 <button id="btn-cancel-pay"
                     class="w-full h-[40px] rounded-full border border-[#d6c7ee] text-[#5c2a94] font-semibold">Batal</button>
@@ -150,7 +144,7 @@
                 <img src="{{ asset('assets/icons/exclamation-mark.png') }}" alt="fail">
             </div>
             <div class="mt-[12px] text-[18px] font-semibold text-[#2b1a43]">Pembayaran Gagal</div>
-            <div class="mt-[6px] text-[12px] text-[#6b5a84]">Coba ulangi pemesanan.</div>
+            <div id="fail-message" class="mt-[6px] text-[12px] text-[#6b5a84]">Coba ulangi pemesanan.</div>
             <button id="btn-close-fail"
                 class="mt-[18px] w-full h-[40px] rounded-full bg-[#5c2a94] text-white font-semibold">Tutup</button>
         </div>
@@ -169,117 +163,9 @@
 
 @push('script')
     <script>
-        const products = [
-            // Drinks
-            {
-                id: 'bear-brand',
-                name: 'Bear Brand',
-                price: 7000,
-                stock: 10,
-                image: '{{ asset('assets/images/products/bear-brand.webp') }}'
-            },
-            {
-                id: 'cimory-yogurt-blueberry',
-                name: 'Cimory Yogurt Blueberry',
-                price: 9000,
-                stock: 9,
-                image: '{{ asset('assets/images/products/cimory-yogurt-blueberry.webp') }}'
-            },
-            {
-                id: 'cimory-yogurt-mixed-fruit',
-                name: 'Cimory Yogurt Mixed Fruit',
-                price: 9000,
-                stock: 8,
-                image: '{{ asset('assets/images/products/cimory-yogurt-mixed-fruit.webp') }}'
-            },
-            {
-                id: 'fruit-tea-apple',
-                name: 'Fruit Tea Apple',
-                price: 6000,
-                stock: 12,
-                image: '{{ asset('assets/images/products/fruit-tea-apple.webp') }}'
-            },
-            {
-                id: 'fruit-tea-blackcurrant',
-                name: 'Fruit Tea Blackcurrant',
-                price: 6500,
-                stock: 10,
-                image: '{{ asset('assets/images/products/fruit-tea-blackcurrant.webp') }}'
-            },
-            {
-                id: 'fruit-tea-freeze',
-                name: 'Fruit Tea Freeze',
-                price: 7000,
-                stock: 7,
-                image: '{{ asset('assets/images/products/fruit-tea-freeze.jpg') }}'
-            },
-            {
-                id: 'fruit-tea-markisa',
-                name: 'Fruit Tea Markisa',
-                price: 6500,
-                stock: 11,
-                image: '{{ asset('assets/images/products/fruit-tea-markisa.webp') }}'
-            },
-            {
-                id: 'fruit-tea-strawberry',
-                name: 'Fruit Tea Strawberry',
-                price: 6500,
-                stock: 6,
-                image: '{{ asset('assets/images/products/fruit-tea-strawberry.webp') }}'
-            },
-            {
-                id: 'ichi-ocha-green-tea',
-                name: 'Ichi Ocha Green Tea',
-                price: 6000,
-                stock: 12,
-                image: '{{ asset('assets/images/products/ichi-ocha-green-tea.webp') }}'
-            },
-            {
-                id: 'ultra-milk-cokelat',
-                name: 'Ultra Milk Cokelat',
-                price: 6500,
-                stock: 8,
-                image: '{{ asset('assets/images/products/ultra-milk-cokelat.webp') }}'
-            },
+        const products = @json($products);
 
-            // Snacks
-            {
-                id: 'gemez-enaak',
-                name: 'Gemez Enaak',
-                price: 5000,
-                stock: 14,
-                image: '{{ asset('assets/images/products/gemez-enaak.webp') }}'
-            },
-            {
-                id: 'kanzler-bakso-hot',
-                name: 'Kanzler Bakso Hot',
-                price: 12000,
-                stock: 6,
-                image: '{{ asset('assets/images/products/kanzler-bakso-hot.webp') }}'
-            },
-            {
-                id: 'kanzler-sosis-hot',
-                name: 'Kanzler Sosis Hot',
-                price: 12000,
-                stock: 5,
-                image: '{{ asset('assets/images/products/kanzler-sosis-hot.webp') }}'
-            },
-            {
-                id: 'kanzler-sosis-original',
-                name: 'Kanzler Sosis Original',
-                price: 12000,
-                stock: 7,
-                image: '{{ asset('assets/images/products/kanzler-sosis-original.webp') }}'
-            },
-            {
-                id: 'tango-wafer-cokelat',
-                name: 'Tango Wafer Cokelat',
-                price: 6000,
-                stock: 13,
-                image: '{{ asset('assets/images/products/tango-wafer-cokelat.jpg') }}'
-            },
-        ];
-
+        // Initializations
         const rupiah = (value) => new Intl.NumberFormat('id-ID').format(value);
 
         const cartKey = 'vm_demo_cart';
@@ -289,7 +175,6 @@
         const cartLines = document.getElementById('cart-lines');
         const cartTotal = document.getElementById('cart-total');
         const btnPay = document.getElementById('btn-pay');
-        const toggleFail = document.getElementById('toggle-fail');
         const modalPay = document.getElementById('modal-pay');
         const btnCancel = document.getElementById('btn-cancel-pay');
         const btnSuccess = document.getElementById('btn-success');
@@ -298,11 +183,21 @@
         const modalFail = document.getElementById('modal-fail');
         const btnCloseFail = document.getElementById('btn-close-fail');
         const modalLoading = document.getElementById('modal-loading');
+        const failMessage = document.getElementById('fail-message');
+        const qrisImage = document.getElementById('qris-image');
+        const paymentStatusNote = document.getElementById('payment-status-note');
 
+        const defaultQrisImage = '{{ asset('assets/images/transaction/QR_code.svg') }}';
+        let currentSale = null;
+        let paymentStatusTimer = null;
+        let isStatusSyncing = false;
+
+        // Cart
         const saveCart = () => {
             localStorage.setItem(cartKey, JSON.stringify(cart));
         };
 
+        // Show Products
         const renderProducts = () => {
             if (!productsCarousel) return;
             const tracks = [...productsCarousel.querySelectorAll('[data-carousel-track]')];
@@ -356,6 +251,7 @@
             });
         };
 
+        // Show Products in Cart
         const renderCart = () => {
             if (!cartLines || !cartTotal) return;
             cartLines.innerHTML = '';
@@ -383,6 +279,7 @@
             btnPay.classList.toggle('cursor-not-allowed', total === 0);
         };
 
+        // Add or Remove Product Quantity
         const updateQty = (productId, delta) => {
             document.dispatchEvent(new Event('vm:pause-autoscroll'));
             const product = products.find((item) => item.id === productId);
@@ -403,21 +300,100 @@
             renderCart();
         };
 
-        const fakeCheckout = () =>
-            new Promise((resolve) => {
-                const shouldFail = toggleFail?.checked;
-                setTimeout(() => {
-                    if (shouldFail) {
-                        resolve({
-                            ok: false
-                        });
-                    } else {
-                        resolve({
-                            ok: Math.random() > 0.2
-                        });
-                    }
-                }, 1200);
+        const getCheckoutPayload = () => {
+            const items = Object.entries(cart)
+                .filter(([, item]) => item && item.qty > 0)
+                .map(([displayId, item]) => ({
+                    product_display_id: Number(displayId),
+                    qty: Number(item.qty),
+                }));
+
+            return {
+                idempotency_key: (window.crypto && window.crypto.randomUUID) ?
+                    window.crypto.randomUUID() :
+                    `vm-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+                items,
+            };
+        };
+
+        const requestCheckout = async () => {
+            const payload = getCheckoutPayload();
+            const response = await fetch('/api/transaction/checkout', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
             });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.error || data?.message || 'Checkout gagal.');
+            }
+
+            return data;
+        };
+
+        const syncPaymentStatus = async (saleId) => {
+            const response = await fetch(`/api/transaction/status/${saleId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.error || data?.message || 'Gagal sinkron status pembayaran.');
+            }
+
+            return data;
+        };
+
+        const cancelPayment = async (saleId) => {
+            const response = await fetch(`/api/transaction/cancel/${saleId}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.error || data?.message || 'Gagal membatalkan pembayaran.');
+            }
+
+            return data;
+        };
+
+        const applyDispenseResult = (sale) => {
+            const successByDisplayId = {};
+            (sale?.salesLines || []).forEach((line) => {
+                if (line.status !== 'success') return;
+                const key = String(line.product_display_id);
+                successByDisplayId[key] = (successByDisplayId[key] || 0) + 1;
+            });
+
+            Object.entries(successByDisplayId).forEach(([displayId, successQty]) => {
+                const product = products.find((item) => String(item.id) === displayId);
+                if (product) {
+                    product.stock = Math.max(0, Number(product.stock || 0) - Number(successQty));
+                }
+
+                if (!cart[displayId]) return;
+                const newQty = Number(cart[displayId].qty || 0) - Number(successQty);
+                if (newQty <= 0) {
+                    delete cart[displayId];
+                } else {
+                    cart[displayId].qty = newQty;
+                }
+            });
+
+            saveCart();
+            renderProducts();
+            renderCart();
+        };
 
         const openModal = (modal) => {
             modal?.classList.remove('hidden');
@@ -427,6 +403,77 @@
         const closeModal = (modal) => {
             modal?.classList.add('hidden');
             modal?.classList.remove('flex');
+        };
+
+        const stopPaymentStatusPolling = () => {
+            if (paymentStatusTimer) {
+                clearInterval(paymentStatusTimer);
+                paymentStatusTimer = null;
+            }
+        };
+
+        const resetPaymentState = () => {
+            currentSale = null;
+            stopPaymentStatusPolling();
+            isStatusSyncing = false;
+            if (qrisImage) {
+                qrisImage.src = defaultQrisImage;
+            }
+        };
+
+        const handleSaleStatus = (sale) => {
+            if (!sale) return false;
+
+            if (sale.status === 'paid') {
+                stopPaymentStatusPolling();
+                closeModal(modalPay);
+                applyDispenseResult(sale);
+                openModal(modalSuccess);
+                resetPaymentState();
+                return true;
+            }
+
+            if (sale.status === 'failed' || sale.status === 'expired') {
+                stopPaymentStatusPolling();
+                closeModal(modalPay);
+                if (failMessage) {
+                    failMessage.textContent = 'Pembayaran tidak berhasil. Silakan coba lagi.';
+                }
+                openModal(modalFail);
+                resetPaymentState();
+                return true;
+            }
+
+            return false;
+        };
+
+        const checkCurrentSaleStatus = async () => {
+            if (!currentSale?.id || isStatusSyncing) return;
+            isStatusSyncing = true;
+
+            try {
+                const result = await syncPaymentStatus(currentSale.id);
+                const sale = result?.data;
+
+                if (!handleSaleStatus(sale) && paymentStatusNote) {
+                    paymentStatusNote.textContent = 'Menunggu pembayaran...';
+                }
+            } catch (error) {
+                stopPaymentStatusPolling();
+                closeModal(modalPay);
+                if (failMessage) {
+                    failMessage.textContent = error.message || 'Gagal mengecek status pembayaran.';
+                }
+                openModal(modalFail);
+                resetPaymentState();
+            } finally {
+                isStatusSyncing = false;
+            }
+        };
+
+        const startPaymentStatusPolling = () => {
+            stopPaymentStatusPolling();
+            paymentStatusTimer = setInterval(checkCurrentSaleStatus, 3000);
         };
 
         productsCarousel?.addEventListener('click', (event) => {
@@ -442,36 +489,100 @@
             }
         });
 
-        btnPay?.addEventListener('click', () => {
-            openModal(modalPay);
+        btnPay?.addEventListener('click', async () => {
+            if (!Object.keys(cart).length) return;
+
+            openModal(modalLoading);
+            try {
+                const result = await requestCheckout();
+                currentSale = result?.data || null;
+
+                const qrUrl = result?.payment?.qr_url || result?.payment?.qr_string || defaultQrisImage;
+                if (qrisImage) {
+                    qrisImage.src = qrUrl;
+                }
+                if (paymentStatusNote) {
+                    paymentStatusNote.textContent = 'Scan untuk membayar';
+                }
+
+                closeModal(modalLoading);
+                openModal(modalPay);
+                startPaymentStatusPolling();
+            } catch (error) {
+                closeModal(modalLoading);
+                if (failMessage) {
+                    failMessage.textContent = error.message || 'Checkout gagal. Coba ulangi.';
+                }
+                resetPaymentState();
+                openModal(modalFail);
+            }
         });
 
-        btnCancel?.addEventListener('click', () => {
+        btnCancel?.addEventListener('click', async () => {
             closeModal(modalPay);
+            stopPaymentStatusPolling();
+
+            if (!currentSale?.id) {
+                resetPaymentState();
+                return;
+            }
+
+            openModal(modalLoading);
+            try {
+                await cancelPayment(currentSale.id);
+                closeModal(modalLoading);
+                if (failMessage) {
+                    failMessage.textContent = 'Pembayaran dibatalkan.';
+                }
+                openModal(modalFail);
+            } catch (error) {
+                closeModal(modalLoading);
+                if (failMessage) {
+                    failMessage.textContent = error.message || 'Gagal membatalkan pembayaran.';
+                }
+                openModal(modalFail);
+            } finally {
+                resetPaymentState();
+            }
         });
 
         btnSuccess?.addEventListener('click', async () => {
+            if (!currentSale?.id) return;
+
             closeModal(modalPay);
             openModal(modalLoading);
-            const result = await fakeCheckout();
-            closeModal(modalLoading);
-            if (result.ok) {
-                openModal(modalSuccess);
-                Object.keys(cart).forEach((key) => delete cart[key]);
-                saveCart();
-                renderProducts();
-                renderCart();
-            } else {
+            try {
+                const result = await syncPaymentStatus(currentSale.id);
+                const sale = result?.data;
+
+                closeModal(modalLoading);
+                if (!handleSaleStatus(sale)) {
+                    if (paymentStatusNote) {
+                        paymentStatusNote.textContent = 'Pembayaran belum terdeteksi. Coba lagi sebentar.';
+                    }
+                    openModal(modalPay);
+                    startPaymentStatusPolling();
+                }
+            } catch (error) {
+                closeModal(modalLoading);
+                if (failMessage) {
+                    failMessage.textContent = error.message || 'Gagal mengecek status pembayaran.';
+                }
+                resetPaymentState();
                 openModal(modalFail);
             }
         });
 
         btnCloseSuccess?.addEventListener('click', () => {
             closeModal(modalSuccess);
+            resetPaymentState();
         });
 
         btnCloseFail?.addEventListener('click', () => {
             closeModal(modalFail);
+            if (!currentSale?.id) {
+                resetPaymentState();
+            }
         });
 
         renderProducts();
@@ -479,6 +590,7 @@
     </script>
 
     <script>
+        // Carousel Auto Scroll & Drag to Scroll
         const viewports = document.querySelectorAll('.carousel-viewport');
 
         viewports.forEach((viewport) => {

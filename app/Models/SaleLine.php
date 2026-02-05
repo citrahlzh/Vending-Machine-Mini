@@ -12,13 +12,15 @@ class SaleLine extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'sales_lines';
+
     protected $fillable = [
         'sale_id',
         'product_display_id',
         'status'
     ];
 
-    public function sales(){
+    public function sale(){
         return $this->belongsTo(Sale::class);
     }
 

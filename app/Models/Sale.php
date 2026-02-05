@@ -11,7 +11,7 @@ class Sale extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillabe = [
+    protected $fillable = [
         'idempotency_key',
         'qris_id',
         'transaction_date',
