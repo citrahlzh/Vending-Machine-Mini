@@ -51,7 +51,10 @@ class TransactionService{
                 if (!$display) {
                     throw new Exception('Product display not found.');
                 }
-                if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <= 0) {
+                                if ($display->status !== 'active') {
+                    throw new Exception('Product display is not active.');
+                }
+if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <= 0) {
                     throw new Exception('Product out of stock.');
                 }
                 if (!$display->price || !$display->price->is_active) {

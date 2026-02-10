@@ -25,6 +25,7 @@ class ProductDisplayController extends Controller
             'price_id' => 'required|exists:prices,id',
             'cell_id' => 'required|exists:cells,id',
             'is_empty' => 'sometimes|boolean',
+            'status' => 'sometimes|in:active,inactive,discontinued',
         ]);
 
         $productDisplay = ProductDisplay::create([
@@ -34,6 +35,7 @@ class ProductDisplayController extends Controller
             'price_id' => $validator['price_id'],
             'cell_id' => $validator['cell_id'],
             'is_empty' => $validator['is_empty'] ?? false,
+            'status' => $validator['status'] ?? 'active',
         ]);
 
         return response()->json([
@@ -61,8 +63,9 @@ class ProductDisplayController extends Controller
             'price_id' => 'sometimes|required|exists:prices,id',
             'cell_id' => 'sometimes|required|exists:cells,id',
             'is_empty' => 'sometimes|boolean',
+            'status' => 'sometimes|in:active,inactive,discontinued',
         ]);
-    
+
         $productDisplay = ProductDisplay::findOrFail($id);
         $productDisplay->update($validator);
 

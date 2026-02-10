@@ -21,6 +21,7 @@ class ProductDisplayResource extends JsonResource
             'price_id' => $this->price_id,
             'cell_id' => $this->cell_id,
             'is_empty' => $this->is_empty,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

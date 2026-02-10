@@ -20,7 +20,8 @@ class ProductDisplay extends Model
         'product_id',
         'price_id',
         'cell_id',
-        'is_empty'
+        'is_empty',
+        'status'
     ];
 
     public function user() {

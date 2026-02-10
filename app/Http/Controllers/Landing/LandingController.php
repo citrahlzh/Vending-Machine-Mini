@@ -21,6 +21,7 @@ class LandingController extends Controller
                 $query->where('is_active', true);
             })
             ->whereHas('cell')
+            ->where('status', 'active')
             ->orderBy('id')
             ->get()
             ->map(function (ProductDisplay $display) {
