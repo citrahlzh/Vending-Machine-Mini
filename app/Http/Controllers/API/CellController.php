@@ -33,7 +33,7 @@ class CellController extends Controller
 
         return response()->json([
             'data' => new CellResource($cell),
-            'message' => 'Cell created successfully.',
+            'message' => 'Sel berhasil ditambahkan.',
         ], 201);
     }
 
@@ -64,7 +64,7 @@ class CellController extends Controller
 
         return response()->json([
             'data' => new CellResource($cell),
-            'message' => 'Cell updated successfully.',
+            'message' => 'Sel berhasil diperbarui.',
         ], 200);
     }
 
@@ -74,7 +74,8 @@ class CellController extends Controller
         $cell->delete();
 
         return response()->json([
-            'message' => 'Cell deleted successfully.',
+            'message' => 'Sel berhasil dihapus.',
         ], 200);
     }
 }
+

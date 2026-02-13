@@ -36,7 +36,8 @@
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="price">Harga</label>
-                        <input id="price" name="price" type="number" min="0" required value="{{ (int) $price->price }}"
+                        <input id="price" name="price" type="text" inputmode="numeric" required
+                            value="{{ 'Rp' . number_format((int) $price->price, 0, ',', '.') . ',00' }}"
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Rp0,00">
                     </div>
@@ -56,6 +57,17 @@
                         <input id="end_date" name="end_date" type="date" required
                             value="{{ optional($price->end_date)->format('Y-m-d') }}"
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="is_active">Status</label>
+                        <select id="is_active" name="is_active" required
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            <option value="1" {{ $price->is_active ? 'selected' : '' }}>Aktif</option>
+                            <option value="0" {{ !$price->is_active ? 'selected' : '' }}>Tidak Aktif</option>
+                        </select>
                     </div>
                 </div>
 
@@ -80,16 +92,47 @@
             const form = document.getElementById('editPriceForm');
             const submitButton = document.getElementById('submitEditPrice');
             const priceId = document.getElementById('priceId')?.value;
-            if (!form || !submitButton || !priceId) return;
+            const priceInput = document.getElementById('price');
+            if (!form || !submitButton || !priceId || !priceInput) return;
+
+            const parsePrice = (value) => {
+                const normalized = String(value || '')
+                    .replace(/^Rp\s*/i, '')
+                    .replace(/\./g, '')
+                    .trim();
+                const integerPart = normalized.includes(',') ? normalized.split(',')[0] : normalized;
+                return Number(integerPart.replace(/\D/g, '')) || 0;
+            };
+            const formatPriceTyping = (value) => `Rp${new Intl.NumberFormat('id-ID').format(value)}`;
+            const formatPriceDisplay = (value) => `Rp${new Intl.NumberFormat('id-ID').format(value)},00`;
+
+            priceInput.addEventListener('input', () => {
+                const parsed = parsePrice(priceInput.value);
+                priceInput.value = parsed > 0 ? formatPriceTyping(parsed) : '';
+            });
+
+            priceInput.addEventListener('focus', () => {
+                const parsed = parsePrice(priceInput.value);
+                priceInput.value = parsed > 0 ? formatPriceTyping(parsed) : '';
+            });
+
+            priceInput.addEventListener('blur', () => {
+                const parsed = parsePrice(priceInput.value);
+                priceInput.value = parsed > 0 ? formatPriceDisplay(parsed) : '';
+            });
+
+            const initialPrice = parsePrice(priceInput.value);
+            priceInput.value = initialPrice > 0 ? formatPriceDisplay(initialPrice) : '';
 
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
 
                 const payload = {
                     product_id: Number(document.getElementById('product_id').value),
-                    price: Number(document.getElementById('price').value),
+                    price: parsePrice(priceInput.value),
                     start_date: document.getElementById('start_date').value,
                     end_date: document.getElementById('end_date').value,
+                    is_active: document.getElementById('is_active').value === '1',
                 };
 
                 submitButton.disabled = true;

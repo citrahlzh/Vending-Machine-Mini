@@ -39,7 +39,7 @@ class ProductDisplayController extends Controller
 
         return response()->json([
             'data' => new ProductDisplayResource($productDisplay),
-            'message' => 'Product display created successfully.',
+            'message' => 'Data penataan produk berhasil ditambahkan.',
         ], 201);
     }
 
@@ -70,7 +70,7 @@ class ProductDisplayController extends Controller
 
         return response()->json([
             'data' => new ProductDisplayResource($productDisplay),
-            'message' => 'Product display updated successfully.',
+            'message' => 'Data penataan produk berhasil diperbarui.',
         ]);
     }
 
@@ -87,7 +87,7 @@ class ProductDisplayController extends Controller
             $availableSpace = max(0, (int) $cell->capacity - (int) $cell->qty_current);
             if ($availableSpace <= 0) {
                 return [
-                    'error' => 'Cell is already full.',
+                    'error' => 'Sel sudah penuh.',
                     'product_display' => $productDisplay,
                     'cell' => $cell,
                     'requested_qty' => (int) $validated['qty_add'],
@@ -128,7 +128,7 @@ class ProductDisplayController extends Controller
 
         return response()->json([
             'data' => new ProductDisplayResource($result['product_display']),
-            'message' => 'Stock updated successfully.',
+            'message' => 'Stok berhasil diperbarui.',
             'cell' => $result['cell'],
             'requested_qty' => $result['requested_qty'],
             'actual_added' => $result['actual_added'],
@@ -142,7 +142,8 @@ class ProductDisplayController extends Controller
         $productDisplay->delete();
 
         return response()->json([
-            'message' => 'Product display deleted successfully.',
+            'message' => 'Data penataan produk berhasil dihapus.',
         ]);
     }
 }
+

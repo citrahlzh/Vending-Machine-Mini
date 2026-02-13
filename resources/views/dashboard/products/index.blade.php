@@ -20,36 +20,36 @@
             </div>
 
             <div class="overflow-x-auto">
-                <table id="productsTable" class="dashboard-datatable display w-full">
+                <table id="productsTable" class="dashboard-datatable display w-full min-w-[1180px]">
                     <thead>
                         <tr>
-                            <th class="text-center">No</th>
-                            <th>Produk</th>
-                            <th>Kategori</th>
-                            <th>Merek</th>
-                            <th>Jenis Kemasan</th>
-                            <th>Ukuran Kemasan</th>
-                            <th>Dibuat Oleh</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center whitespace-nowrap">No</th>
+                            <th class="whitespace-nowrap">Produk</th>
+                            <th class="whitespace-nowrap">Kategori</th>
+                            <th class="whitespace-nowrap">Merek</th>
+                            <th class="whitespace-nowrap">Jenis Kemasan</th>
+                            <th class="whitespace-nowrap">Ukuran Kemasan</th>
+                            <th class="whitespace-nowrap">Dibuat Oleh</th>
+                            <th class="text-center whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($products as $product)
                             <tr data-product-id="{{ $product->id }}" data-product-name="{{ e($product->product_name) }}">
-                                <td class="text-center font-semibold">{{ $loop->iteration }}</td>
-                                <td>
+                                <td class="text-center font-semibold whitespace-nowrap">{{ $loop->iteration }}</td>
+                                <td class="whitespace-nowrap min-w-[240px]">
                                     <div class="flex items-center gap-2">
                                         <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->product_name }}"
                                             class="h-8 w-8 rounded-md object-cover">
                                         <span>{{ $product->product_name }}</span>
                                     </div>
                                 </td>
-                                <td>{{ $product->category?->category_name ?? '-' }}</td>
-                                <td>{{ $product->brand?->brand_name ?? '-' }}</td>
-                                <td>{{ $product->packagingType?->packaging_type ?? '-' }}</td>
-                                <td>{{ $product->packagingSize?->size ?? '-' }}</td>
-                                <td>{{ $product->user?->name ?? '-' }}</td>
-                                <td class="text-center">
+                                <td class="whitespace-nowrap">{{ $product->category?->category_name ?? '-' }}</td>
+                                <td class="whitespace-nowrap">{{ $product->brand?->brand_name ?? '-' }}</td>
+                                <td class="whitespace-nowrap">{{ $product->packagingType?->packaging_type ?? '-' }}</td>
+                                <td class="whitespace-nowrap">{{ $product->packagingSize?->size ?? '-' }}</td>
+                                <td class="whitespace-nowrap">{{ $product->user?->name ?? '-' }}</td>
+                                <td class="text-center whitespace-nowrap min-w-[110px]">
                                     <div class="flex items-center justify-center gap-2">
                                         <a href="{{ route('dashboard.products.show', ['id' => $product->id]) }}">
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">

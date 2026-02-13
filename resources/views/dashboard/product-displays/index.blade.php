@@ -27,13 +27,13 @@
                 <table id="productDisplaysTable" class="dashboard-datatable display w-full">
                     <thead>
                         <tr>
-                            <th class="text-center">No</th>
-                            <th>Produk</th>
-                            <th>Harga</th>
-                            <th>Kode Sel</th>
-                            <th class="text-center">Sisa Stok</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center whitespace-nowrap">No</th>
+                            <th class="whitespace-nowrap">Produk</th>
+                            <th class="whitespace-nowrap">Harga</th>
+                            <th class="whitespace-nowrap">Kode Sel</th>
+                            <th class="text-center whitespace-nowrap">Sisa Stok</th>
+                            <th class="text-center whitespace-nowrap">Status</th>
+                            <th class="text-center whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,8 +41,8 @@
                             <tr data-product-display-id="{{ $productDisplay->id }}"
                                 data-product-display-product-name="{{ e($productDisplay->product?->product_name ?? '-') }}"
                                 data-product-display-cell-code="{{ e($productDisplay->cell?->code ?? '-') }}">
-                                <td class="text-center font-semibold">{{ $loop->iteration }}</td>
-                                <td>
+                                <td class="text-center font-semibold whitespace-nowrap">{{ $loop->iteration }}</td>
+                                <td class="whitespace-nowrap">
                                     <div class="flex items-center gap-2">
                                         @if ($productDisplay->product?->image_url)
                                             <img src="{{ asset('storage/' . $productDisplay->product->image_url) }}"
@@ -52,16 +52,16 @@
                                         <span>{{ $productDisplay->product?->product_name ?? '-' }}</span>
                                     </div>
                                 </td>
-                                <td>
+                                <td class="whitespace-nowrap">
                                     @if ($productDisplay->price)
                                         Rp{{ number_format((int) $productDisplay->price->price, 0, ',', '.') }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td>{{ $productDisplay->cell?->code ?? '-' }}</td>
-                                <td class="text-center">{{ $productDisplay->cell?->qty_current ?? 0 }}</td>
-                                <td class="text-center">
+                                <td class="whitespace-nowrap">{{ $productDisplay->cell?->code ?? '-' }}</td>
+                                <td class="text-center whitespace-nowrap">{{ $productDisplay->cell?->qty_current ?? 0 }}</td>
+                                <td class="text-center whitespace-nowrap">
                                     @php
                                         $statusClass = match ($productDisplay->status) {
                                             'active' => 'bg-[#d7f2e1] text-[#17914f]',
@@ -80,7 +80,7 @@
                                         {{ $statusLabel }}
                                     </span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center min-w-[110px] whitespace-nowrap">
                                     <div class="flex items-center justify-center gap-2">
                                         <button type="button" class="open-restock-row-modal"
                                             data-product-display-id="{{ $productDisplay->id }}">

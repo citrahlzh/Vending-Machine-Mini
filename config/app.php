@@ -123,4 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'transaction_idempotency_key_length' => env('TRANSACTION_IDEMPOTENCY_KEY_LENGTH', 12),
+
 ];

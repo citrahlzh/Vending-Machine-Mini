@@ -30,13 +30,13 @@
                 <div class="grid grid-cols-1 gap-x-16 gap-y-6 md:grid-cols-2">
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Nama Produk</p>
-                        <p class="mt-1 text-[32px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[20px] font-semibold leading-none text-[#3C1C5E]">
                             {{ $productDisplay->product?->product_name ?? '-' }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Harga</p>
-                        <p class="mt-1 text-[32px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[20px] font-semibold leading-none text-[#3C1C5E]">
                             @if ($productDisplay->price)
                                 Rp{{ number_format((int) $productDisplay->price->price, 0, ',', '.') }}
                             @else
@@ -46,7 +46,7 @@
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Sel</p>
-                        <p class="mt-1 text-[32px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[20px] font-semibold leading-none text-[#3C1C5E]">
                             {{ $productDisplay->cell?->code ?? '-' }}
                         </p>
                     </div>
@@ -73,7 +73,7 @@
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Stok</p>
-                        <p class="mt-1 text-[32px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[20px] font-semibold leading-none text-[#3C1C5E]">
                             {{ $productDisplay->cell?->qty_current ?? 0 }}
                         </p>
                     </div>

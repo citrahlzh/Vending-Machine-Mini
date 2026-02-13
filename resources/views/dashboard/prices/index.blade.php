@@ -23,20 +23,20 @@
                 <table id="pricesTable" class="dashboard-datatable display w-full">
                     <thead>
                         <tr>
-                            <th class="text-center">No</th>
-                            <th>Product</th>
-                            <th>Harga</th>
-                            <th>Masa Berlaku</th>
-                            <th>Dibuat Oleh</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center whitespace-nowrap">No</th>
+                            <th class="whitespace-nowrap">Product</th>
+                            <th class="whitespace-nowrap">Harga</th>
+                            <th class="whitespace-nowrap">Masa Berlaku</th>
+                            <th class="whitespace-nowrap">Dibuat Oleh</th>
+                            <th class="text-center whitespace-nowrap">Status</th>
+                            <th class="text-center whitespace-nowrap">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($prices as $price)
                             <tr data-price-id="{{ $price->id }}" data-price-product-name="{{ e($price->product?->product_name ?? '-') }}">
-                                <td class="text-center font-semibold">{{ $loop->iteration }}</td>
-                                <td>
+                                <td class="text-center font-semibold whitespace-nowrap">{{ $loop->iteration }}</td>
+                                <td class="whitespace-nowrap">
                                     <div class="flex items-center gap-2">
                                         @if ($price->product?->image_url)
                                             <img src="{{ asset('storage/' . $price->product->image_url) }}"
@@ -45,13 +45,13 @@
                                         <span>{{ $price->product?->product_name ?? '-' }}</span>
                                     </div>
                                 </td>
-                                <td>Rp{{ number_format((int) $price->price, 0, ',', '.') }}</td>
-                                <td>
+                                <td class="whitespace-nowrap">Rp{{ number_format((int) $price->price, 0, ',', '.') }}</td>
+                                <td class="whitespace-nowrap">
                                     {{ optional($price->start_date)->format('d/m/Y') }} -
                                     {{ optional($price->end_date)->format('d/m/Y') }}
                                 </td>
-                                <td>{{ $price->user?->name ?? '-' }}</td>
-                                <td class="text-center">
+                                <td class="whitespace-nowrap">{{ $price->user?->name ?? '-' }}</td>
+                                <td class="text-center whitespace-nowrap">
                                     @if ($price->is_active)
                                         <span
                                             class="inline-flex rounded-full bg-[#d7f2e1] px-4 py-1 text-[12px] font-medium text-[#17914f]">
@@ -64,7 +64,7 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center whitespace-nowrap min-w-[110px]">
                                     <div class="flex items-center justify-center gap-2">
                                         <a href="{{ route('dashboard.prices.show', ['id' => $price->id]) }}">
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">

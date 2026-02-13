@@ -37,7 +37,7 @@ class AdController extends Controller
 
         return response()->json([
             'data' => new AdResource($ad),
-            'message' => 'Ad created successfully.',
+            'message' => 'Iklan berhasil ditambahkan.',
         ], 201);
     }
 
@@ -80,7 +80,7 @@ class AdController extends Controller
 
         return response()->json([
             'data' => new AdResource($ad),
-            'message' => 'Ad updated successfully.',
+            'message' => 'Iklan berhasil diperbarui.',
         ]);
     }
 
@@ -90,7 +90,8 @@ class AdController extends Controller
         $ad->delete();
 
         return response()->json([
-            'message' => 'Ad deleted successfully.',
+            'message' => 'Iklan berhasil dihapus.',
         ]);
     }
 }
+

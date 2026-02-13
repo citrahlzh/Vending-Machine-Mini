@@ -17,11 +17,11 @@
                     <thead>
                         <tr>
                             <th class="text-center">ID Order</th>
-                            <th class="text-center">Produk</th>
-                            <th class="text-center">Tanggal Transaksi</th>
-                            <th class="text-center">Nominal Jumlah</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Aksi</th>
+                            <th class="text-center whitespace-nowrap">Produk</th>
+                            <th class="text-center whitespace-nowrap">Tanggal Transaksi</th>
+                            <th class="text-center whitespace-nowrap">Nominal Jumlah</th>
+                            <th class="text-center whitespace-nowrap">Status</th>
+                            <th class="text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,16 +52,16 @@
                             @endphp
                             <tr>
                                 <td class="font-semibold text-[#1f1f1f] text-center">{{ $sale->idempotency_key }}</td>
-                                <td>{{ $productText }}</td>
-                                <td class="text-center">{{ optional($sale->transaction_date)->format('d/m/Y') }}</td>
-                                <td class="text-center">Rp{{ number_format((int) $sale->total_amount, 0, ',', '.') }},00</td>
-                                <td class="text-center">
+                                <td class="">{{ $productText }}</td>
+                                <td class="text-center whitespace-nowrap">{{ optional($sale->transaction_date)->format('d/m/Y') }}</td>
+                                <td class="text-center whitespace-nowrap">Rp{{ number_format((int) $sale->total_amount, 0, ',', '.') }},00</td>
+                                <td class="text-center whitespace-nowrap">
                                     <span
                                         class="inline-flex rounded-full px-4 py-1 text-[12px] font-medium {{ $statusClass }}">
                                         {{ $statusLabel }}
                                     </span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center whitespace-nowrap min-w-[110px]">
                                     <div class="flex items-center gap-2">
                                         <a href="{{ route('dashboard.transactions.show', ['id' => $sale->id]) }}">
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">

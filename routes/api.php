@@ -12,6 +12,7 @@ use App\Http\Controllers\API\PriceController;
 use App\Http\Controllers\API\ProductDisplayController;
 use App\Http\Controllers\API\AdController;
 use App\Http\Controllers\API\TransactionController;
+use App\Http\Controllers\API\NotificationController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -111,6 +112,13 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
 
     Route::group(['prefix' => 'dashboard/transaction'], function () {
         Route::post('/cancel/{id}', [TransactionController::class, 'cancel']);
+    });
+
+    Route::group(['prefix' => 'notification'], function () {
+        Route::get('/list', [NotificationController::class, 'index']);
+        Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
+        Route::post('/read-all', [NotificationController::class, 'markAllRead']);
+        Route::post('/read/{id}', [NotificationController::class, 'markRead']);
     });
 });
 

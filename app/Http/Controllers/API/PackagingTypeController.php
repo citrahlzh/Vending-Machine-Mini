@@ -29,7 +29,7 @@ class PackagingTypeController extends Controller
 
         return response()->json([
             'data' => new PackagingTypeResource($packagingType),
-            'message' => 'Packaging type created successfully.',
+            'message' => 'Jenis kemasan berhasil ditambahkan.',
         ], 201);
     }
 
@@ -56,7 +56,7 @@ class PackagingTypeController extends Controller
 
         return response()->json([
             'data' => new PackagingTypeResource($packagingType),
-            'message' => 'Packaging type updated successfully.',
+            'message' => 'Jenis kemasan berhasil diperbarui.',
         ]);
     }
 
@@ -66,7 +66,8 @@ class PackagingTypeController extends Controller
         $packagingType->delete();
 
         return response()->json([
-            'message' => 'Packaging type deleted successfully.',
+            'message' => 'Jenis kemasan berhasil dihapus.',
         ]);
     }
 }
+

@@ -37,7 +37,7 @@ class PriceController extends Controller
 
         return response()->json([
             'data' => new PriceResource($price),
-            'message' => 'Price created successfully.',
+            'message' => 'Harga berhasil ditambahkan.',
         ], 201);
     }
 
@@ -68,7 +68,7 @@ class PriceController extends Controller
 
         return response()->json([
             'data' => new PriceResource($price),
-            'message' => 'Price updated successfully.',
+            'message' => 'Harga berhasil diperbarui.',
         ]);
     }
 
@@ -78,7 +78,8 @@ class PriceController extends Controller
         $price->delete();
 
         return response()->json([
-            'message' => 'Price deleted successfully.',
+            'message' => 'Harga berhasil dihapus.',
         ]);
     }
 }
+

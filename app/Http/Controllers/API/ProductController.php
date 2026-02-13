@@ -4,11 +4,18 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use App\Services\SystemNotificationService;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private readonly SystemNotificationService $notificationService
+    ) {
+    }
+
     public function index()
     {
         $products = Product::all();
@@ -19,8 +26,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validator = $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'brand_id' => 'required|exists:brands,id',
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id')->where(fn ($query) => $query->where('is_active', true)),
+            ],
+            'brand_id' => [
+                'required',
+                Rule::exists('brands', 'id')->where(fn ($query) => $query->where('is_active', true)),
+            ],
             'packaging_type_id' => 'required|exists:packaging_types,id',
             'packaging_size_id' => 'required|exists:packaging_sizes,id',
             'product_name' => 'required|string|max:255',
@@ -42,9 +55,20 @@ class ProductController extends Controller
             'image_url' => $image_url,
         ]);
 
+        $this->notificationService->notifyActiveUsers(
+            title: 'Produk baru ditambahkan',
+            message: "Produk {$product->product_name} berhasil dibuat.",
+            type: 'success',
+            actionUrl: route('dashboard.products.show', ['id' => $product->id]),
+            meta: [
+                'product_id' => $product->id,
+                'event' => 'created',
+            ]
+        );
+
         return response()->json([
             'data' => new ProductResource($product),
-            'message' => 'Product created successfully.',
+            'message' => 'Produk berhasil ditambahkan.',
         ], 201);
     }
 
@@ -63,8 +87,16 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'category_id' => 'sometimes|required|exists:categories,id',
-            'brand_id' => 'sometimes|required|exists:brands,id',
+            'category_id' => [
+                'sometimes',
+                'required',
+                Rule::exists('categories', 'id')->where(fn ($query) => $query->where('is_active', true)),
+            ],
+            'brand_id' => [
+                'sometimes',
+                'required',
+                Rule::exists('brands', 'id')->where(fn ($query) => $query->where('is_active', true)),
+            ],
             'packaging_type_id' => 'sometimes|required|exists:packaging_types,id',
             'packaging_size_id' => 'sometimes|required|exists:packaging_sizes,id',
             'product_name' => 'sometimes|required|string|max:255',
@@ -83,19 +115,44 @@ class ProductController extends Controller
         $product->fill($validated);
         $product->save();
 
+        $this->notificationService->notifyActiveUsers(
+            title: 'Produk diperbarui',
+            message: "Produk {$product->product_name} berhasil diperbarui.",
+            type: 'info',
+            actionUrl: route('dashboard.products.show', ['id' => $product->id]),
+            meta: [
+                'product_id' => $product->id,
+                'event' => 'updated',
+            ]
+        );
+
         return response()->json([
             'data' => new ProductResource($product),
-            'message' => 'Product updated successfully.',
+            'message' => 'Produk berhasil diperbarui.',
         ]);
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $productName = $product->product_name;
+        $productId = $product->id;
         $product->delete();
 
+        $this->notificationService->notifyActiveUsers(
+            title: 'Produk dihapus',
+            message: "Produk {$productName} telah dihapus.",
+            type: 'warning',
+            actionUrl: null,
+            meta: [
+                'product_id' => $productId,
+                'event' => 'deleted',
+            ]
+        );
+
         return response()->json([
-            'message' => 'Product deleted successfully.',
+            'message' => 'Produk berhasil dihapus.',
         ]);
     }
 }
+

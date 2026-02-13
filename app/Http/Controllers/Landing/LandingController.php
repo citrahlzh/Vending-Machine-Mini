@@ -10,7 +10,10 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $ads = Ad::all();
+        $ads = Ad::query()
+            ->where('status', 'active')
+            ->orderBy('id')
+            ->get();
         $products = ProductDisplay::with([
             'product:id,product_name,image_url',
             'price:id,price,is_active',

@@ -31,7 +31,7 @@ class BrandController extends Controller
 
         return response()->json([
             'data' => new BrandResource($brand),
-            'message' => 'Brand created successfully.',
+            'message' => 'Merek berhasil ditambahkan.',
         ], 201);
     }
 
@@ -59,7 +59,7 @@ class BrandController extends Controller
 
         return response()->json([
             'data' => new BrandResource($brand),
-            'message' => 'Brand updated successfully.',
+            'message' => 'Merek berhasil diperbarui.',
         ]);
     }
 
@@ -69,7 +69,8 @@ class BrandController extends Controller
         $brand->delete();
 
         return response()->json([
-            'message' => 'Brand deleted successfully.'
+            'message' => 'Merek berhasil dihapus.'
         ]);
     }
 }
+

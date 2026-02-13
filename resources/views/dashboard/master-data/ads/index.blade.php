@@ -54,7 +54,7 @@
                                         $statusClass =
                                             $ad->status === 'active'
                                                 ? 'bg-[#d7f2e1] text-[#17914f]'
-                                                : 'bg-[#e8e0f6] text-[#5A2F7E]';
+                                                : 'bg-[#fde0e1] text-[#de1c24]';
                                     @endphp
                                     <span
                                         class="inline-flex rounded-full px-4 py-1 text-[12px] font-medium {{ $statusClass }}">

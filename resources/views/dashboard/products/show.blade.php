@@ -28,31 +28,31 @@
                 <div class="grid grid-cols-1 gap-x-16 gap-y-6 md:grid-cols-2">
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Nama Produk</p>
-                        <p class="mt-1 text-[30px] font-semibold leading-none text-[#3C1C5E]">{{ $product->product_name }}</p>
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">{{ $product->product_name }}</p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Dibuat Oleh</p>
-                        <p class="mt-1 text-[30px] font-semibold leading-none text-[#3C1C5E]">{{ $product->user?->name ?? '-' }}</p>
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">{{ $product->user?->name ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Merek</p>
-                        <p class="mt-1 text-[30px] font-semibold leading-none text-[#3C1C5E]">{{ $product->brand?->brand_name ?? '-' }}</p>
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">{{ $product->brand?->brand_name ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Kategori</p>
-                        <p class="mt-1 text-[30px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
                             {{ $product->category?->category_name ?? '-' }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Jenis Kemasan</p>
-                        <p class="mt-1 text-[30px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
                             {{ $product->packagingType?->packaging_type ?? '-' }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Ukuran Kemasan</p>
-                        <p class="mt-1 text-[30px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
                             {{ $product->packagingSize?->size ?? '-' }}
                         </p>
                     </div>

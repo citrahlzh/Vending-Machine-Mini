@@ -32,59 +32,59 @@
         </div>
 
         <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-            <h2 class="text-[40px] font-semibold text-[#3C1C5E] leading-none">Detail Order</h2>
+            <h2 class="text-[25px] font-semibold text-[#3C1C5E] leading-none">Detail Order</h2>
 
             <div class="mt-6 grid gap-6 md:grid-cols-2">
                 <div>
                     <p class="text-[15px] font-semibold text-[#9b90b0]">ID Order</p>
-                    <p class="mt-1 text-[15px] font-semibold text-[#3C1C5E]">{{ $sale->idempotency_key }}</p>
+                    <p class="mt-1 text-[16px] font-semibold text-[#3C1C5E]">{{ $sale->idempotency_key }}</p>
                 </div>
                 <div>
                     <p class="text-[15px] font-semibold text-[#9b90b0]">Tanggal Transaksi</p>
-                    <p class="mt-1 text-[15px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[16px] font-semibold text-[#3C1C5E]">
                         {{ $transactionDate }}
                     </p>
                 </div>
                 <div>
                     <p class="text-[15px] font-semibold text-[#9b90b0]">Nominal Transaksi</p>
-                    <p class="mt-1 text-[15px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[16px] font-semibold text-[#3C1C5E]">
                         Rp{{ number_format($transactionAmount, 0, ',', '.') }},00
                     </p>
                 </div>
                 <div>
                     <p class="text-[15px] font-semibold text-[#9b90b0]">Status Transaksi</p>
-                    <span class="mt-2 inline-flex rounded-full px-4 py-1 text-[14px] font-medium {{ $statusClass }}">
+                    <span class="mt-2 inline-flex rounded-full px-4 py-1 text-[16px] font-medium {{ $statusClass }}">
                         {{ $statusLabel }}
                     </span>
                 </div>
             </div>
 
             <div class="mt-9">
-                <h3 class="text-[35px] font-semibold text-[#3C1C5E]">Detail Produk yang Dipesan</h3>
+                <h3 class="text-[25px] font-semibold text-[#3C1C5E]">Detail Produk yang Dipesan</h3>
 
                 <div class="mt-4 overflow-x-auto">
                     <table class="w-full">
                         <thead>
                             <tr class="text-left">
-                                <th class="pb-4 text-[30px] font-semibold text-[#9b90b0]">Produk</th>
-                                <th class="pb-4 text-right text-[30px] font-semibold text-[#9b90b0]">Qty</th>
-                                <th class="pb-4 text-right text-[30px] font-semibold text-[#9b90b0]">Harga</th>
-                                <th class="pb-4 text-right text-[30px] font-semibold text-[#9b90b0]">Subtotal</th>
+                                <th class="pb-4 text-[15px] font-semibold text-[#9b90b0]">Produk</th>
+                                <th class="pb-4 text-right text-[15px] font-semibold text-[#9b90b0]">Qty</th>
+                                <th class="pb-4 text-right text-[15px] font-semibold text-[#9b90b0]">Harga</th>
+                                <th class="pb-4 text-right text-[15px] font-semibold text-[#9b90b0]">Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($orderItems as $item)
                                 <tr>
-                                    <td class="pt-1 text-[32px] font-semibold leading-tight text-[#3C1C5E]">
+                                    <td class="pt-1 text-16px] font-semibold leading-tight text-[#3C1C5E]">
                                         {{ $item['product_name'] }}
                                     </td>
-                                    <td class="pt-1 text-right text-[32px] font-semibold leading-tight text-[#3C1C5E]">
+                                    <td class="pt-1 text-right text-[16px] font-semibold leading-tight text-[#3C1C5E]">
                                         {{ $item['qty'] }}
                                     </td>
-                                    <td class="pt-1 text-right text-[32px] font-semibold leading-tight text-[#3C1C5E]">
+                                    <td class="pt-1 text-right text-[16px] font-semibold leading-tight text-[#3C1C5E]">
                                         Rp{{ number_format((int) $item['price'], 0, ',', '.') }},00
                                     </td>
-                                    <td class="pt-1 text-right text-[32px] font-semibold leading-tight text-[#3C1C5E]">
+                                    <td class="pt-1 text-right text-[16px] font-semibold leading-tight text-[#3C1C5E]">
                                         Rp{{ number_format((int) $item['subtotal'], 0, ',', '.') }},00
                                     </td>
                                 </tr>
@@ -98,8 +98,8 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="3" class="pt-5 text-right text-[30px] font-semibold text-[#9b90b0]">Total:</td>
-                                <td class="pt-5 text-right text-[32px] font-semibold text-[#3C1C5E] leading-none">
+                                <td colspan="3" class="pt-5 text-right text-[15px] font-semibold text-[#9b90b0]">Total:</td>
+                                <td class="pt-5 text-right text-[16px] font-semibold text-[#3C1C5E] leading-none">
                                     Rp{{ number_format((int) $orderTotal, 0, ',', '.') }},00
                                 </td>
                             </tr>

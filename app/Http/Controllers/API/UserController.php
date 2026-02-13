@@ -38,7 +38,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => new UserResource($user),
-            'message' => 'User created successfully.',
+            'message' => 'Pengguna berhasil ditambahkan.',
         ], 201);
     }
     
@@ -73,7 +73,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => new UserResource($user),
-            'message' => 'User updated successfully.',
+            'message' => 'Pengguna berhasil diperbarui.',
         ]);
     }
 
@@ -83,7 +83,8 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            'message' => 'User deleted successfully.'
+            'message' => 'Pengguna berhasil dihapus.'
         ]);
     }
 }
+

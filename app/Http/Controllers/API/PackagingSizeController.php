@@ -29,7 +29,7 @@ class PackagingSizeController extends Controller
 
         return response()->json([
             'data' => new PackagingSizeResource($packagingSize),
-            'message' => 'Packaging size created successfully.',
+            'message' => 'Ukuran kemasan berhasil ditambahkan.',
         ], 201);
     }
 
@@ -56,7 +56,7 @@ class PackagingSizeController extends Controller
 
         return response()->json([
             'data' => new PackagingSizeResource($packagingSize),
-            'message' => 'Packaging size updated successfully.',
+            'message' => 'Ukuran kemasan berhasil diperbarui.',
         ]);
     }
 
@@ -66,7 +66,8 @@ class PackagingSizeController extends Controller
         $packagingSize->delete();
 
         return response()->json([
-            'message' => 'Packaging size deleted successfully.'
+            'message' => 'Ukuran kemasan berhasil dihapus.'
         ]);
     }
 }
+

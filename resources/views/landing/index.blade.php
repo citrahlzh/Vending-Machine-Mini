@@ -309,9 +309,6 @@
                 }));
 
             return {
-                idempotency_key: (window.crypto && window.crypto.randomUUID) ?
-                    window.crypto.randomUUID() :
-                    `vm-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
                 items,
             };
         };

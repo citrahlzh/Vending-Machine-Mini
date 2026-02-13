@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use App\Models\Sale;
 use App\Models\SaleLine;
 use App\Models\ProductDisplay;
@@ -14,6 +13,11 @@ use Carbon\Carbon;
 use Exception;
 
 class TransactionService{
+    private const LOW_STOCK_THRESHOLD = 3;
+    private const DEFAULT_IDEMPOTENCY_KEY_LENGTH = 12;
+    private const MIN_IDEMPOTENCY_KEY_LENGTH = 6;
+    private const MAX_IDEMPOTENCY_KEY_LENGTH = 64;
+
     public function __construct(
         private readonly SystemNotificationService $notificationService
     ) {
@@ -22,7 +26,8 @@ class TransactionService{
     public function checkout(Request $request, MidtransQrisService $qrisService): array
     {
         $items = collect($request->input('items', []));
-        $orderId = $request->input('idempotency_key', (string) Str::uuid());
+        $orderId = $request->input('idempotency_key');
+        $orderId = is_string($orderId) && $orderId !== '' ? $orderId : $this->generateUniqueIdempotencyKey();
 
         $existing = Sale::with('salesLines')->where('idempotency_key', $orderId)->first();
         if ($existing) {
@@ -114,11 +119,38 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
             'qris_id' => $charge->transaction_id ?? $sale->idempotency_key,
         ]);
 
+        $this->notifyTransactionCreated($sale->refresh()->load('salesLines'));
+
         return [
             'sale' => $sale->refresh()->load('salesLines'),
             'payment' => $qrisService->extractQrisData($charge),
             'is_duplicate' => false,
         ];
+    }
+
+    private function generateUniqueIdempotencyKey(): string
+    {
+        $length = (int) config('app.transaction_idempotency_key_length', self::DEFAULT_IDEMPOTENCY_KEY_LENGTH);
+        $length = max(self::MIN_IDEMPOTENCY_KEY_LENGTH, min($length, self::MAX_IDEMPOTENCY_KEY_LENGTH));
+
+        do {
+            $candidate = $this->randomUppercaseAlphanumeric($length);
+        } while (Sale::where('idempotency_key', $candidate)->exists());
+
+        return $candidate;
+    }
+
+    private function randomUppercaseAlphanumeric(int $length): string
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $charactersLength = strlen($characters);
+        $result = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $result .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        return $result;
     }
 
     public function handleNotification(array $payload): ?Sale
@@ -208,6 +240,7 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
 
         if ($status === 'paid') {
             $updatedSale = $this->finalizeDispense($sale);
+            $this->notifyStockAfterSuccessfulDispense($updatedSale, $previousDispenseStatus);
             $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
 
             return $updatedSale;
@@ -242,7 +275,7 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
 
             $displayIds = $lines->pluck('product_display_id')->unique()->values();
 
-            $displays = ProductDisplay::with('cell')
+            $displays = ProductDisplay::with(['cell', 'product'])
                 ->whereIn('id', $displayIds)
                 ->lockForUpdate()
                 ->get()
@@ -287,6 +320,94 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
 
             return $lockedSale->refresh()->load('salesLines');
         });
+    }
+
+    private function notifyTransactionCreated(Sale $sale): void
+    {
+        $itemCount = $sale->salesLines->count();
+
+        $this->notificationService->notifyActiveUsers(
+            title: "Transaksi baru #{$sale->id}",
+            message: "Ada transaksi baru dengan {$itemCount} item. Menunggu pembayaran.",
+            type: 'info',
+            actionUrl: route('dashboard.transactions.show', ['id' => $sale->id]),
+            meta: [
+                'sale_id' => $sale->id,
+                'status' => $sale->status,
+                'dispense_status' => $sale->dispense_status,
+                'event' => 'transaction_created',
+            ]
+        );
+    }
+
+    private function notifyStockAfterSuccessfulDispense(Sale $sale, string $previousDispenseStatus): void
+    {
+        if ($previousDispenseStatus !== 'pending') {
+            return;
+        }
+
+        if (!in_array($sale->dispense_status, ['success', 'partial'], true)) {
+            return;
+        }
+
+        $successDisplayIds = $sale->salesLines
+            ->where('status', 'success')
+            ->pluck('product_display_id')
+            ->unique()
+            ->values();
+
+        if ($successDisplayIds->isEmpty()) {
+            return;
+        }
+
+        $affectedDisplays = ProductDisplay::with(['product', 'cell'])
+            ->whereIn('id', $successDisplayIds)
+            ->get();
+
+        $outOfStockNames = [];
+        $lowStockNames = [];
+
+        foreach ($affectedDisplays as $display) {
+            $stock = (int) optional($display->cell)->qty_current;
+            $productName = optional($display->product)->product_name ?? "Produk #{$display->id}";
+
+            if ($stock <= 0 || (bool) $display->is_empty) {
+                $outOfStockNames[] = $productName;
+                continue;
+            }
+
+            if ($stock <= self::LOW_STOCK_THRESHOLD) {
+                $lowStockNames[] = "{$productName} (sisa {$stock})";
+            }
+        }
+
+        if (!empty($outOfStockNames)) {
+            $this->notificationService->notifyActiveUsers(
+                title: 'Stok habis setelah transaksi',
+                message: 'Produk habis: ' . implode(', ', $outOfStockNames) . '.',
+                type: 'warning',
+                actionUrl: route('dashboard.product-displays.index'),
+                meta: [
+                    'sale_id' => $sale->id,
+                    'event' => 'stock_out_after_dispense',
+                    'products' => $outOfStockNames,
+                ]
+            );
+        }
+
+        if (!empty($lowStockNames)) {
+            $this->notificationService->notifyActiveUsers(
+                title: 'Stok menipis setelah transaksi',
+                message: 'Produk menipis: ' . implode(', ', $lowStockNames) . '.',
+                type: 'warning',
+                actionUrl: route('dashboard.product-displays.index'),
+                meta: [
+                    'sale_id' => $sale->id,
+                    'event' => 'low_stock_after_dispense',
+                    'products' => $lowStockNames,
+                ]
+            );
+        }
     }
 
     private function notifyTransactionUpdate(

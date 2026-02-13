@@ -25,7 +25,7 @@ class TransactionController extends Controller
             $result = $transactionService->checkout($request, $qrisService);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Failed to create transaction.',
+                'message' => 'Gagal membuat transaksi.',
                 'error' => $e->getMessage(),
             ], 422);
         }
@@ -36,7 +36,7 @@ class TransactionController extends Controller
             'data' => new SaleResource($sale),
             'payment' => $result['payment'],
             'is_duplicate' => $result['is_duplicate'],
-            'message' => 'Transaction created successfully.',
+            'message' => 'Transaksi berhasil dibuat.',
         ], 201);
     }
 
@@ -66,7 +66,7 @@ class TransactionController extends Controller
     {
         if (!$qrisService->verifySignature($request->all())) {
             return response()->json([
-                'message' => 'Invalid Midtrans signature.',
+                'message' => 'Tanda tangan Midtrans tidak valid.',
             ], 403);
         }
 
@@ -74,13 +74,13 @@ class TransactionController extends Controller
 
         if (!$sale) {
             return response()->json([
-                'message' => 'Transaction not found.',
+                'message' => 'Transaksi tidak ditemukan.',
             ], 404);
         }
 
         return response()->json([
             'data' => new SaleResource($sale),
-            'message' => 'Notification processed.',
+            'message' => 'Notifikasi berhasil diproses.',
         ]);
     }
 
@@ -99,14 +99,14 @@ class TransactionController extends Controller
             $sale = $transactionService->syncPaymentStatus($sale, $qrisService);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Failed to sync payment status.',
+                'message' => 'Gagal sinkronisasi status pembayaran.',
                 'error' => $e->getMessage(),
             ], 422);
         }
 
         return response()->json([
             'data' => new SaleResource($sale),
-            'message' => 'Payment status synced.',
+            'message' => 'Status pembayaran berhasil disinkronkan.',
         ]);
     }
 
@@ -118,14 +118,15 @@ class TransactionController extends Controller
             $sale = $transactionService->cancelPendingPayment($sale, $qrisService);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Failed to cancel payment.',
+                'message' => 'Gagal membatalkan pembayaran.',
                 'error' => $e->getMessage(),
             ], 422);
         }
 
         return response()->json([
             'data' => new SaleResource($sale),
-            'message' => 'Payment canceled.',
+            'message' => 'Pembayaran berhasil dibatalkan.',
         ]);
     }
 }
+
