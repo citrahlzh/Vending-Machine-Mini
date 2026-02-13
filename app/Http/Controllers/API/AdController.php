@@ -72,6 +72,10 @@ class AdController extends Controller
             $ad->title = $validator['title'];
         }
 
+        if (isset($validator['status'])) {
+            $ad->status = $validator['status'];
+        }
+
         $ad->save();
 
         return response()->json([

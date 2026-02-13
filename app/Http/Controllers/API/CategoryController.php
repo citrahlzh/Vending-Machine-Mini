@@ -24,8 +24,7 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::create([
-            // 'user_id' => auth()->id(),
-            'user_id' => 1, // Temporary hardcoded user ID
+            'user_id' => auth()->id(),
             'category_name' => $validator['category_name'],
             'is_active' => $validator['is_active'],
         ]);

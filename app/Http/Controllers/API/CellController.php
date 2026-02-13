@@ -22,11 +22,14 @@ class CellController extends Controller
             'row' => 'required|string|max:10',
             'column' => 'required|string|max:10',
             'code' => 'required|string|max:50|unique:cells,code',
-            'qty_current' => 'required|integer|min:0',
+            'qty_current' => 'sometimes|integer|min:0',
             'capacity' => 'required|integer|min:1',
         ]);
 
-        $cell = Cell::create($validator);
+        $cell = Cell::create([
+            ...$validator,
+            'qty_current' => $validator['qty_current'] ?? 0,
+        ]);
 
         return response()->json([
             'data' => new CellResource($cell),

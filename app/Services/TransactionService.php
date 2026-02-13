@@ -9,10 +9,16 @@ use App\Models\Sale;
 use App\Models\SaleLine;
 use App\Models\ProductDisplay;
 use App\Services\MidtransQrisService;
+use App\Services\SystemNotificationService;
 use Carbon\Carbon;
 use Exception;
 
 class TransactionService{
+    public function __construct(
+        private readonly SystemNotificationService $notificationService
+    ) {
+    }
+
     public function checkout(Request $request, MidtransQrisService $qrisService): array
     {
         $items = collect($request->input('items', []));
@@ -191,6 +197,9 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
 
     private function applySaleStatus(Sale $sale, string $status, ?string $transactionId): Sale
     {
+        $previousStatus = $sale->status;
+        $previousDispenseStatus = $sale->dispense_status;
+
         $sale->status = $status;
         if (!empty($transactionId)) {
             $sale->qris_id = $transactionId;
@@ -198,7 +207,10 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         $sale->save();
 
         if ($status === 'paid') {
-            return $this->finalizeDispense($sale);
+            $updatedSale = $this->finalizeDispense($sale);
+            $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
+
+            return $updatedSale;
         }
 
         if (in_array($status, ['failed', 'expired'], true)) {
@@ -209,7 +221,10 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
             }
         }
 
-        return $sale->refresh()->load('salesLines');
+        $updatedSale = $sale->refresh()->load('salesLines');
+        $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
+
+        return $updatedSale;
     }
 
     private function finalizeDispense(Sale $sale): Sale
@@ -272,5 +287,45 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
 
             return $lockedSale->refresh()->load('salesLines');
         });
+    }
+
+    private function notifyTransactionUpdate(
+        Sale $sale,
+        string $previousStatus,
+        string $previousDispenseStatus
+    ): void {
+        $statusChanged = $sale->status !== $previousStatus;
+        $dispenseChanged = $sale->dispense_status !== $previousDispenseStatus;
+
+        if (!$statusChanged && !$dispenseChanged) {
+            return;
+        }
+
+        $statusText = match ($sale->status) {
+            'paid' => 'Pembayaran berhasil',
+            'pending' => 'Menunggu pembayaran',
+            'failed' => 'Pembayaran gagal',
+            'expired' => 'Pembayaran kedaluwarsa',
+            default => 'Status transaksi diperbarui',
+        };
+
+        $dispenseText = match ($sale->dispense_status) {
+            'success' => 'Produk berhasil dikeluarkan.',
+            'partial' => 'Sebagian produk gagal dikeluarkan.',
+            'failed' => 'Gagal mengeluarkan produk.',
+            default => 'Menunggu proses pengeluaran produk.',
+        };
+
+        $this->notificationService->notifyActiveUsers(
+            title: "Transaksi #{$sale->id}",
+            message: "{$statusText}. {$dispenseText}",
+            type: $sale->status === 'paid' ? 'success' : ($sale->status === 'pending' ? 'info' : 'warning'),
+            actionUrl: route('dashboard.transactions.show', ['id' => $sale->id]),
+            meta: [
+                'sale_id' => $sale->id,
+                'status' => $sale->status,
+                'dispense_status' => $sale->dispense_status,
+            ]
+        );
     }
 }

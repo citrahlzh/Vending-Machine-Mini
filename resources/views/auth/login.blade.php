@@ -41,7 +41,10 @@
                     class="relative">
                     <input class="w-full text-sm text-[#3C1C5E] placeholder:text-[#b7a4c7] mt-2 flex items-center gap-2 rounded-lg border border-[#d7c6e6] bg-white px-3 py-2.5 focus-within:border-[#6a3d8f] focus-within:ring-2 focus-within:ring-[#6a3d8f]/20"
                         id="password" name="password" type="password" placeholder="Masukkan kata sandi Anda" required>
-                    <img src="{{ asset('assets/icons/dashboard/password.svg') }}" alt="Kata Sandi" class="absolute right-3 top-1/3 w-auto object-contain">
+                    <button id="togglePassword" type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
+                        <img id="passwordIcon" src="{{ asset('assets/icons/dashboard/password-hidden.svg') }}" alt="Lihat kata sandi"
+                            class="w-auto object-contain">
+                    </button>
                 </div>
             </div>
 
@@ -53,3 +56,23 @@
         </form>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        (() => {
+            const passwordInput = document.getElementById('password');
+            const toggleButton = document.getElementById('togglePassword');
+            const passwordIcon = document.getElementById('passwordIcon');
+            if (!passwordInput || !toggleButton || !passwordIcon) return;
+
+            toggleButton.addEventListener('click', () => {
+                const isHidden = passwordInput.type === 'password';
+                passwordInput.type = isHidden ? 'text' : 'password';
+                passwordIcon.src = isHidden
+                    ? "{{ asset('assets/icons/dashboard/password-hidden.svg') }}"
+                    : "{{ asset('assets/icons/dashboard/password.svg') }}";
+                passwordIcon.alt = isHidden ? 'Sembunyikan kata sandi' : 'Lihat kata sandi';
+            });
+        })();
+    </script>
+@endpush

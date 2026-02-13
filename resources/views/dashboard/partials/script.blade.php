@@ -1,7 +1,8 @@
 @vite("resources/js/app.js")
 
-<script src="{{ asset("assets/dashboard/js/jquery.js") }}"></script>
-<script src="{{ asset("assets/dashboard/js/jquery.datatables.min.js") }}"></script>
+<script src="{{ asset("assets/js/jquery.js") }}"></script>
+<script src="{{ asset("assets/js/jquery.datatables.min.js") }}"></script>
+@include("dashboard.partials.datatables-script")
 
 {{-- Sweetalert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

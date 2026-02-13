@@ -24,8 +24,7 @@ class BrandController extends Controller
         ]);
 
         $brand = Brand::create([
-            // 'user_id' => auth()->id(),
-            'user_id' => 1, // Temporary hardcoded user ID
+            'user_id' => auth()->id(),
             'brand_name' => $validator['brand_name'],
             'is_active' => $validator['is_active'],
         ]);

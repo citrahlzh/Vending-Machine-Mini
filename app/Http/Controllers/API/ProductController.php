@@ -33,8 +33,7 @@ class ProductController extends Controller
         }
 
         $product = Product::create([
-            // 'user_id' => auth()->id(),
-            'user_id' => 1, // Temporary hardcoded user ID
+            'user_id' => auth()->id(),
             'category_id' => $validator['category_id'],
             'brand_id' => $validator['brand_id'],
             'packaging_type_id' => $validator['packaging_type_id'],
@@ -87,6 +86,16 @@ class ProductController extends Controller
         return response()->json([
             'data' => new ProductResource($product),
             'message' => 'Product updated successfully.',
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product deleted successfully.',
         ]);
     }
 }
