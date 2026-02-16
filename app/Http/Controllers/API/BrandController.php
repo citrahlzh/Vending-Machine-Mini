@@ -24,7 +24,7 @@ class BrandController extends Controller
         ]);
 
         $brand = Brand::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id,
             'brand_name' => $validator['brand_name'],
             'is_active' => $validator['is_active'],
         ]);

@@ -11,6 +11,8 @@
 
     <body>
         <div class="flex h-screen w-full">
+            <div id="sidebarOverlay" class="fixed inset-0 z-30 hidden bg-black/40 md:hidden"></div>
+
             {{-- Sidebar --}}
             @include("dashboard.partials.sidebar")
 

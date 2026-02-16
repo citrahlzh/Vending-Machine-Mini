@@ -23,7 +23,7 @@ class PackagingSizeController extends Controller
         ]);
 
         $packagingSize = PackagingSize::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id,
             'size' => $validator['size'],
         ]);
 

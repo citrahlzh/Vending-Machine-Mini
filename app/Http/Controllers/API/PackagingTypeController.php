@@ -23,7 +23,7 @@ class PackagingTypeController extends Controller
         ]);
 
         $packagingType = PackagingType::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id,
             'packaging_type' => $validator['packaging_type'],
         ]);
 

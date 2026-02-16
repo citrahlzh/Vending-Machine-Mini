@@ -29,7 +29,7 @@ class ProductDisplayController extends Controller
         ]);
 
         $productDisplay = ProductDisplay::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id,
             'product_id' => $validator['product_id'],
             'price_id' => $validator['price_id'],
             'cell_id' => $validator['cell_id'],

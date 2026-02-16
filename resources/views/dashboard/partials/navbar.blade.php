@@ -1,8 +1,12 @@
 <header class="border-b border-[#ede8f6] bg-white">
     <div class="flex items-center justify-between pl-8 pr-9 py-4">
         <div class="flex items-center gap-4">
+            <button id="sidebarOpenBtn" type="button"
+                class="rounded-md p-2 text-[#5A2F7E] md:hidden" aria-label="Buka sidebar">
+                <i class='bx bx-menu text-[22px]'></i>
+            </button>
             <span class="h-[14px] w-[14px] rounded-full bg-[#50BE41]"></span>
-            <p class="text-[15px] font-regular leading-none text-[#4B2A6A]">
+            <p class="hidden text-[15px] font-regular leading-none text-[#4B2A6A] md:block">
                 Mesin sedang aktif beroperasi
             </p>
         </div>
@@ -273,5 +277,30 @@
         }
 
         fetchUnreadCount();
+    })();
+</script>
+
+<script>
+    (() => {
+        const sidebar = document.getElementById('dashboardSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openBtn = document.getElementById('sidebarOpenBtn');
+        const closeBtn = document.getElementById('sidebarCloseBtn');
+
+        if (!sidebar || !overlay || !openBtn || !closeBtn) return;
+
+        const openSidebar = () => {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        };
+
+        const closeSidebar = () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        };
+
+        openBtn.addEventListener('click', openSidebar);
+        closeBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
     })();
 </script>

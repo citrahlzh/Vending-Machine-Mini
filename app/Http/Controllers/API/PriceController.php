@@ -27,7 +27,7 @@ class PriceController extends Controller
         ]);
 
         $price = Price::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id,
             'product_id' => $validator['product_id'],
             'start_date' => $validator['start_date'],
             'end_date' => $validator['end_date'],

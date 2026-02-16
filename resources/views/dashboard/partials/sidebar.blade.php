@@ -55,7 +55,14 @@
     ];
 @endphp
 
-<nav class="flex h-screen w-56 flex-col border-r border-[#e9e2f3] bg-white px-7 py-8 shadow-[2px_0_12px_rgba(71,39,110,0.06)]">
+<nav id="dashboardSidebar"
+    class="fixed left-0 top-0 z-40 flex h-screen w-56 -translate-x-full flex-col border-r border-[#e9e2f3] bg-white px-7 py-8 shadow-[2px_0_12px_rgba(71,39,110,0.06)] transition-transform duration-300 md:static md:translate-x-0">
+    <div class="mb-2 flex justify-end md:hidden">
+        <button id="sidebarCloseBtn" type="button" class="rounded-md p-1 text-[#5A2F7E]" aria-label="Tutup sidebar">
+            <i class='bx bx-x text-[24px]'></i>
+        </button>
+    </div>
+
     <div class="flex justify-center">
         <img src="{{ asset('assets/images/logo/logo_x9.webp') }}" alt="Logo XNINE" title="Vending Machine XNINE"
             class="mt-5 w-[70px]" />
