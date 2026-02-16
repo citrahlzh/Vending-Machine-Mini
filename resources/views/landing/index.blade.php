@@ -81,7 +81,7 @@
                 </div>
 
                 <div
-                    class="bg-white w-[240px] rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px] lg:sticky lg:top-[24px] lg:w-[240px] shrink-0">
+                    class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px] lg:sticky lg:top-[24px] w-[340px] shrink-0">
                     <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
                     <div class="mt-[16px] border-t border-[#efe6ff] pt-[16px]">
                         <div
