@@ -54,7 +54,7 @@
 @section('content')
     <div class="min-h-[calc(100vh-64px)] bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff]">
         <div id="default-carousel"
-            class="relative w-full px-6 sm:px-6 lg:px-[72px] pt-6 sm:pt-6 lg:pt-6 pb-[32px] lg:pb-[40px]"
+            class="relative w-full px-6 sm:px-6 lg:px-[72px] pt-6 sm:pt-6 lg:pt-6 pb-[25px] lg:pb-[30px]"
             data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative overflow-hidden rounded-base h-[220px]">
@@ -66,7 +66,6 @@
                             alt="...">
                     </div>
                 @endforeach
-
             </div>
         </div>
 
