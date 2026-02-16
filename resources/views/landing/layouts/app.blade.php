@@ -5,8 +5,10 @@
 
     @stack('style')
 </head>
-<body>
-    @yield('content')
+<body class="min-h-screen flex flex-col">
+    <main class="flex-1">
+        @yield('content')
+    </main>
 
     <footer>
         @include('landing.partials.footer')

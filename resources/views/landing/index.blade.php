@@ -70,10 +70,10 @@
             </div>
         </div>
 
-        <div class="px-6 sm:px-6 lg:px-[72px] pb-[60px] lg:pb-[80px]">
+        <div class="px-6 sm:px-6 lg:px-[72px]">
             <div class="flex gap-[18px] lg:gap-[32px] items-start">
                 <div id="products-carousel" class="flex-1 min-w-0 space-y-[16px]">
-                    @for ($i = 0; $i < 3; $i++)
+                    @for ($i = 0; $i < 4; $i++)
                         <div class="carousel-viewport w-full">
                             <div class="carousel-track" data-carousel-track></div>
                         </div>
@@ -81,7 +81,7 @@
                 </div>
 
                 <div
-                    class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px] lg:sticky lg:top-[24px] w-[340px] shrink-0">
+                    class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px] lg:sticky lg:top-[24px] w-[240px] shrink-0">
                     <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
                     <div class="mt-[16px] border-t border-[#efe6ff] pt-[16px]">
                         <div
