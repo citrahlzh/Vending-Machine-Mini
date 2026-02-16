@@ -73,7 +73,7 @@
         <div class="px-6 sm:px-6 lg:px-[72px]">
             <div class="flex gap-[18px] lg:gap-[32px] items-start">
                 <div id="products-carousel" class="flex-1 min-w-0 space-y-[16px]">
-                    @for ($i = 0; $i < 4; $i++)
+                    @for ($i = 0; $i < 3; $i++)
                         <div class="carousel-viewport w-full">
                             <div class="carousel-track" data-carousel-track></div>
                         </div>
