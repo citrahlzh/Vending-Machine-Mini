@@ -89,7 +89,7 @@
                     }
                 @endphp
 
-                <div class="lg:sticky lg:top-[24px] w-[340px] shrink-0 space-y-[14px]">
+                <div class="lg:sticky lg:top-[24px] w-[250px] shrink-0 space-y-[14px]">
                     <div
                         class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px]">
                         <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
