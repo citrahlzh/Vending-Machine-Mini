@@ -38,4 +38,17 @@ class Price extends Model
     public function productDisplays() {
         return $this->hasMany(ProductDisplay::class);
     }
+
+    public static function deactivateOutsideRange(): int
+    {
+        $now = now();
+
+        return static::query()
+            ->where('is_active', true)
+            ->where(function ($query) use ($now) {
+                $query->where('start_date', '>', $now)
+                    ->orWhere('end_date', '<', $now);
+            })
+            ->update(['is_active' => false]);
+    }
 }

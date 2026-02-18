@@ -19,7 +19,11 @@
                 </button>
                 <button id="openRestockModal" type="button"
                     class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
-                    Restock
+                    Stock In
+                </button>
+                <button id="openStockOutModal" type="button"
+                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    Stock Out
                 </button>
             </div>
 
@@ -86,6 +90,10 @@
                                             data-product-display-id="{{ $productDisplay->id }}">
                                             <img src="{{ asset('assets/icons/dashboard/restock.svg') }}" alt="Restock">
                                         </button>
+                                        <button type="button" class="open-stockout-row-modal"
+                                            data-product-display-id="{{ $productDisplay->id }}">
+                                            <img src="{{ asset('assets/icons/dashboard/restock.svg') }}" alt="Stock Out">
+                                        </button>
                                         <a href="{{ route('dashboard.product-displays.show', ['id' => $productDisplay->id]) }}">
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
                                         </a>
@@ -125,12 +133,12 @@
                         </select>
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="createPriceId">Harga</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="createPriceId">Daftar Harga</label>
                         <select id="createPriceId" name="price_id" required
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih harga</option>
                             @foreach ($prices as $price)
-                                <option value="{{ $price->id }}">
+                                <option value="{{ $price->id }}" data-product-id="{{ $price->product_id }}" hidden>
                                     {{ $price->product?->product_name ?? 'Produk' }} -
                                     Rp{{ number_format((int) $price->price, 0, ',', '.') }}
                                 </option>
@@ -154,7 +162,7 @@
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
-                            for="createQtyAdd">Jumlah Produk yang Ditambahkan</label>
+                            for="createQtyAdd">Stok yang Ingin Ditambahkan</label>
                         <input id="createQtyAdd" name="qty_add" type="number" min="0" value="0"
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="10">
@@ -227,6 +235,50 @@
             </form>
         </div>
     </div>
+
+    <div id="stockOutProductDisplayModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
+        style="background-color: rgba(31, 17, 48, 0.48);">
+        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+            style="max-width: 560px; border-radius: 22px;">
+            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Stock Out Produk</h2>
+
+            <form id="stockOutProductDisplayForm" class="mt-6 space-y-4">
+                <div>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                        for="stockOutProductDisplayId">Produk</label>
+                    <select id="stockOutProductDisplayId" name="product_display_id" required
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        <option value="">Pilih produk</option>
+                        @foreach ($productDisplays as $productDisplay)
+                            <option value="{{ $productDisplay->id }}">
+                                {{ $productDisplay->product?->product_name ?? '-' }} - {{ $productDisplay->cell?->code ?? '-' }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="stockOutQty">Jumlah yang
+                        Ingin Dikeluarkan</label>
+                    <input id="stockOutQty" name="qty_out" type="number" min="1" required value="1"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        placeholder="1">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <button id="cancelStockOutProductDisplay" type="button"
+                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        Batal
+                    </button>
+                    <button id="submitStockOutProductDisplay" type="submit"
+                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @push('script')
@@ -242,19 +294,29 @@
         (() => {
             const createModal = document.getElementById('createProductDisplayModal');
             const restockModal = document.getElementById('restockProductDisplayModal');
+            const stockOutModal = document.getElementById('stockOutProductDisplayModal');
             const openCreateButton = document.getElementById('openCreateDisplayModal');
             const openRestockButton = document.getElementById('openRestockModal');
+            const openStockOutButton = document.getElementById('openStockOutModal');
             const cancelCreateButton = document.getElementById('cancelCreateProductDisplay');
             const cancelRestockButton = document.getElementById('cancelRestockProductDisplay');
+            const cancelStockOutButton = document.getElementById('cancelStockOutProductDisplay');
             const createForm = document.getElementById('createProductDisplayForm');
             const restockForm = document.getElementById('restockProductDisplayForm');
+            const stockOutForm = document.getElementById('stockOutProductDisplayForm');
             const restockProductDisplayIdInput = document.getElementById('restockProductDisplayId');
+            const stockOutProductDisplayIdInput = document.getElementById('stockOutProductDisplayId');
             const submitCreateButton = document.getElementById('submitCreateProductDisplay');
             const submitRestockButton = document.getElementById('submitRestockProductDisplay');
+            const submitStockOutButton = document.getElementById('submitStockOutProductDisplay');
+            const createProductIdInput = document.getElementById('createProductId');
+            const createPriceIdInput = document.getElementById('createPriceId');
 
-            if (!createModal || !restockModal || !openCreateButton || !openRestockButton || !cancelCreateButton || !
-                cancelRestockButton || !createForm || !restockForm || !restockProductDisplayIdInput ||
-                !submitCreateButton || !submitRestockButton) return;
+            if (!createModal || !restockModal || !stockOutModal || !openCreateButton || !openRestockButton || !
+                openStockOutButton || !cancelCreateButton || !cancelRestockButton || !cancelStockOutButton || !
+                createForm || !restockForm || !stockOutForm || !restockProductDisplayIdInput || !
+                stockOutProductDisplayIdInput || !submitCreateButton || !submitRestockButton || !
+                submitStockOutButton) return;
 
             const openModal = (modal) => {
                 modal.classList.remove('hidden');
@@ -279,10 +341,41 @@
                 document.getElementById('restockQtyAdd').value = '10';
             };
 
+            const closeStockOutModal = () => {
+                closeModal(stockOutModal);
+                stockOutForm.reset();
+                document.getElementById('stockOutQty').value = '1';
+            };
+
             const getErrorMessage = (data, fallback) => {
                 const errors = data?.errors ? Object.values(data.errors).flat() : [];
                 if (errors.length > 0) return errors[0];
                 return data?.message || fallback;
+            };
+
+            const syncCreatePriceOptions = () => {
+                if (!createProductIdInput || !createPriceIdInput) return;
+
+                const selectedProductId = createProductIdInput.value;
+                const options = [...createPriceIdInput.options].slice(1);
+                let hasMatch = false;
+
+                options.forEach((option) => {
+                    const isMatch = !!selectedProductId && option.dataset.productId === selectedProductId;
+                    option.hidden = !isMatch;
+                    option.disabled = !isMatch;
+                    if (isMatch) hasMatch = true;
+                });
+
+                if (!hasMatch) {
+                    createPriceIdInput.value = '';
+                    return;
+                }
+
+                const selectedOption = createPriceIdInput.selectedOptions[0];
+                if (!selectedOption || selectedOption.dataset.productId !== selectedProductId) {
+                    createPriceIdInput.value = '';
+                }
             };
 
             const doRestock = async (productDisplayId, qtyAdd) => {
@@ -305,10 +398,37 @@
                 return data;
             };
 
-            openCreateButton.addEventListener('click', () => openModal(createModal));
+            const doStockOut = async (productDisplayId, qtyOut) => {
+                const response = await fetch(`/api/product-display/stock-out/${productDisplayId}`, {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        qty_out: qtyOut,
+                    }),
+                });
+
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(getErrorMessage(data, 'Gagal melakukan stock out.'));
+                }
+
+                return data;
+            };
+
+            openCreateButton.addEventListener('click', () => {
+                syncCreatePriceOptions();
+                openModal(createModal);
+            });
             openRestockButton.addEventListener('click', () => openModal(restockModal));
+            openStockOutButton.addEventListener('click', () => openModal(stockOutModal));
             cancelCreateButton.addEventListener('click', closeCreateModal);
             cancelRestockButton.addEventListener('click', closeRestockModal);
+            cancelStockOutButton.addEventListener('click', closeStockOutModal);
+            createProductIdInput?.addEventListener('change', syncCreatePriceOptions);
+            syncCreatePriceOptions();
 
             createModal.addEventListener('click', (event) => {
                 if (event.target === createModal) closeCreateModal();
@@ -318,6 +438,10 @@
                 if (event.target === restockModal) closeRestockModal();
             });
 
+            stockOutModal.addEventListener('click', (event) => {
+                if (event.target === stockOutModal) closeStockOutModal();
+            });
+
             document.addEventListener('click', async (event) => {
                 const restockRowButton = event.target.closest('.open-restock-row-modal');
                 if (restockRowButton) {
@@ -325,6 +449,15 @@
                     if (!productDisplayId) return;
                     restockProductDisplayIdInput.value = productDisplayId;
                     openModal(restockModal);
+                    return;
+                }
+
+                const stockOutRowButton = event.target.closest('.open-stockout-row-modal');
+                if (stockOutRowButton) {
+                    const productDisplayId = stockOutRowButton.dataset.productDisplayId;
+                    if (!productDisplayId) return;
+                    stockOutProductDisplayIdInput.value = productDisplayId;
+                    openModal(stockOutModal);
                     return;
                 }
 
@@ -503,6 +636,52 @@
                 } finally {
                     submitRestockButton.disabled = false;
                     submitRestockButton.textContent = 'Simpan';
+                }
+            });
+
+            stockOutForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const productDisplayId = Number(stockOutProductDisplayIdInput.value);
+                const qtyOut = Number(document.getElementById('stockOutQty').value);
+
+                if (!productDisplayId || !qtyOut || qtyOut < 1) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Data belum lengkap',
+                        text: 'Pilih produk dan isi jumlah stock out dengan benar.',
+                    });
+                    return;
+                }
+
+                submitStockOutButton.disabled = true;
+                submitStockOutButton.textContent = 'Menyimpan...';
+
+                try {
+                    const data = await doStockOut(productDisplayId, qtyOut);
+                    const actualOut = Number(data?.actual_out || 0);
+                    const successText = actualOut < qtyOut ?
+                        `Stock out keluar ${actualOut} dari ${qtyOut} karena stok tidak mencukupi.` :
+                        `Stock out berhasil mengurangi ${actualOut} item.`;
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: successText,
+                        timer: 1500,
+                        showConfirmButton: false,
+                    });
+
+                    setTimeout(() => window.location.reload(), 1500);
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: error.message || 'Terjadi kesalahan saat stock out.',
+                    });
+                } finally {
+                    submitStockOutButton.disabled = false;
+                    submitStockOutButton.textContent = 'Simpan';
                 }
             });
         })();

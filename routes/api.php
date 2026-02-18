@@ -98,6 +98,7 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
         Route::get('/edit/{id}', [ProductDisplayController::class, 'edit']);
         Route::post('/update/{id}', [ProductDisplayController::class, 'update']);
         Route::post('/restock/{id}', [ProductDisplayController::class, 'restock']);
+        Route::post('/stock-out/{id}', [ProductDisplayController::class, 'stockOut']);
         Route::delete('/delete/{id}', [ProductDisplayController::class, 'destroy']);
     });
 

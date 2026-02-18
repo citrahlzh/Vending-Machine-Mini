@@ -11,6 +11,8 @@ class PriceController extends Controller
 {
     public function index()
     {
+        Price::deactivateOutsideRange();
+
         $prices = Price::with(['product', 'user'])->latest()->get();
 
         return view('dashboard.prices.index', compact('prices'));

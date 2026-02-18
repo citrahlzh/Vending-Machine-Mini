@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\Price;
 use App\Http\Resources\PriceResource;
 
@@ -11,6 +12,8 @@ class PriceController extends Controller
 {
     public function index()
     {
+        Price::deactivateOutsideRange();
+
         $prices = Price::all();
 
         return PriceResource::collection($prices);
@@ -26,13 +29,19 @@ class PriceController extends Controller
             'is_active' => 'sometimes|boolean',
         ]);
 
+        $now = now();
+        $startDate = Carbon::parse($validator['start_date']);
+        $endDate = Carbon::parse($validator['end_date']);
+        $isInRange = $startDate->lessThanOrEqualTo($now) && $endDate->greaterThanOrEqualTo($now);
+        $isActive = (bool) ($validator['is_active'] ?? true) && $isInRange;
+
         $price = Price::create([
             'user_id' => $request->user()->id,
             'product_id' => $validator['product_id'],
             'start_date' => $validator['start_date'],
             'end_date' => $validator['end_date'],
             'price' => $validator['price'],
-            'is_active' => $validator['is_active'] ?? true,
+            'is_active' => $isActive,
         ]);
 
         return response()->json([
@@ -64,7 +73,21 @@ class PriceController extends Controller
         ]);
 
         $price = Price::findOrFail($id);
-        $price->update($validator);
+        $payload = $validator;
+        $now = now();
+        $startDate = array_key_exists('start_date', $payload) ? Carbon::parse($payload['start_date']) : $price->start_date;
+        $endDate = array_key_exists('end_date', $payload) ? Carbon::parse($payload['end_date']) : $price->end_date;
+        $isInRange = $startDate->lessThanOrEqualTo($now) && $endDate->greaterThanOrEqualTo($now);
+
+        if (array_key_exists('is_active', $payload)) {
+            $payload['is_active'] = (bool) $payload['is_active'] && $isInRange;
+        } elseif (array_key_exists('start_date', $payload) || array_key_exists('end_date', $payload)) {
+            if (!$isInRange) {
+                $payload['is_active'] = false;
+            }
+        }
+
+        $price->update($payload);
 
         return response()->json([
             'data' => new PriceResource($price),

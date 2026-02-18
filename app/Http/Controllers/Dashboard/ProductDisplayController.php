@@ -13,12 +13,21 @@ class ProductDisplayController extends Controller
 {
     public function index()
     {
+        Price::deactivateOutsideRange();
+
+        $now = now();
+
         $productDisplays = ProductDisplay::with(['product', 'price', 'cell', 'user'])
             ->latest()
             ->get();
 
         $products = Product::orderBy('product_name')->get();
-        $prices = Price::with('product')->orderByDesc('start_date')->get();
+        $prices = Price::with('product')
+            ->where('is_active', true)
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>=', $now)
+            ->orderByDesc('start_date')
+            ->get();
         $cells = Cell::orderBy('code')->get();
 
         return view('dashboard.product-displays.index', compact(
@@ -36,9 +45,18 @@ class ProductDisplayController extends Controller
 
     public function edit($id)
     {
+        Price::deactivateOutsideRange();
+
+        $now = now();
+
         $productDisplay = ProductDisplay::findOrFail($id);
         $products = Product::orderBy('product_name')->get();
-        $prices = Price::with('product')->orderByDesc('start_date')->get();
+        $prices = Price::with('product')
+            ->where('is_active', true)
+            ->where('start_date', '<=', $now)
+            ->where('end_date', '>=', $now)
+            ->orderByDesc('start_date')
+            ->get();
         $cells = Cell::orderBy('code')->get();
 
         return view('dashboard.product-displays.edit', compact(

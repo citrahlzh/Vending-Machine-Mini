@@ -42,6 +42,7 @@
                             <option value="">Pilih harga</option>
                             @foreach ($prices as $price)
                                 <option value="{{ $price->id }}"
+                                    data-product-id="{{ $price->product_id }}"
                                     {{ $productDisplay->price_id == $price->id ? 'selected' : '' }}>
                                     {{ $price->product?->product_name ?? 'Produk' }} -
                                     Rp{{ number_format((int) $price->price, 0, ',', '.') }}
@@ -100,7 +101,37 @@
             const form = document.getElementById('editProductDisplayForm');
             const submitButton = document.getElementById('submitEditProductDisplay');
             const productDisplayId = document.getElementById('productDisplayId')?.value;
+            const productIdInput = document.getElementById('product_id');
+            const priceIdInput = document.getElementById('price_id');
             if (!form || !submitButton || !productDisplayId) return;
+
+            const syncPriceOptions = () => {
+                if (!productIdInput || !priceIdInput) return;
+
+                const selectedProductId = productIdInput.value;
+                const options = [...priceIdInput.options].slice(1);
+                let hasMatch = false;
+
+                options.forEach((option) => {
+                    const isMatch = !!selectedProductId && option.dataset.productId === selectedProductId;
+                    option.hidden = !isMatch;
+                    option.disabled = !isMatch;
+                    if (isMatch) hasMatch = true;
+                });
+
+                if (!hasMatch) {
+                    priceIdInput.value = '';
+                    return;
+                }
+
+                const selectedOption = priceIdInput.selectedOptions[0];
+                if (!selectedOption || selectedOption.dataset.productId !== selectedProductId) {
+                    priceIdInput.value = '';
+                }
+            };
+
+            productIdInput?.addEventListener('change', syncPriceOptions);
+            syncPriceOptions();
 
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
