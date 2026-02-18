@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <div class="px-6 sm:px-6 lg:px-[72px]">
+        <div class="px-6 sm:px-6 lg:px-[72px] pb-[30px]">
             <div class="flex gap-[18px] lg:gap-[32px] items-start">
                 <div id="products-carousel" class="flex-1 min-w-0 space-y-[16px]">
                     @for ($i = 0; $i < 3; $i++)
@@ -79,29 +79,105 @@
                     @endfor
                 </div>
 
-                <div
-                    class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px] lg:sticky lg:top-[24px] w-[340px] shrink-0">
-                    <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
-                    <div class="mt-[16px] border-t border-[#efe6ff] pt-[16px]">
-                        <div
-                            class="grid grid-cols-[1fr_40px_80px] text-[12px] font-semibold text-[#5b4a7a] pb-[10px] border-b border-[#f1ecff]">
-                            <div>Produk</div>
-                            <div class="text-center">Qty</div>
-                            <div class="text-right">Harga</div>
+                @php
+                    $callPhoneDisplay = $callCenterPhone ?? '0812-0000-0000';
+                    $callWaDisplay = $callCenterWhatsapp ?? $callPhoneDisplay;
+                    $callPhoneHref = preg_replace('/[^0-9+]/', '', $callPhoneDisplay) ?: '081200000000';
+                    $callWaDigits = preg_replace('/[^0-9]/', '', $callWaDisplay) ?: '6281200000000';
+                    if (str_starts_with($callWaDigits, '0')) {
+                        $callWaDigits = '62' . substr($callWaDigits, 1);
+                    }
+                @endphp
+
+                <div class="lg:sticky lg:top-[24px] w-[340px] shrink-0 space-y-[14px]">
+                    <div
+                        class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px]">
+                        <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
+                        <div class="mt-[16px] border-t border-[#efe6ff] pt-[16px]">
+                            <div
+                                class="grid grid-cols-[1fr_40px_80px] text-[12px] font-semibold text-[#5b4a7a] pb-[10px] border-b border-[#f1ecff]">
+                                <div>Produk</div>
+                                <div class="text-center">Qty</div>
+                                <div class="text-right">Harga</div>
+                            </div>
+                            <div id="cart-lines" class="mt-[10px] space-y-[8px] text-[12px] text-[#2b1a43]"></div>
+                            <div
+                                class="mt-[16px] pt-[12px] border-t border-[#f1ecff] flex items-center justify-between text-[13px] font-semibold text-[#2b1a43]">
+                                <div>Total</div>
+                                <div id="cart-total">Rp 0</div>
+                            </div>
                         </div>
-                        <div id="cart-lines" class="mt-[10px] space-y-[8px] text-[12px] text-[#2b1a43]"></div>
-                        <div
-                            class="mt-[16px] pt-[12px] border-t border-[#f1ecff] flex items-center justify-between text-[13px] font-semibold text-[#2b1a43]">
-                            <div>Total</div>
-                            <div id="cart-total">Rp 0</div>
+                        <div class="mt-[24px] flex items-center gap-[8px]">
+                            <button id="btn-pay"
+                                class="text-sm w-full h-[44px] rounded-full bg-[#5c2a94] text-white font-semibold">
+                                Bayar Sekarang
+                            </button>
+                            <button id="btn-clear-cart" type="button"
+                                class="hidden h-[44px] min-w-[44px] rounded-full border border-[#cfc5e7] px-[12px] text-[11px] font-semibold transition hover:bg-[#e7dffb]">
+                                <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="">
+                            </button>
                         </div>
                     </div>
-                    <button id="btn-pay"
-                        class="text-sm mt-[24px] w-full h-[44px] rounded-full bg-[#5c2a94] text-white font-semibold">
-                        Bayar Sekarang
-                    </button>
+
+                    <div
+                        class="rounded-[15px] border border-[#ebe0fb] bg-white/80 p-[18px] shadow-[0_10px_24px_rgba(92,42,148,0.12)] mt-auto">
+                        <div class="text-[16px] font-semibold text-[#2a1a42]">Call Center</div>
+                        <div class="mt-[4px] text-[12px] text-[#5d4c7b]">Butuh bantuan? Hubungi tim kami.</div>
+                        <div class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
+                            <div>
+                                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Telepon</div>
+                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ $callPhoneDisplay }}</div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="h-[25px]">
+                            </div>
+                        </div>
+                        <div class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
+                            <div>
+                                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Whatsapp</div>
+                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ $callWaDisplay }}</div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="h-[25px]">
+                            </div>
+                        </div>
+                        <button id="btn-open-guide"
+                            class="flex mt-[12px] w-full h-[38px] rounded-full border border-[#cfbeea] text-[#5c2a94] text-[12px] font-semibold hover:bg-[#f7f0ff] transition justify-center items-center gap-2">
+                            <p>Panduan Pembelian</p>
+                            <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[15px]">
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="modal-guide" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
+        <div class="bg-white w-full max-w-[460px] rounded-[20px] p-[40px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
+            <div class="flex items-center justify-between gap-3">
+                <div class="text-[18px] font-semibold text-[#2b1a43]">Panduan Pembelian</div>
+                <button id="btn-close-guide" type="button"
+                    class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#5c2a94] items-center justify-center">
+                    <img src="{{ asset('assets/icons/landing/close.svg') }}" alt="">
+                </button>
+            </div>
+            <ol class="mt-[14px] space-y-[8px] text-[13px] text-[#4a3a66] list-decimal list-inside">
+                <li>Pilih produk dan atur jumlah dengan tombol `+` atau `-`.</li>
+                <li>Pastikan total pesanan sudah sesuai di panel Detail Pesanan.</li>
+                <li>Tekan tombol Bayar Sekarang untuk menampilkan QRIS.</li>
+                <li>Scan QRIS dari aplikasi pembayaran, lalu tunggu status terverifikasi.</li>
+                <li>Jika gagal atau butuh bantuan, hubungi Call Center.</li>
+            </ol>
+            {{-- <div class="mt-[14px] grid grid-cols-2 gap-[8px]">
+                <a href="tel:{{ $callPhoneHref }}"
+                    class="inline-flex h-[38px] items-center justify-center rounded-full border border-[#cfbeea] bg-white text-[12px] font-semibold text-[#5c2a94] transition hover:bg-[#f6f1ff]">
+                    Telepon
+                </a>
+                <a href="https://wa.me/{{ $callWaDigits }}" target="_blank" rel="noopener noreferrer"
+                    class="inline-flex h-[38px] items-center justify-center rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white transition hover:bg-[#4a1f79]">
+                    WhatsApp
+                </a>
+            </div> --}}
         </div>
     </div>
 
@@ -110,7 +186,7 @@
             <div class="text-[18px] font-semibold text-[#2b1a43] text-center">Pembayaran QRIS</div>
             <div
                 class="mt-[16px] mx-auto h-[220px] w-[220px] rounded-[16px] border border-[#e9dcf9] bg-gradient-to-br from-[#f6f0ff] to-white flex items-center justify-center">
-                <img id="qris-image" src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code">
+                <img id="qris-image" src="" alt="qr-code">
             </div>
             <div id="payment-status-note" class="mt-[12px] text-center text-[12px] text-[#6b5a84]">Scan untuk membayar
             </div>
@@ -174,6 +250,7 @@
         const cartLines = document.getElementById('cart-lines');
         const cartTotal = document.getElementById('cart-total');
         const btnPay = document.getElementById('btn-pay');
+        const btnClearCart = document.getElementById('btn-clear-cart');
         const modalPay = document.getElementById('modal-pay');
         const btnCancel = document.getElementById('btn-cancel-pay');
         const btnSuccess = document.getElementById('btn-success');
@@ -182,6 +259,9 @@
         const modalFail = document.getElementById('modal-fail');
         const btnCloseFail = document.getElementById('btn-close-fail');
         const modalLoading = document.getElementById('modal-loading');
+        const modalGuide = document.getElementById('modal-guide');
+        const btnOpenGuide = document.getElementById('btn-open-guide');
+        const btnCloseGuide = document.getElementById('btn-close-guide');
         const failMessage = document.getElementById('fail-message');
         const qrisImage = document.getElementById('qris-image');
         const paymentStatusNote = document.getElementById('payment-status-note');
@@ -276,6 +356,7 @@
             btnPay.disabled = total === 0;
             btnPay.classList.toggle('opacity-50', total === 0);
             btnPay.classList.toggle('cursor-not-allowed', total === 0);
+            btnClearCart?.classList.toggle('hidden', total === 0);
         };
 
         // Add or Remove Product Quantity
@@ -578,6 +659,33 @@
             closeModal(modalFail);
             if (!currentSale?.id) {
                 resetPaymentState();
+            }
+        });
+
+        btnClearCart?.addEventListener('click', () => {
+            Object.keys(cart).forEach((key) => delete cart[key]);
+            saveCart();
+            renderProducts();
+            renderCart();
+        });
+
+        btnOpenGuide?.addEventListener('click', () => {
+            openModal(modalGuide);
+        });
+
+        btnCloseGuide?.addEventListener('click', () => {
+            closeModal(modalGuide);
+        });
+
+        modalGuide?.addEventListener('click', (event) => {
+            if (event.target === modalGuide) {
+                closeModal(modalGuide);
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeModal(modalGuide);
             }
         });
 

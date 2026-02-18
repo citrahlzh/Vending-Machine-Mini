@@ -54,6 +54,10 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'call_center_phone' => env('CALL_CENTER_PHONE', '0812-0000-0000'),
+
+    'call_center_whatsapp' => env('CALL_CENTER_WHATSAPP', env('CALL_CENTER_PHONE', '0812-0000-0000')),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

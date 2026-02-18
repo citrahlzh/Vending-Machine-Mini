@@ -10,6 +10,9 @@ class LandingController extends Controller
 {
     public function index()
     {
+        $callCenterPhone = (string) config('app.call_center_phone', '0812-0000-0000');
+        $callCenterWhatsapp = (string) config('app.call_center_whatsapp', $callCenterPhone);
+
         $ads = Ad::query()
             ->where('status', 'active')
             ->orderBy('id')
@@ -41,6 +44,6 @@ class LandingController extends Controller
             })
             ->values();
 
-        return view('landing.index', compact('ads', 'products'));
+        return view('landing.index', compact('ads', 'products', 'callCenterPhone', 'callCenterWhatsapp'));
     }
 }
