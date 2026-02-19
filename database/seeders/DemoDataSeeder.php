@@ -36,8 +36,6 @@ class DemoDataSeeder extends Seeder
         $cells = $this->seedCells();
         $displays = $this->seedProductDisplays($users['admin']->id, $products, $prices, $cells);
         $this->seedAds();
-        $this->seedSales($displays);
-        $this->seedActivityLogs($users['admin']->id);
     }
 
     private function truncateData(): void
@@ -69,7 +67,7 @@ class DemoDataSeeder extends Seeder
     private function seedUsers(): array
     {
         $admin = User::create([
-            'name' => 'Admin XNINE',
+            'name' => 'Admin',
             'phone_number' => '081234567890',
             'whatsapp_number' => '6281234567890',
             'is_active' => true,
@@ -96,10 +94,9 @@ class DemoDataSeeder extends Seeder
     {
         $categories = collect([
             'Minuman',
-            'Snack',
-            'Kopi',
-            'Susu',
-            'Biskuit',
+            'Makanan Ringan',
+            'Cemilan Sehat',
+            'Makanan Siap Saji',
         ])->map(fn (string $name) => Category::create([
             'user_id' => $userId,
             'category_name' => $name,
@@ -107,11 +104,13 @@ class DemoDataSeeder extends Seeder
         ]));
 
         $brands = collect([
+            'Cimory',
+            'Kanzler',
+            'Greenfields',
+            'Chitato',
+            'Fruit Tea',
+            'Ichi Ocha',
             'Ultra',
-            'Indomilk',
-            'Coca Cola',
-            'Mayora',
-            'Kapal Api',
         ])->map(fn (string $name) => Brand::create([
             'user_id' => $userId,
             'brand_name' => $name,
@@ -123,6 +122,7 @@ class DemoDataSeeder extends Seeder
             'Kaleng',
             'Kotak',
             'Sachet',
+            'Pouch'
         ])->map(fn (string $name) => PackagingType::create([
             'user_id' => $userId,
             'packaging_type' => $name,
@@ -266,87 +266,6 @@ class DemoDataSeeder extends Seeder
                 'title' => "Promo Spesial {$i}",
                 'image_url' => "ads/demo-ad-{$i}.svg",
                 'status' => 'active',
-            ]);
-        }
-    }
-
-    private function seedSales(array $displays): void
-    {
-        $statuses = ['paid', 'pending', 'failed', 'expired'];
-
-        for ($i = 1; $i <= 8; $i++) {
-            $status = $statuses[$i % count($statuses)];
-            $dispenseStatus = match ($status) {
-                'paid' => 'success',
-                'pending' => 'pending',
-                default => 'failed',
-            };
-
-            $sale = Sale::create([
-                'idempotency_key' => Str::upper(Str::random(12)),
-                'qris_id' => 'QRIS-' . str_pad((string) $i, 4, '0', STR_PAD_LEFT),
-                'transaction_date' => now()->subDays(9 - $i),
-                'status' => $status,
-                'dispense_status' => $dispenseStatus,
-                'total_amount' => 0,
-            ]);
-
-            $lineCount = random_int(1, 3);
-            $total = 0;
-
-            for ($line = 0; $line < $lineCount; $line++) {
-                $display = $displays[array_rand($displays)];
-                $lineStatus = match ($status) {
-                    'paid' => 'success',
-                    'pending' => 'pending',
-                    default => 'failed',
-                };
-
-                SaleLine::create([
-                    'sale_id' => $sale->id,
-                    'product_display_id' => $display->id,
-                    'status' => $lineStatus,
-                ]);
-
-                $total += (int) optional($display->price)->price;
-            }
-
-            $sale->update([
-                'total_amount' => $total,
-            ]);
-        }
-    }
-
-    private function seedActivityLogs(int $userId): void
-    {
-        if (!Schema::hasTable('activity_logs')) {
-            return;
-        }
-
-        $actions = [
-            'auth.login',
-            'web.get.dashboard_index',
-            'product.store',
-            'price.update',
-            'transaction.checkout',
-            'transaction.status_sync',
-        ];
-
-        foreach ($actions as $index => $action) {
-            ActivityLog::create([
-                'user_id' => $userId,
-                'action' => $action,
-                'description' => 'Demo aktivitas ' . $action,
-                'properties' => [
-                    'seeded' => true,
-                    'sequence' => $index + 1,
-                ],
-                'ip_address' => '127.0.0.1',
-                'user_agent' => 'Seeder',
-                'http_method' => 'GET',
-                'url' => '/seed/demo/' . ($index + 1),
-                'created_at' => now()->subMinutes(20 - ($index * 2)),
-                'updated_at' => now()->subMinutes(20 - ($index * 2)),
             ]);
         }
     }
