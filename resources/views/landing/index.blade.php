@@ -151,11 +151,11 @@
                         </div>
                         <div class="mt-[24px] flex items-center gap-[8px]">
                             <button id="btn-pay"
-                                class="text-sm w-full h-[44px] rounded-full bg-[#5c2a94] text-white font-semibold">
+                                class="text-[12px] w-full h-[38px] rounded-full bg-[#5c2a94] text-white font-semibold">
                                 Bayar Sekarang
                             </button>
                             <button id="btn-clear-cart" type="button"
-                                class="hidden h-[44px] min-w-[44px] rounded-full border border-[#cfc5e7] px-[12px] text-[11px] font-semibold transition hover:bg-[#e7dffb]">
+                                class="hidden h-[38px] min-w-[38px] rounded-full border border-[#cfc5e7] px-[10px] text-[11px] font-semibold transition hover:bg-[#e7dffb]">
                                 <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="">
                             </button>
                         </div>
