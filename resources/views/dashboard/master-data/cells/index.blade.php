@@ -41,7 +41,8 @@
                         @foreach ($cells as $cell)
                             <tr data-cell-id="{{ $cell->id }}" data-cell-code="{{ e($cell->code) }}"
                                 data-cell-row="{{ e($cell->row) }}" data-cell-column="{{ e($cell->column) }}"
-                                data-cell-capacity="{{ $cell->capacity }}" data-cell-qty-current="{{ $cell->qty_current }}">
+                                data-cell-capacity="{{ $cell->capacity }}" data-cell-qty-current="{{ $cell->qty_current }}"
+                                data-cell-product-displays-count="{{ $cell->product_displays_count }}">
                                 <td class="text-center font-semibold">{{ $loop->iteration }}</td>
                                 <td>{{ $cell->code }}</td>
                                 <td>{{ $cell->row }}</td>
@@ -242,9 +243,24 @@
 
 
             document.querySelectorAll('.open-edit-cell-modal').forEach((button) => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', async () => {
                     const row = button.closest('tr');
                     if (!row) return;
+
+                    const usageCount = Number(row.dataset.cellProductDisplaysCount || 0);
+                    if (usageCount > 0) {
+                        const result = await Swal.fire({
+                            icon: 'warning',
+                            title: 'Sel sedang dipakai',
+                            text: `Sel ini sedang dipakai oleh ${usageCount} data display produk. Lanjut edit?`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Lanjut edit',
+                            cancelButtonText: 'Batal',
+                            confirmButtonColor: '#5A2F7E',
+                        });
+
+                        if (!result.isConfirmed) return;
+                    }
 
                     openEditModal({
                         id: row.dataset.cellId,

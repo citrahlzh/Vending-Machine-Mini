@@ -10,7 +10,10 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('user')->latest()->get();
+        $categories = Category::with('user')
+            ->withCount('products')
+            ->latest()
+            ->get();
 
         return view('dashboard.master-data.categories.index', compact('categories'));
     }

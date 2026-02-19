@@ -140,7 +140,19 @@ class ProductDisplayController extends Controller
                 ];
             }
 
-            $actualAdded = min((int) $validated['qty_add'], $availableSpace);
+            $requestedQty = (int) $validated['qty_add'];
+            if ($requestedQty > $availableSpace) {
+                return [
+                    'error' => "Jumlah restock melebihi sisa kapasitas sel. Maksimal {$availableSpace}.",
+                    'product_display' => $productDisplay,
+                    'cell' => $cell,
+                    'requested_qty' => $requestedQty,
+                    'actual_added' => 0,
+                    'available_space' => $availableSpace,
+                ];
+            }
+
+            $actualAdded = $requestedQty;
             $cell->qty_current = (int) $cell->qty_current + $actualAdded;
             $cell->save();
 

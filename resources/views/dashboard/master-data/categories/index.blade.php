@@ -41,6 +41,7 @@
                             <tr data-category-id="{{ $category->id }}"
                                 data-category-name="{{ e($category->category_name) }}"
                                 data-category-active="{{ $category->is_active ? '1' : '0' }}"
+                                data-category-products-count="{{ $category->products_count }}"
                                 data-category-user="{{ e($category->user?->name ?? '-') }}">
                                 <td class="text-center font-semibold">{{ $loop->iteration }}</td>
                                 <td>{{ $category->category_name }}</td>
@@ -220,9 +221,24 @@
 
 
             document.querySelectorAll('.open-edit-category-modal').forEach((button) => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', async () => {
                     const row = button.closest('tr');
                     if (!row) return;
+
+                    const usageCount = Number(row.dataset.categoryProductsCount || 0);
+                    if (usageCount > 0) {
+                        const result = await Swal.fire({
+                            icon: 'warning',
+                            title: 'Kategori sedang dipakai',
+                            text: `Kategori ini sedang dipakai oleh ${usageCount} produk. Lanjut edit?`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Lanjut edit',
+                            cancelButtonText: 'Batal',
+                            confirmButtonColor: '#5A2F7E',
+                        });
+
+                        if (!result.isConfirmed) return;
+                    }
 
                     openEditModal({
                         id: row.dataset.categoryId,

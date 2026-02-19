@@ -92,7 +92,7 @@
                                         </button>
                                         <button type="button" class="open-stockout-row-modal"
                                             data-product-display-id="{{ $productDisplay->id }}">
-                                            <img src="{{ asset('assets/icons/dashboard/restock.svg') }}" alt="Stock Out">
+                                            <img src="{{ asset('assets/icons/dashboard/stock-out.svg') }}" alt="Stock Out">
                                         </button>
                                         <a href="{{ route('dashboard.product-displays.show', ['id' => $productDisplay->id]) }}">
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
@@ -154,7 +154,8 @@
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih sel</option>
                             @foreach ($cells as $cell)
-                                <option value="{{ $cell->id }}">
+                                <option value="{{ $cell->id }}" data-qty-current="{{ (int) $cell->qty_current }}"
+                                    data-capacity="{{ (int) $cell->capacity }}">
                                     {{ $cell->code }} (stok {{ $cell->qty_current }}/{{ $cell->capacity }})
                                 </option>
                             @endforeach
@@ -207,7 +208,9 @@
                         class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
                         <option value="">Pilih produk</option>
                         @foreach ($productDisplays as $productDisplay)
-                            <option value="{{ $productDisplay->id }}">
+                            <option value="{{ $productDisplay->id }}"
+                                data-qty-current="{{ (int) ($productDisplay->cell?->qty_current ?? 0) }}"
+                                data-capacity="{{ (int) ($productDisplay->cell?->capacity ?? 0) }}">
                                 {{ $productDisplay->product?->product_name ?? '-' }} - {{ $productDisplay->cell?->code ?? '-' }}
                             </option>
                         @endforeach
@@ -351,6 +354,25 @@
                 const errors = data?.errors ? Object.values(data.errors).flat() : [];
                 if (errors.length > 0) return errors[0];
                 return data?.message || fallback;
+            };
+
+            const getCreateAvailableSpace = () => {
+                const cellSelect = document.getElementById('createCellId');
+                const selectedOption = cellSelect?.selectedOptions?.[0];
+                if (!selectedOption || !selectedOption.value) return null;
+
+                const capacity = Number(selectedOption.dataset.capacity || 0);
+                const qtyCurrent = Number(selectedOption.dataset.qtyCurrent || 0);
+                return Math.max(0, capacity - qtyCurrent);
+            };
+
+            const getRestockAvailableSpace = () => {
+                const selectedOption = restockProductDisplayIdInput?.selectedOptions?.[0];
+                if (!selectedOption || !selectedOption.value) return null;
+
+                const capacity = Number(selectedOption.dataset.capacity || 0);
+                const qtyCurrent = Number(selectedOption.dataset.qtyCurrent || 0);
+                return Math.max(0, capacity - qtyCurrent);
             };
 
             const syncCreatePriceOptions = () => {
@@ -527,10 +549,21 @@
                     return;
                 }
 
+                const createAvailableSpace = getCreateAvailableSpace();
+                if (createAvailableSpace !== null && qtyAdd > createAvailableSpace) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jumlah stok tidak valid',
+                        text: `Stok yang ditambahkan tidak boleh melebihi sisa kapasitas sel (${createAvailableSpace}).`,
+                    });
+                    return;
+                }
+
                 payload.is_empty = qtyAdd <= 0;
 
                 submitCreateButton.disabled = true;
                 submitCreateButton.textContent = 'Menyimpan...';
+                let createdId = null;
 
                 try {
                     const response = await fetch('/api/product-display/store', {
@@ -547,7 +580,7 @@
                         throw new Error(getErrorMessage(data, 'Gagal menambah data stok dan slot.'));
                     }
 
-                    const createdId = data?.data?.id;
+                    createdId = data?.data?.id;
                     let successText = data?.message || 'Data stok dan slot berhasil ditambahkan.';
 
                     if (createdId && qtyAdd > 0) {
@@ -571,6 +604,15 @@
 
                     setTimeout(() => window.location.reload(), 1500);
                 } catch (error) {
+                    if (createdId) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Data tersimpan sebagian',
+                            text: `Data stok dan slot sudah dibuat, tetapi restock gagal: ${error.message || 'Terjadi kesalahan.'}`,
+                        });
+                        return;
+                    }
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Gagal',
@@ -593,6 +635,16 @@
                         icon: 'warning',
                         title: 'Data belum lengkap',
                         text: 'Pilih produk dan isi jumlah restock dengan benar.',
+                    });
+                    return;
+                }
+
+                const restockAvailableSpace = getRestockAvailableSpace();
+                if (restockAvailableSpace !== null && qtyAdd > restockAvailableSpace) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Jumlah restock tidak valid',
+                        text: `Jumlah restock tidak boleh melebihi sisa kapasitas sel (${restockAvailableSpace}).`,
                     });
                     return;
                 }

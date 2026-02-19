@@ -10,7 +10,10 @@ class PackagingSizeController extends Controller
 {
     public function index()
     {
-        $packagingSizes = PackagingSize::with('user')->latest()->get();
+        $packagingSizes = PackagingSize::with('user')
+            ->withCount('products')
+            ->latest()
+            ->get();
 
         return view('dashboard.master-data.packaging-sizes.index', compact('packagingSizes'));
     }

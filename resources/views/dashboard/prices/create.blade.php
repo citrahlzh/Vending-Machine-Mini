@@ -26,7 +26,12 @@
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih produk</option>
                             @foreach ($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->product_name }}</option>
+                                <option value="{{ $product->id }}" @disabled($product->active_prices_count > 0)>
+                                    {{ $product->product_name }}
+                                    @if ($product->active_prices_count > 0)
+                                        (sudah ada harga aktif)
+                                    @endif
+                                </option>
                             @endforeach
                         </select>
                     </div>

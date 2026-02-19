@@ -10,7 +10,10 @@ class BrandController extends Controller
 {
     public function index()
     {
-        $brands = Brand::with('user')->latest()->get();
+        $brands = Brand::with('user')
+            ->withCount('products')
+            ->latest()
+            ->get();
 
         return view('dashboard.master-data.brands.index', compact('brands'));
     }

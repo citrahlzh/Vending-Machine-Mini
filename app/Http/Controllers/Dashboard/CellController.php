@@ -10,7 +10,9 @@ class CellController extends Controller
 {
     public function index()
     {
-        $cells = Cell::latest()->get();
+        $cells = Cell::withCount('productDisplays')
+            ->latest()
+            ->get();
 
         return view('dashboard.master-data.cells.index', compact('cells'));
     }

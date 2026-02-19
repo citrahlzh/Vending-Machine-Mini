@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Price;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Builder;
 
 class PriceController extends Controller
 {
@@ -20,7 +21,19 @@ class PriceController extends Controller
 
     public function create()
     {
-        $products = Product::orderBy('product_name')->get();
+        Price::deactivateOutsideRange();
+
+        $now = now();
+        $products = Product::query()
+            ->withCount([
+                'prices as active_prices_count' => function (Builder $query) use ($now) {
+                    $query->where('is_active', true)
+                        ->where('start_date', '<=', $now)
+                        ->where('end_date', '>=', $now);
+                },
+            ])
+            ->orderBy('product_name')
+            ->get();
 
         return view('dashboard.prices.create', compact('products'));
     }

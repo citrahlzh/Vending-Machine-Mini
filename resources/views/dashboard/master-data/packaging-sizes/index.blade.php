@@ -39,6 +39,7 @@
                         @foreach ($packagingSizes as $packagingSize)
                             <tr data-packaging-size-id="{{ $packagingSize->id }}"
                                 data-packaging-size-name="{{ e($packagingSize->size) }}"
+                                data-packaging-size-products-count="{{ $packagingSize->products_count }}"
                                 data-packaging-size-user="{{ e($packagingSize->user?->name ?? '-') }}">
                                 <td class="text-center font-semibold">{{ $loop->iteration }}</td>
                                 <td>{{ $packagingSize->size }}</td>
@@ -183,9 +184,24 @@
 
 
             document.querySelectorAll('.open-edit-packaging-size-modal').forEach((button) => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', async () => {
                     const row = button.closest('tr');
                     if (!row) return;
+
+                    const usageCount = Number(row.dataset.packagingSizeProductsCount || 0);
+                    if (usageCount > 0) {
+                        const result = await Swal.fire({
+                            icon: 'warning',
+                            title: 'Ukuran kemasan sedang dipakai',
+                            text: `Ukuran kemasan ini sedang dipakai oleh ${usageCount} produk. Lanjut edit?`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Lanjut edit',
+                            cancelButtonText: 'Batal',
+                            confirmButtonColor: '#5A2F7E',
+                        });
+
+                        if (!result.isConfirmed) return;
+                    }
 
                     openEditModal({
                         id: row.dataset.packagingSizeId,

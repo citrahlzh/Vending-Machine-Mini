@@ -40,6 +40,7 @@
                         @foreach ($brands as $brand)
                             <tr data-brand-id="{{ $brand->id }}" data-brand-name="{{ e($brand->brand_name) }}"
                                 data-brand-active="{{ $brand->is_active ? '1' : '0' }}"
+                                data-brand-products-count="{{ $brand->products_count }}"
                                 data-brand-user="{{ e($brand->user?->name ?? '-') }}">
                                 <td class="text-center font-semibold">{{ $loop->iteration }}</td>
                                 <td>{{ $brand->brand_name }}</td>
@@ -215,9 +216,24 @@
 
 
             document.querySelectorAll('.open-edit-brand-modal').forEach((button) => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', async () => {
                     const row = button.closest('tr');
                     if (!row) return;
+
+                    const usageCount = Number(row.dataset.brandProductsCount || 0);
+                    if (usageCount > 0) {
+                        const result = await Swal.fire({
+                            icon: 'warning',
+                            title: 'Merek sedang dipakai',
+                            text: `Merek ini sedang dipakai oleh ${usageCount} produk. Lanjut edit?`,
+                            showCancelButton: true,
+                            confirmButtonText: 'Lanjut edit',
+                            cancelButtonText: 'Batal',
+                            confirmButtonColor: '#5A2F7E',
+                        });
+
+                        if (!result.isConfirmed) return;
+                    }
 
                     openEditModal({
                         id: row.dataset.brandId,

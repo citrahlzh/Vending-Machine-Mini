@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\ValidationException;
 use App\Models\Price;
 use App\Http\Resources\PriceResource;
 
@@ -34,6 +35,21 @@ class PriceController extends Controller
         $endDate = Carbon::parse($validator['end_date']);
         $isInRange = $startDate->lessThanOrEqualTo($now) && $endDate->greaterThanOrEqualTo($now);
         $isActive = (bool) ($validator['is_active'] ?? true) && $isInRange;
+
+        if ($isActive) {
+            $hasActivePrice = Price::query()
+                ->where('product_id', $validator['product_id'])
+                ->where('is_active', true)
+                ->where('start_date', '<=', $now)
+                ->where('end_date', '>=', $now)
+                ->exists();
+
+            if ($hasActivePrice) {
+                throw ValidationException::withMessages([
+                    'product_id' => 'Produk ini sudah memiliki harga aktif.',
+                ]);
+            }
+        }
 
         $price = Price::create([
             'user_id' => $request->user()->id,

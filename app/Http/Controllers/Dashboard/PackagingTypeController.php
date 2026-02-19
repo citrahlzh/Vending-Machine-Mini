@@ -10,7 +10,10 @@ class PackagingTypeController extends Controller
 {
     public function index()
     {
-        $packagingTypes = PackagingType::with('user')->latest()->get();
+        $packagingTypes = PackagingType::with('user')
+            ->withCount('products')
+            ->latest()
+            ->get();
 
         return view('dashboard.master-data.packaging-types.index', compact('packagingTypes'));
     }
