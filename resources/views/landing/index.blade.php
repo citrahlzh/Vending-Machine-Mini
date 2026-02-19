@@ -48,6 +48,48 @@
                 background-position: 0% 50%;
             }
         }
+
+        .guide-priority-btn {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #5c2a94, #7d3bc5);
+            color: #ffffff;
+            border: 0;
+            box-shadow: 0 10px 24px rgba(92, 42, 148, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
+            animation: guidePulse 1.8s ease-in-out infinite;
+        }
+
+        .guide-priority-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -55%;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+            transform: skewX(-20deg);
+        }
+
+        .guide-priority-btn:hover {
+            transform: translateY(-1px) scale(1.01);
+            box-shadow: 0 14px 28px rgba(92, 42, 148, 0.40), 0 0 0 2px rgba(255, 255, 255, 0.60) inset;
+        }
+
+        .guide-priority-btn:focus-visible {
+            outline: 0;
+            box-shadow: 0 0 0 4px rgba(125, 59, 197, 0.25), 0 12px 28px rgba(92, 42, 148, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.6) inset;
+        }
+
+        @keyframes guidePulse {
+            0%,
+            100% {
+                box-shadow: 0 10px 24px rgba(92, 42, 148, 0.34), 0 0 0 0 rgba(125, 59, 197, 0.32), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
+            }
+
+            50% {
+                box-shadow: 0 12px 28px rgba(92, 42, 148, 0.40), 0 0 0 7px rgba(125, 59, 197, 0.1), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
+            }
+        }
     </style>
 @endpush
 
@@ -142,9 +184,10 @@
                             </div>
                         </div>
                         <button id="btn-open-guide"
-                            class="flex mt-[12px] w-full h-[38px] rounded-full border border-[#cfbeea] text-[#5c2a94] text-[12px] font-semibold hover:bg-[#f7f0ff] transition justify-center items-center gap-2">
-                            <p>Panduan Pembelian</p>
-                            <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[15px]">
+                            class="guide-priority-btn flex mt-[12px] w-full h-[38px] rounded-full text-[12px] font-semibold transition duration-200 justify-center items-center gap-2">
+                            <p class="relative z-[1]">Panduan Pembelian</p>
+                            <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt=""
+                                class="relative z-[1] h-[15px] brightness-0 invert">
                         </button>
                     </div>
                 </div>

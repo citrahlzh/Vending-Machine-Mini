@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\ReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use App\Models\SaleLine;
-use App\Services\SimplePdfGenerator;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -22,19 +23,14 @@ class ReportController extends Controller
         return view('dashboard.reports.index', compact('report'));
     }
 
-    public function exportPdf(SimplePdfGenerator $pdfGenerator, Request $request)
+    public function exportExcel(Request $request)
     {
         [$startDate, $endDate] = $this->resolveDateRange($request);
         $report = $this->buildReportData($startDate, $endDate);
-        $lines = $this->buildPdfLines($report);
-        $pdf = $pdfGenerator->generate('Laporan Vending Machine', $lines);
 
-        $filename = 'laporan-vending-machine-' . now()->format('Ymd-His') . '.pdf';
+        $filename = 'laporan-vending-machine-' . now()->format('Ymd-His') . '.xlsx';
 
-        return response($pdf, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ]);
+        return Excel::download(new ReportExport($report), $filename);
     }
 
     private function buildReportData(Carbon $startDate, Carbon $endDate): array
@@ -144,52 +140,6 @@ class ReportController extends Controller
                     'omzet' => (int) ($row->omzet ?? 0),
                 ];
             });
-    }
-
-    private function buildPdfLines(array $report): array
-    {
-        $lines = [];
-
-        $lines[] = 'Periode laporan: ' . $report['period_label'];
-        $lines[] = 'Dibuat pada: ' . Carbon::parse($report['generated_at'])->format('d/m/Y H:i');
-        $lines[] = '';
-        $lines[] = 'RINGKASAN UTAMA';
-        $lines[] = 'Total transaksi: ' . $report['total_transactions'];
-        $lines[] = 'Total omzet: Rp' . number_format((int) $report['total_omzet'], 0, ',', '.');
-        $lines[] = 'Produk terjual: ' . $report['total_products_sold'];
-        $lines[] = 'Rata-rata nilai transaksi: Rp' . number_format((int) $report['average_transaction'], 0, ',', '.');
-        $lines[] = '';
-        $lines[] = 'STATISTIK TRANSAKSI';
-        $lines[] = 'Sukses: ' . $report['paid_transactions'] . ' (' . $report['success_rate'] . '%)';
-        $lines[] = 'Pending: ' . $report['pending_transactions'];
-        $lines[] = 'Gagal/Expired: ' . $report['failed_transactions'] . ' (' . $report['failed_rate'] . '%)';
-        $lines[] = '';
-        $lines[] = 'OMZET';
-        $lines[] = 'Omzet periode: Rp' . number_format((int) $report['period_omzet'], 0, ',', '.');
-        $lines[] = '';
-        $lines[] = 'PRODUK TERLARIS';
-
-        if ($report['top_products']->isEmpty()) {
-            $lines[] = '- Belum ada data penjualan sukses.';
-        } else {
-            foreach ($report['top_products'] as $index => $product) {
-                $lines[] = ($index + 1) . '. ' . $product->product_name .
-                    ' | Terjual: ' . (int) $product->sold_qty .
-                    ' | Omzet: Rp' . number_format((int) $product->omzet, 0, ',', '.');
-            }
-        }
-
-        $lines[] = '';
-        $lines[] = 'STATISTIK PENJUALAN HARIAN';
-
-        foreach ($report['sales_by_day'] as $day) {
-            $lines[] = $day['label'] .
-                ' | Trx: ' . $day['total_transactions'] .
-                ' | Sukses: ' . $day['paid_transactions'] .
-                ' | Omzet: Rp' . number_format((int) $day['omzet'], 0, ',', '.');
-        }
-
-        return $lines;
     }
 
     private function resolveDateRange(Request $request): array

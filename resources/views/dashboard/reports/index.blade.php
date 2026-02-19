@@ -41,9 +41,9 @@
                         </a>
                     </form>
 
-                    <a href="{{ route('dashboard.reports.export-pdf', request()->only(['start_date', 'end_date'])) }}"
+                    <a href="{{ route('dashboard.reports.export-excel', request()->only(['start_date', 'end_date'])) }}"
                         class="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#5A2F7E] px-5 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74] lg:w-auto lg:shrink-0">
-                        Export PDF
+                        Export Excel
                     </a>
                 </div>
             </div>
@@ -218,3 +218,4 @@
         </div>
     </section>
 @endsection
+

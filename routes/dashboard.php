@@ -54,7 +54,7 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
 
     Route::prefix('report')->name('reports.')->group(function () {
         Route::get('/', [ReportController::class, 'index'])->name('index');
-        Route::get('/export-pdf', [ReportController::class, 'exportPdf'])->name('export-pdf');
+        Route::get('/export-excel', [ReportController::class, 'exportExcel'])->name('export-excel');
     });
 
     Route::prefix('master-data')->name('master-data.')->group(function () {
@@ -92,3 +92,4 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
         });
     });
 });
+

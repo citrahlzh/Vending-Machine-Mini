@@ -213,13 +213,6 @@
             cancelCreateButton.addEventListener('click', closeCreateModal);
             cancelEditButton.addEventListener('click', closeEditModal);
 
-            createModal.addEventListener('click', (event) => {
-                if (event.target === createModal) closeCreateModal();
-            });
-
-            editModal.addEventListener('click', (event) => {
-                if (event.target === editModal) closeEditModal();
-            });
 
             document.querySelectorAll('.open-edit-brand-modal').forEach((button) => {
                 button.addEventListener('click', () => {

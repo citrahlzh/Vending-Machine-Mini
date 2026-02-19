@@ -309,9 +309,6 @@
 
             openButton.addEventListener('click', openModal);
             cancelButton.addEventListener('click', closeModal);
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) closeModal();
-            });
 
             fileInput.addEventListener('change', () => {
                 const file = fileInput.files && fileInput.files[0];
@@ -543,14 +540,8 @@
             });
 
             closeShowButton.addEventListener('click', closeShowModal);
-            showModal.addEventListener('click', (event) => {
-                if (event.target === showModal) closeShowModal();
-            });
 
             cancelEditButton.addEventListener('click', closeEditModal);
-            editModal.addEventListener('click', (event) => {
-                if (event.target === editModal) closeEditModal();
-            });
 
             editFileInput.addEventListener('change', () => {
                 const file = editFileInput.files && editFileInput.files[0];

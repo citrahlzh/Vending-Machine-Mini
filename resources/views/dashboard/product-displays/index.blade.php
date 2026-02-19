@@ -430,17 +430,6 @@
             createProductIdInput?.addEventListener('change', syncCreatePriceOptions);
             syncCreatePriceOptions();
 
-            createModal.addEventListener('click', (event) => {
-                if (event.target === createModal) closeCreateModal();
-            });
-
-            restockModal.addEventListener('click', (event) => {
-                if (event.target === restockModal) closeRestockModal();
-            });
-
-            stockOutModal.addEventListener('click', (event) => {
-                if (event.target === stockOutModal) closeStockOutModal();
-            });
 
             document.addEventListener('click', async (event) => {
                 const restockRowButton = event.target.closest('.open-restock-row-modal');
