@@ -28,7 +28,7 @@ class ReportController extends Controller
         [$startDate, $endDate] = $this->resolveDateRange($request);
         $report = $this->buildReportData($startDate, $endDate);
 
-        $filename = 'Laporan Vending Machine -' . now()->format('Ymd-His') . '.xlsx';
+        $filename = 'Laporan Vending Machine - ' . now()->format('Ymd-His') . '.xlsx';
 
         return Excel::download(new VendingReportExport($report), $filename);
     }
