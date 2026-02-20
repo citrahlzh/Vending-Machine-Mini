@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Exports\ReportExport;
+use App\Exports\Vending\VendingReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use App\Models\SaleLine;
@@ -28,9 +28,9 @@ class ReportController extends Controller
         [$startDate, $endDate] = $this->resolveDateRange($request);
         $report = $this->buildReportData($startDate, $endDate);
 
-        $filename = 'laporan-vending-machine-' . now()->format('Ymd-His') . '.xlsx';
+        $filename = 'Laporan Vending Machine -' . now()->format('Ymd-His') . '.xlsx';
 
-        return Excel::download(new ReportExport($report), $filename);
+        return Excel::download(new VendingReportExport($report), $filename);
     }
 
     private function buildReportData(Carbon $startDate, Carbon $endDate): array
@@ -90,6 +90,72 @@ class ReportController extends Controller
             ->limit(10)
             ->get(['id', 'idempotency_key', 'transaction_date', 'status', 'total_amount']);
 
+        $exportTransactions = Sale::query()
+            ->with([
+                'salesLines.productDisplay.product:id,product_name',
+                'salesLines.productDisplay.cell:id,code',
+            ])
+            ->whereBetween('transaction_date', [$startDate, $endDate])
+            ->latest('transaction_date')
+            ->get(['id', 'idempotency_key', 'transaction_date', 'status', 'total_amount'])
+            ->map(function (Sale $sale) {
+                $products = $sale->salesLines
+                    ->map(fn (SaleLine $line) => $line->productDisplay?->product?->product_name)
+                    ->filter()
+                    ->unique()
+                    ->values()
+                    ->implode(', ');
+
+                $cells = $sale->salesLines
+                    ->map(fn (SaleLine $line) => $line->productDisplay?->cell?->code)
+                    ->filter()
+                    ->unique()
+                    ->values()
+                    ->implode(', ');
+
+                $statusLabel = match ($sale->status) {
+                    'paid' => 'Sukses',
+                    'pending' => 'Pending',
+                    default => 'Gagal',
+                };
+
+                return [
+                    'transaction_date' => $sale->transaction_date,
+                    'idempotency_key' => $sale->idempotency_key,
+                    'products' => $products !== '' ? $products : '-',
+                    'total_amount' => (int) $sale->total_amount,
+                    'status_label' => $statusLabel,
+                    'cells' => $cells !== '' ? $cells : '-',
+                ];
+            });
+
+        $exportProducts = SaleLine::query()
+            ->select([
+                'products.product_name',
+                'prices.price as unit_price',
+                'cells.code as cell_code',
+                'cells.qty_current as stock_remaining',
+                DB::raw('COUNT(sales_lines.id) as sold_qty'),
+            ])
+            ->join('sales', 'sales.id', '=', 'sales_lines.sale_id')
+            ->join('product_displays', 'product_displays.id', '=', 'sales_lines.product_display_id')
+            ->join('products', 'products.id', '=', 'product_displays.product_id')
+            ->leftJoin('prices', 'prices.id', '=', 'product_displays.price_id')
+            ->leftJoin('cells', 'cells.id', '=', 'product_displays.cell_id')
+            ->where('sales.status', 'paid')
+            ->where('sales_lines.status', 'success')
+            ->whereBetween('sales.transaction_date', [$startDate, $endDate])
+            ->groupBy('products.product_name', 'prices.price', 'cells.code', 'cells.qty_current')
+            ->orderByDesc('sold_qty')
+            ->get()
+            ->map(fn ($row) => [
+                'product_name' => $row->product_name ?? '-',
+                'unit_price' => (int) ($row->unit_price ?? 0),
+                'sold_qty' => (int) ($row->sold_qty ?? 0),
+                'stock_remaining' => (int) ($row->stock_remaining ?? 0),
+                'cell_code' => $row->cell_code ?? '-',
+            ]);
+
         return [
             'generated_at' => now(),
             'start_date' => $startDate,
@@ -109,6 +175,8 @@ class ReportController extends Controller
             'top_products' => $topProducts,
             'sales_by_day' => $salesByDay,
             'recent_transactions' => $recentTransactions,
+            'export_transactions' => $exportTransactions,
+            'export_products' => $exportProducts,
         ];
     }
 
