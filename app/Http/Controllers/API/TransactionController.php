@@ -9,6 +9,8 @@ use App\Models\Sale;
 use App\Services\TransactionService;
 use App\Services\MidtransQrisService;
 use Exception;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class TransactionController extends Controller
 {
@@ -64,18 +66,43 @@ class TransactionController extends Controller
         MidtransQrisService $qrisService
     )
     {
-        if (!$qrisService->verifySignature($request->all())) {
+        $payload = $request->all();
+
+        Log::info('Midtrans webhook received', [
+            'order_id' => $payload['order_id'] ?? null,
+            'transaction_status' => $payload['transaction_status'] ?? null,
+            'payment_type' => $payload['payment_type'] ?? null,
+            'fraud_status' => $payload['fraud_status'] ?? null,
+        ]);
+
+        if (!$qrisService->verifySignature($payload)) {
+            Log::warning('Midtrans webhook rejected: invalid signature', [
+                'order_id' => $payload['order_id'] ?? null,
+                'status_code' => $payload['status_code'] ?? null,
+            ]);
+
             return response()->json([
                 'message' => 'Tanda tangan Midtrans tidak valid.',
             ], 403);
         }
 
-        $sale = $transactionService->handleNotification($request->all());
+        try {
+            $sale = $transactionService->handleNotification($payload);
+        } catch (Throwable $e) {
+            Log::error('Midtrans webhook processing failed', [
+                'order_id' => $payload['order_id'] ?? null,
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'message' => 'Gagal memproses notifikasi.',
+            ], 500);
+        }
 
         if (!$sale) {
             return response()->json([
-                'message' => 'Transaksi tidak ditemukan.',
-            ], 404);
+                'message' => 'Webhook diterima, transaksi tidak ditemukan.',
+            ]);
         }
 
         return response()->json([
@@ -129,4 +156,3 @@ class TransactionController extends Controller
         ]);
     }
 }
-

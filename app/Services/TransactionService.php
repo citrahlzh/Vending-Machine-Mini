@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Sale;
 use App\Models\SaleLine;
 use App\Models\ProductDisplay;
@@ -187,6 +188,45 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         );
     }
 
+    public function syncPendingPayments(MidtransQrisService $qrisService, int $limit = 50): array
+    {
+        $pendingSales = Sale::query()
+            ->where('status', 'pending')
+            ->orderBy('transaction_date')
+            ->limit(max(1, $limit))
+            ->get();
+
+        $checked = 0;
+        $updated = 0;
+        $failed = 0;
+
+        foreach ($pendingSales as $sale) {
+            $checked++;
+
+            try {
+                $previousStatus = $sale->status;
+                $sale = $this->syncPaymentStatus($sale, $qrisService);
+
+                if ($sale->status !== $previousStatus) {
+                    $updated++;
+                }
+            } catch (Exception $e) {
+                $failed++;
+                Log::warning('Failed syncing pending Midtrans payment', [
+                    'sale_id' => $sale->id,
+                    'idempotency_key' => $sale->idempotency_key,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        return [
+            'checked' => $checked,
+            'updated' => $updated,
+            'failed' => $failed,
+        ];
+    }
+
     public function cancelPendingPayment(Sale $sale, MidtransQrisService $qrisService): Sale
     {
         $sale = $sale->fresh(['salesLines']);
@@ -231,6 +271,7 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
     {
         $previousStatus = $sale->status;
         $previousDispenseStatus = $sale->dispense_status;
+        $status = $this->resolveNextStatus($previousStatus, $status);
 
         $sale->status = $status;
         if (!empty($transactionId)) {
@@ -258,6 +299,19 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
 
         return $updatedSale;
+    }
+
+    private function resolveNextStatus(string $currentStatus, string $incomingStatus): string
+    {
+        if ($currentStatus === 'paid' && $incomingStatus !== 'paid') {
+            return 'paid';
+        }
+
+        if (in_array($currentStatus, ['failed', 'expired'], true) && $incomingStatus === 'pending') {
+            return $currentStatus;
+        }
+
+        return $incomingStatus;
     }
 
     private function finalizeDispense(Sale $sale): Sale

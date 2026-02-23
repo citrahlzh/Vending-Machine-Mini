@@ -66,17 +66,117 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # Vending-Machine
 
-## Midtrans Webhook
+## Panduan Midtrans
 
-Set Midtrans notification URL to:
+Dokumentasi ini khusus integrasi Midtrans di project ini (QRIS + update status transaksi).
+
+### 1) Konfigurasi `.env`
+
+Gunakan salah satu mode:
+
+- Sandbox (testing):
+
+```env
+MIDTRANS_IS_PRODUCTION=false
+MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxx
+MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxx
+MIDTRANS_SANITIZE=true
+MIDTRANS_3DS=true
+```
+
+- Production (live):
+
+```env
+MIDTRANS_IS_PRODUCTION=true
+MIDTRANS_SERVER_KEY=Mid-server-xxxxx
+MIDTRANS_CLIENT_KEY=Mid-client-xxxxx
+MIDTRANS_SANITIZE=true
+MIDTRANS_3DS=true
+```
+
+Setelah ubah `.env`, jalankan:
+
+```bash
+php artisan config:clear
+php artisan cache:clear
+```
+
+### 2) Endpoint Transaksi
+
+- Checkout: `POST /api/transaction/checkout`
+- Cek status per transaksi: `GET /api/transaction/status/{id}`
+- Cancel pembayaran: `POST /api/transaction/cancel/{id}`
+
+### 3) Opsi A - Webhook Publik (Direkomendasikan)
+
+Set Midtrans notification URL ke:
 
 `POST https://your-domain.com/api/webhooks/midtrans`
 
-Alternative (backward-compatible endpoint):
+Endpoint kompatibel lama:
 
 `POST https://your-domain.com/api/transaction/notify`
 
-Notes:
-- Signature is verified using Midtrans `signature_key`.
-- When payment is `settlement/capture`, sale status becomes `paid` and product stock is reduced.
-- For local testing, expose app with tunnel (for example ngrok) and use the public HTTPS URL above.
+Catatan:
+- Signature diverifikasi dengan `signature_key`.
+- Status `settlement/capture` akan membuat transaksi menjadi `paid`.
+- Proses dispense/stok berjalan setelah status payment valid.
+
+### 4) Opsi B - Polling (Tanpa Server Publik)
+
+Jika belum punya endpoint publik, gunakan polling ke Midtrans:
+
+```bash
+php artisan transactions:sync-pending --limit=50
+```
+
+Arti opsi:
+- `--limit=50`: maksimal jumlah transaksi `pending` yang dicek per eksekusi.
+
+Jalankan terus-menerus (scheduler tiap 10 detik):
+
+```bash
+php artisan schedule:work
+```
+
+Untuk server Linux production, jalankan scheduler standar:
+
+```bash
+* * * * * php /path-to-project/artisan schedule:run >> /dev/null 2>&1
+```
+
+### 5) Alur Status di Sistem
+
+Mapping status Midtrans ke status internal:
+
+- `capture`, `settlement` -> `paid`
+- `pending` -> `pending`
+- `expire` -> `expired`
+- `cancel`, `deny` -> `failed`
+
+Guard penting:
+- Status yang sudah `paid` tidak akan diturunkan lagi oleh notifikasi/polling yang terlambat.
+
+### 6) Uji Live End-to-End (Nominal Kecil Dulu)
+
+1. Set key production + clear config.
+2. Pilih mode update status:
+- webhook publik, atau
+- polling (`schedule:work`).
+3. Lakukan checkout dari device/app.
+4. Bayar via QRIS.
+5. Verifikasi:
+- status transaksi berubah (`pending` -> `paid/expired/failed`),
+- stok berkurang jika `paid`,
+- log tidak menunjukkan error signature.
+
+### 7) Troubleshooting Cepat
+
+- Signature invalid:
+  - pastikan `MIDTRANS_SERVER_KEY` sesuai environment (sandbox vs production).
+- Webhook tidak masuk:
+  - pastikan URL Midtrans dapat diakses publik via HTTPS.
+- Status lama tidak berubah tanpa webhook:
+  - pastikan `php artisan schedule:work` aktif.
+- Delay status:
+  - mode polling bergantung interval scheduler (default sekarang 10 detik).
