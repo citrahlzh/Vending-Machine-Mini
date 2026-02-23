@@ -39,7 +39,7 @@
                     <tbody>
                         @foreach ($ads as $ad)
                             <tr data-ad-id="{{ $ad->id }}" data-ad-title="{{ e($ad->title) }}"
-                                data-ad-status="{{ $ad->status }}" data-ad-image="{{ asset('storage/' . $ad->image_url) }}"
+                                data-ad-status="{{ $ad->status }}" data-ad-image="{{ url('/image/' . $ad->image_url) }}"
                                 data-ad-image-name="{{ basename($ad->image_url) }}">
                                 <td class="text-center font-semibold">{{ $loop->iteration }}</td>
                                 <td>{{ $ad->title }}</td>
