@@ -2,7 +2,6 @@
 
 namespace App\Exports\Vending;
 
-use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -32,7 +31,7 @@ class TransactionSheet implements FromArray, WithEvents, WithColumnWidths, WithT
             ['', 'Laporan Transaksi Vending Machine', '', '', '', '', '', '', ''],
             ['', '', '', '', '', '', '', '', ''],
             ['', '', '', '', '', '', '', '', ''],
-            ['', 'No', 'Tanggal Transaksi', 'ID Transaksi', 'Produk', 'Nominal Jumlah', 'Status', 'Sel', ''],
+            ['', 'No', 'Waktu Transaksi', 'ID Transaksi', 'Produk', 'Nominal Jumlah', 'Status', 'Sel', ''],
         ];
 
         $transactions = $this->report['export_transactions'] ?? collect();
@@ -43,7 +42,7 @@ class TransactionSheet implements FromArray, WithEvents, WithColumnWidths, WithT
             $excelDate = null;
 
             if ($transactionDate !== null) {
-                $excelDate = ExcelDate::dateTimeToExcel(Carbon::parse($transactionDate));
+                $excelDate = ExcelDate::dateTimeToExcel($transactionDate);
             }
 
             $rows[] = [
@@ -142,7 +141,7 @@ class TransactionSheet implements FromArray, WithEvents, WithColumnWidths, WithT
                     $sheet->getStyle("B7:H{$lastRow}")->getAlignment()->setWrapText(true);
                     $sheet->getStyle("E7:E{$lastRow}")->getAlignment()->setWrapText(true);
 
-                    $sheet->getStyle("C7:C{$lastRow}")->getNumberFormat()->setFormatCode('m/d/yyyy');
+                    $sheet->getStyle("C7:C{$lastRow}")->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm:ss');
                     $sheet->getStyle("F7:F{$lastRow}")->getNumberFormat()
                         ->setFormatCode('"Rp"#,##0.00;[Red]\\-"Rp"#,##0.00');
                 }

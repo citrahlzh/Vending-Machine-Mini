@@ -18,7 +18,7 @@
                         <tr>
                             <th class="text-center">ID Order</th>
                             <th class="text-center whitespace-nowrap">Produk</th>
-                            <th class="text-center whitespace-nowrap">Tanggal Transaksi</th>
+                            <th class="text-center whitespace-nowrap">Waktu Transaksi</th>
                             <th class="text-center whitespace-nowrap">Nominal Jumlah</th>
                             <th class="text-center whitespace-nowrap">Status</th>
                             <th class="text-center whitespace-nowrap">Aksi</th>
@@ -53,7 +53,7 @@
                             <tr>
                                 <td class="font-semibold text-[#1f1f1f] text-center">{{ $sale->idempotency_key }}</td>
                                 <td class="">{{ $productText }}</td>
-                                <td class="text-center whitespace-nowrap">{{ optional($sale->transaction_date)->format('d/m/Y') }}</td>
+                                <td class="text-center whitespace-nowrap">{{ optional($sale->transaction_date)->format('d/m/Y H:m:s') }}</td>
                                 <td class="text-center whitespace-nowrap">Rp{{ number_format((int) $sale->total_amount, 0, ',', '.') }},00</td>
                                 <td class="text-center whitespace-nowrap">
                                     <span

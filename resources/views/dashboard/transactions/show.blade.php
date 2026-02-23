@@ -16,7 +16,7 @@
             default => 'bg-[#ffe6c8] text-[#c57a00]',
         };
 
-        $transactionDate = optional($sale->transaction_date ?? $sale->created_at)->format('d/m/Y');
+        $transactionDate = optional($sale->transaction_date ?? $sale->created_at)->format('d/m/Y H:m:s');
         $transactionAmount = (int) ($sale->total_amount ?: $orderTotal);
     @endphp
 
@@ -40,7 +40,7 @@
                     <p class="mt-1 text-[16px] font-semibold text-[#3C1C5E]">{{ $sale->idempotency_key }}</p>
                 </div>
                 <div>
-                    <p class="text-[15px] font-semibold text-[#9b90b0]">Tanggal Transaksi</p>
+                    <p class="text-[15px] font-semibold text-[#9b90b0]">Waktu Transaksi</p>
                     <p class="mt-1 text-[16px] font-semibold text-[#3C1C5E]">
                         {{ $transactionDate }}
                     </p>
