@@ -10,6 +10,7 @@ use App\Models\SaleLine;
 use App\Models\ProductDisplay;
 use App\Services\MidtransQrisService;
 use App\Services\SystemNotificationService;
+use App\Services\VendingDispenseService;
 use Carbon\Carbon;
 use Exception;
 
@@ -20,7 +21,8 @@ class TransactionService{
     private const MAX_IDEMPOTENCY_KEY_LENGTH = 64;
 
     public function __construct(
-        private readonly SystemNotificationService $notificationService
+        private readonly SystemNotificationService $notificationService,
+        private readonly VendingDispenseService $vendingDispenseService
     ) {
     }
 
@@ -343,6 +345,18 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
                 $cell = $display?->cell;
 
                 if (!$display || !$cell || (int) $cell->qty_current <= 0) {
+                    $line->status = 'failed';
+                    $line->save();
+                    $failedCount++;
+                    continue;
+                }
+
+                $dispenseOk = $this->vendingDispenseService->dispense(
+                    (string) $lockedSale->idempotency_key,
+                    (string) $cell->code
+                );
+
+                if (!$dispenseOk) {
                     $line->status = 'failed';
                     $line->save();
                     $failedCount++;
