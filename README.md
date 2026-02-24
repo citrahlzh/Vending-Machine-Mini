@@ -1,182 +1,181 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Vending Machine
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi ini adalah sistem vending machine berbasis Laravel dengan pembayaran QRIS Midtrans dan integrasi hardware dispenser via Flask + pyserial.
 
-## About Laravel
+## Ringkasan Sistem
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Frontend landing page untuk pilih produk dan checkout QRIS.
+- Backend Laravel untuk transaksi, sinkronisasi status Midtrans, dan pengurangan stok.
+- Service Python (`app.py`) untuk komunikasi serial ke motor controller vending.
+- Saat pembayaran `paid`, stok diproses di Laravel, lalu command dispense hardware dikirim best-effort.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Arsitektur Singkat
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. User checkout di web.
+2. Laravel membuat transaksi `pending` + QRIS Midtrans.
+3. Status pembayaran diupdate via webhook Midtrans atau polling Midtrans.
+4. Jika status Midtrans `capture/settlement`, status internal jadi `paid`.
+5. Laravel finalize transaksi (update `sales_lines`, kurangi stok, update `dispense_status`).
+6. Setelah response selesai, Laravel trigger pemanggilan endpoint Flask `/dispense` per item (best-effort, tanpa menunggu ACK controller).
 
-## Learning Laravel
+## Requirement
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.2+
+- Composer
+- Node.js + npm
+- Database (MySQL/SQLite sesuai env)
+- Python 3.10+
+- Python package: `flask`, `pyserial`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Setup Laravel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Install dependency:
 
-## Laravel Sponsors
+```bash
+composer install
+npm install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Buat env:
 
-### Premium Partners
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. Konfigurasi database di `.env`, lalu migrate:
 
-## Contributing
+```bash
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Jalankan aplikasi:
 
-## Code of Conduct
+```bash
+php artisan serve
+npm run dev
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Vending-Machine
-
-## Panduan Midtrans
-
-Dokumentasi ini khusus integrasi Midtrans di project ini (QRIS + update status transaksi).
-
-### 1) Konfigurasi `.env`
-
-Gunakan salah satu mode:
-
-- Sandbox (testing):
+## Konfigurasi Environment Penting
 
 ```env
-MIDTRANS_IS_PRODUCTION=false
+APP_URL=http://localhost:8000
+
 MIDTRANS_SERVER_KEY=SB-Mid-server-xxxxx
 MIDTRANS_CLIENT_KEY=SB-Mid-client-xxxxx
+MIDTRANS_IS_PRODUCTION=false
 MIDTRANS_SANITIZE=true
 MIDTRANS_3DS=true
+MIDTRANS_NOTIFICATION_URL=
+
+VENDING_DISPENSE_URL=http://127.0.0.1:9000/dispense
+VENDING_DISPENSE_TIMEOUT_SECONDS=0.25
+
+CALL_CENTER_PHONE=0812-0000-0000
+CALL_CENTER_WHATSAPP=0812-0000-0000
 ```
 
-- Production (live):
-
-```env
-MIDTRANS_IS_PRODUCTION=true
-MIDTRANS_SERVER_KEY=Mid-server-xxxxx
-MIDTRANS_CLIENT_KEY=Mid-client-xxxxx
-MIDTRANS_SANITIZE=true
-MIDTRANS_3DS=true
-```
-
-Setelah ubah `.env`, jalankan:
+Setelah ubah `.env`:
 
 ```bash
 php artisan config:clear
 php artisan cache:clear
 ```
 
-### 2) Endpoint Transaksi
+## Midtrans Integration
 
-- Checkout: `POST /api/transaction/checkout`
-- Cek status per transaksi: `GET /api/transaction/status/{id}`
-- Cancel pembayaran: `POST /api/transaction/cancel/{id}`
+### Endpoint Transaksi
 
-### 3) Opsi A - Webhook Publik (Direkomendasikan)
+- `POST /api/transaction/checkout`
+- `GET /api/transaction/status/{id}`
+- `POST /api/transaction/cancel/{id}`
 
-Set Midtrans notification URL ke:
+### Endpoint Webhook Midtrans
 
-`POST https://your-domain.com/api/webhooks/midtrans`
+- `POST /api/webhooks/midtrans`
+- Kompatibel lama: `POST /api/transaction/notify`
 
-Endpoint kompatibel lama:
-
-`POST https://your-domain.com/api/transaction/notify`
-
-Catatan:
-- Signature diverifikasi dengan `signature_key`.
-- Status `settlement/capture` akan membuat transaksi menjadi `paid`.
-- Proses dispense/stok berjalan setelah status payment valid.
-
-### 4) Opsi B - Polling (Tanpa Server Publik)
-
-Jika belum punya endpoint publik, gunakan polling ke Midtrans:
-
-```bash
-php artisan transactions:sync-pending --limit=50
-```
-
-Arti opsi:
-- `--limit=50`: maksimal jumlah transaksi `pending` yang dicek per eksekusi.
-
-Jalankan terus-menerus (scheduler tiap 10 detik):
-
-```bash
-php artisan schedule:work
-```
-
-Untuk server Linux production, jalankan scheduler standar:
-
-```bash
-* * * * * php /path-to-project/artisan schedule:run >> /dev/null 2>&1
-```
-
-### 5) Alur Status di Sistem
-
-Mapping status Midtrans ke status internal:
+### Mapping Status Midtrans ke Status Internal
 
 - `capture`, `settlement` -> `paid`
 - `pending` -> `pending`
 - `expire` -> `expired`
 - `cancel`, `deny` -> `failed`
 
-Guard penting:
-- Status yang sudah `paid` tidak akan diturunkan lagi oleh notifikasi/polling yang terlambat.
+Catatan:
+- Signature Midtrans diverifikasi.
+- Status yang sudah `paid` tidak diturunkan lagi oleh notifikasi terlambat.
 
-### 6) Uji Live End-to-End (Nominal Kecil Dulu)
+## Mode Update Status Pembayaran
 
-1. Set key production + clear config.
-2. Pilih mode update status:
-- webhook publik, atau
-- polling (`schedule:work`).
-3. Lakukan checkout dari device/app.
-4. Bayar via QRIS.
-5. Verifikasi:
-- status transaksi berubah (`pending` -> `paid/expired/failed`),
-- stok berkurang jika `paid`,
-- log tidak menunjukkan error signature.
+### Opsi A (Direkomendasikan): Webhook publik
 
-### 7) Troubleshooting Cepat
+Set Notification URL Midtrans ke:
 
-- Signature invalid:
-  - pastikan `MIDTRANS_SERVER_KEY` sesuai environment (sandbox vs production).
-- Webhook tidak masuk:
-  - pastikan URL Midtrans dapat diakses publik via HTTPS.
-- Status lama tidak berubah tanpa webhook:
-  - pastikan `php artisan schedule:work` aktif.
-- Delay status:
-  - mode polling bergantung interval scheduler (default sekarang 10 detik).
+`POST https://your-domain.com/api/webhooks/midtrans`
+
+### Opsi B: Polling Midtrans
+
+Jalankan command:
+
+```bash
+php artisan transactions:sync-pending --limit=50
+```
+
+Untuk mode berkelanjutan:
+
+```bash
+php artisan schedule:work
+```
+
+## Integrasi Hardware Flask + pyserial
+
+File service hardware: `app.py`
+
+Endpoint lokal:
+
+- `POST http://127.0.0.1:9000/dispense`
+- `GET http://127.0.0.1:9000/health`
+
+Contoh payload dispense:
+
+```json
+{
+  "transaction_id": "ORDER123",
+  "cell_id": "A"
+}
+```
+
+Contoh jalankan service Python:
+
+```bash
+pip install flask pyserial
+python app.py
+```
+
+Konfigurasi serial di `app.py`:
+
+- `SERIAL_PORT` (contoh `COM5`)
+- `BAUDRATE`
+- `MOTOR_SPIN_SECONDS`
+
+Penting:
+- Saat ini sistem tidak mengandalkan response detail dari motor controller untuk menentukan sukses/gagal per item.
+- Laravel mengirim command dispense sebagai best-effort setelah transaksi dipastikan `paid`.
+
+## Alur UX Landing Page
+
+- Landing page polling status pembayaran setiap beberapa detik.
+- Begitu transaksi `paid`, UI menampilkan sukses dan stok produk langsung ter-update sesuai transaksi.
+
+## Troubleshooting Cepat
+
+- Pembayaran lama berubah status:
+  - pastikan webhook Midtrans aktif, atau scheduler polling berjalan.
+- Signature Midtrans invalid:
+  - cek `MIDTRANS_SERVER_KEY` sesuai mode sandbox/production.
+- Dispense tidak terpanggil:
+  - pastikan Flask service hidup di `127.0.0.1:9000`.
+  - cek `VENDING_DISPENSE_URL` di `.env`.
+- Hardware tidak gerak:
+  - cek `SERIAL_PORT`, baudrate, kabel, dan izin akses serial.
