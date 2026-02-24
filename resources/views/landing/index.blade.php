@@ -498,8 +498,10 @@
 
         const applyDispenseResult = (sale) => {
             const successByDisplayId = {};
+            const shouldApplyOptimistic = sale?.status === 'paid' && sale?.dispense_status === 'pending';
+
             (sale?.salesLines || []).forEach((line) => {
-                if (line.status !== 'success') return;
+                if (!shouldApplyOptimistic && line.status !== 'success') return;
                 const key = String(line.product_display_id);
                 successByDisplayId[key] = (successByDisplayId[key] || 0) + 1;
             });

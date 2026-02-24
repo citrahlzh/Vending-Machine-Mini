@@ -16,6 +16,6 @@ class ProcessSaleDispense
 
     public function handle(TransactionService $transactionService): void
     {
-        $transactionService->processDispenseForPaidSale($this->saleId);
+        $transactionService->processHardwareDispenseForSale($this->saleId);
     }
 }

@@ -15,7 +15,8 @@ use App\Services\VendingDispenseService;
 use Carbon\Carbon;
 use Exception;
 
-class TransactionService{
+class TransactionService
+{
     private const LOW_STOCK_THRESHOLD = 3;
     private const DEFAULT_IDEMPOTENCY_KEY_LENGTH = 12;
     private const MIN_IDEMPOTENCY_KEY_LENGTH = 6;
@@ -66,10 +67,10 @@ class TransactionService{
                 if (!$display) {
                     throw new Exception('Product display not found.');
                 }
-                                if ($display->status !== 'active') {
+                if ($display->status !== 'active') {
                     throw new Exception('Product display is not active.');
                 }
-if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <= 0) {
+                if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <= 0) {
                     throw new Exception('Product out of stock.');
                 }
                 if (!$display->price || !$display->price->is_active) {
@@ -283,11 +284,13 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         $sale->save();
 
         if ($status === 'paid') {
-            if ($previousStatus !== 'paid' && $sale->dispense_status === 'pending') {
-                ProcessSaleDispense::dispatchAfterResponse($sale->id);
+            $updatedSale = $sale->refresh()->load('salesLines');
+            if ($previousStatus !== 'paid' && $updatedSale->dispense_status === 'pending') {
+                $updatedSale = $this->finalizeDispense($updatedSale);
+                ProcessSaleDispense::dispatchAfterResponse($updatedSale->id);
             }
 
-            $updatedSale = $sale->refresh()->load('salesLines');
+            $this->notifyStockAfterSuccessfulDispense($updatedSale, $previousDispenseStatus);
             $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
 
             return $updatedSale;
@@ -320,21 +323,28 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         return $incomingStatus;
     }
 
-    public function processDispenseForPaidSale(int $saleId): ?Sale
+    public function processHardwareDispenseForSale(int $saleId): void
     {
-        $sale = Sale::with('salesLines')->find($saleId);
+        $sale = Sale::with(['salesLines.productDisplay.cell'])->find($saleId);
         if (!$sale || $sale->status !== 'paid') {
-            return $sale;
+            return;
         }
 
-        $previousStatus = $sale->status;
-        $previousDispenseStatus = $sale->dispense_status;
+        foreach ($sale->salesLines as $line) {
+            if ($line->status !== 'success') {
+                continue;
+            }
 
-        $updatedSale = $this->finalizeDispense($sale);
-        $this->notifyStockAfterSuccessfulDispense($updatedSale, $previousDispenseStatus);
-        $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
+            $cellCode = (string) optional(optional($line->productDisplay)->cell)->code;
+            if ($cellCode === '') {
+                continue;
+            }
 
-        return $updatedSale;
+            $this->vendingDispenseService->dispense(
+                (string) $sale->idempotency_key,
+                $cellCode
+            );
+        }
     }
 
     private function finalizeDispense(Sale $sale): Sale
@@ -371,11 +381,6 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
                     $failedCount++;
                     continue;
                 }
-
-                $this->vendingDispenseService->dispense(
-                    (string) $lockedSale->idempotency_key,
-                    (string) $cell->code
-                );
 
                 $cell->qty_current = max(0, (int) $cell->qty_current - 1);
                 $cell->save();

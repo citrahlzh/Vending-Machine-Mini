@@ -10,9 +10,11 @@ class VendingDispenseService
     public function dispense(string $transactionId, string $cellCode): void
     {
         $endpoint = (string) env('VENDING_DISPENSE_URL', 'http://127.0.0.1:9000/dispense');
+        $timeout = (float) env('VENDING_DISPENSE_TIMEOUT_SECONDS', 0.25);
+        $timeout = $timeout > 0 ? $timeout : 0.25;
 
         try {
-            Http::timeout(8)->post($endpoint, [
+            Http::connectTimeout($timeout)->timeout($timeout)->post($endpoint, [
                 'transaction_id' => $transactionId,
                 'cell_id' => $cellCode,
             ]);
