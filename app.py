@@ -5,7 +5,7 @@ import time
 
 app = Flask(__name__)
 
-SERIAL_PORT = "COM5"
+SERIAL_PORT = "COM4"
 BAUDRATE = 9600
 READ_TIMEOUT = 1.0
 MOTOR_SPIN_SECONDS = 1.5

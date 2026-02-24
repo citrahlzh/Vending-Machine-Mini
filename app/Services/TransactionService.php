@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\ProcessSaleDispense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -282,8 +283,11 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         $sale->save();
 
         if ($status === 'paid') {
-            $updatedSale = $this->finalizeDispense($sale);
-            $this->notifyStockAfterSuccessfulDispense($updatedSale, $previousDispenseStatus);
+            if ($previousStatus !== 'paid' && $sale->dispense_status === 'pending') {
+                ProcessSaleDispense::dispatchAfterResponse($sale->id);
+            }
+
+            $updatedSale = $sale->refresh()->load('salesLines');
             $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
 
             return $updatedSale;
@@ -314,6 +318,23 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
         }
 
         return $incomingStatus;
+    }
+
+    public function processDispenseForPaidSale(int $saleId): ?Sale
+    {
+        $sale = Sale::with('salesLines')->find($saleId);
+        if (!$sale || $sale->status !== 'paid') {
+            return $sale;
+        }
+
+        $previousStatus = $sale->status;
+        $previousDispenseStatus = $sale->dispense_status;
+
+        $updatedSale = $this->finalizeDispense($sale);
+        $this->notifyStockAfterSuccessfulDispense($updatedSale, $previousDispenseStatus);
+        $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
+
+        return $updatedSale;
     }
 
     private function finalizeDispense(Sale $sale): Sale
@@ -351,17 +372,10 @@ if ($display->is_empty || !$display->cell || (int) $display->cell->qty_current <
                     continue;
                 }
 
-                $dispenseOk = $this->vendingDispenseService->dispense(
+                $this->vendingDispenseService->dispense(
                     (string) $lockedSale->idempotency_key,
                     (string) $cell->code
                 );
-
-                if (!$dispenseOk) {
-                    $line->status = 'failed';
-                    $line->save();
-                    $failedCount++;
-                    continue;
-                }
 
                 $cell->qty_current = max(0, (int) $cell->qty_current - 1);
                 $cell->save();

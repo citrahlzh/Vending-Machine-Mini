@@ -335,6 +335,8 @@
                 const track = tracks[rowIndex];
                 if (!track) return;
                 track.innerHTML = '';
+                const shouldLoop = rowItems.length >= 4;
+                track.dataset.loop = shouldLoop ? '1' : '0';
                 rowItems.forEach((product) => {
                     const qty = cart[product.id]?.qty || 0;
                     const isOutOfStock = product.stock <= 0;
@@ -366,10 +368,17 @@
                     track.appendChild(card);
                 });
 
-                const baseCards = [...track.children];
-                baseCards.forEach((card) => {
-                    track.appendChild(card.cloneNode(true));
-                });
+                if (shouldLoop) {
+                    const baseCards = [...track.children];
+                    baseCards.forEach((card) => {
+                        track.appendChild(card.cloneNode(true));
+                    });
+                } else {
+                    const viewport = track.closest('.carousel-viewport');
+                    if (viewport) {
+                        viewport.scrollLeft = 0;
+                    }
+                }
             });
         };
 
@@ -773,6 +782,12 @@
             };
 
             const loopScroll = () => {
+                const isLooping = track.dataset.loop === '1';
+                if (!isLooping) {
+                    requestAnimationFrame(loopScroll);
+                    return;
+                }
+
                 const resetThreshold = track.scrollWidth / 2;
                 if (!isPaused) {
                     viewport.scrollLeft += speed * direction;
