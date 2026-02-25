@@ -16,18 +16,35 @@
             height: 0;
             display: none;
         }
+
+        .landing-frame {
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        @media (min-width: 501px) {
+            .landing-frame {
+                min-height: 800px;
+                overflow: hidden;
+            }
+        }
     </style>
 
     @stack('style')
 </head>
-<body class="min-h-screen flex flex-col">
-    <main class="flex-1">
-        @yield('content')
-    </main>
+<body class="min-h-screen bg-[#f7f3ff]">
+    <div class="landing-frame flex flex-col">
+        <main class="flex-1 overflow-x-hidden bg-[#f7f3ff]">
+            @yield('content')
+        </main>
 
-    <footer>
-        @include('landing.partials.footer')
-    </footer>
+        <footer class="shrink-0">
+            @include('landing.partials.footer')
+        </footer>
+    </div>
 
     @include('landing.partials.script')
 

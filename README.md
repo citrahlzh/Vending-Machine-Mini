@@ -1,4 +1,4 @@
-# Vending Machine
+# Vending Machine Mini
 
 Aplikasi ini adalah sistem vending machine berbasis Laravel dengan pembayaran QRIS Midtrans dan integrasi hardware dispenser via Flask + pyserial.
 

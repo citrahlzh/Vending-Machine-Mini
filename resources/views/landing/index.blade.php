@@ -1,5 +1,5 @@
 @extends('landing.layouts.app', [
-    'title' => 'Vending Machine',
+    'title' => 'Vending Machine Mini',
 ])
 
 @push('style')
@@ -14,6 +14,8 @@
             width: max-content;
             gap: 14px;
             will-change: transform;
+            padding-left: 8px;
+            padding-right: 8px;
         }
 
         .carousel-track.is-dragging {
@@ -27,6 +29,13 @@
         .carousel-viewport::-webkit-scrollbar-thumb {
             background: rgba(92, 42, 148, 0.25);
             border-radius: 999px;
+        }
+
+        .cart-preview-clamp {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .animated-gradient {
@@ -81,6 +90,7 @@
         }
 
         @keyframes guidePulse {
+
             0%,
             100% {
                 box-shadow: 0 10px 24px rgba(92, 42, 148, 0.34), 0 0 0 0 rgba(125, 59, 197, 0.32), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
@@ -94,27 +104,25 @@
 @endpush
 
 @section('content')
-    <div class="min-h-[calc(100vh-64px)] bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff]">
-        <div id="default-carousel"
-            class="relative w-full px-6 sm:px-6 lg:px-[72px] pt-6 sm:pt-6 lg:pt-6 pb-[32px] lg:pb-[40px]"
-            data-carousel="slide">
+    <div class="min-h-full bg-[#f7f3ff]">
+        <div id="default-carousel" class="relative w-full px-4 sm:px-5 lg:px-6 pt-4 sm:pt-5 pb-5" data-carousel="slide">
             <!-- Carousel wrapper -->
-            <div class="relative overflow-hidden rounded-base h-[220px]">
+            <div class="relative overflow-hidden rounded-base h-[132px] sm:h-[145px]">
                 @foreach ($ads as $ad)
                     <div class="hidden duration-700 ease-in-out bg-cover shadow-[0_24px_60px_rgba(89,42,155,0.18)]"
                         data-carousel-item>
                         <img src="{{ asset('/image/' . $ad->image_url) }}"
-                            class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-[220px] sm:h-[220px] lg:h-[360px]"
+                            class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-[190px] sm:h-[220px] lg:h-[360px]"
                             alt="...">
                     </div>
                 @endforeach
             </div>
         </div>
 
-        <div class="px-6 sm:px-6 lg:px-[72px] pb-[30px]">
-            <div class="flex gap-[18px] lg:gap-[32px] items-start">
+        <div class="px-4 sm:px-5 lg:px-6 pb-5">
+            <div class="flex gap-3 lg:gap-8 items-start">
                 <div id="products-carousel" class="flex-1 min-w-0 space-y-[16px]">
-                    @for ($i = 0; $i < 3; $i++)
+                    @for ($i = 0; $i < 2; $i++)
                         <div class="carousel-viewport w-full">
                             <div class="carousel-track" data-carousel-track></div>
                         </div>
@@ -130,73 +138,61 @@
                         $callWaDigits = '62' . substr($callWaDigits, 1);
                     }
                 @endphp
-
-                <div class="lg:sticky lg:top-[24px] w-[250px] shrink-0 space-y-[14px]">
-                    <div
-                        class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px]">
-                        <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
-                        <div class="mt-[16px] border-t border-[#efe6ff] pt-[16px]">
-                            <div
-                                class="grid grid-cols-[1fr_40px_80px] text-[12px] font-semibold text-[#5b4a7a] pb-[10px] border-b border-[#f1ecff]">
-                                <div>Produk</div>
-                                <div class="text-center">Qty</div>
-                                <div class="text-right">Harga</div>
-                            </div>
-                            <div id="cart-lines" class="mt-[10px] space-y-[8px] text-[12px] text-[#2b1a43]"></div>
-                            <div
-                                class="mt-[16px] pt-[12px] border-t border-[#f1ecff] flex items-center justify-between text-[13px] font-semibold text-[#2b1a43]">
-                                <div>Total</div>
-                                <div id="cart-total">Rp 0</div>
-                            </div>
-                        </div>
-                        <div class="mt-[24px] flex items-center gap-[8px]">
-                            <button id="btn-pay"
-                                class="text-[12px] w-full h-[38px] rounded-full bg-[#5c2a94] text-white font-semibold">
-                                Bayar Sekarang
-                            </button>
-                            <button id="btn-clear-cart" type="button"
-                                class="hidden h-[38px] min-w-[38px] rounded-full border border-[#cfc5e7] px-[10px] text-[11px] font-semibold transition hover:bg-[#e7dffb]">
-                                <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="">
-                            </button>
-                        </div>
-                    </div>
-
-                    <div
-                        class="rounded-[15px] border border-[#ebe0fb] bg-white/80 p-[18px] shadow-[0_10px_24px_rgba(92,42,148,0.12)] mt-auto">
-                        <div class="text-[16px] font-semibold text-[#2a1a42]">Call Center</div>
-                        <div class="mt-[4px] text-[12px] text-[#5d4c7b]">Butuh bantuan? Hubungi tim kami.</div>
-                        <div class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
-                            <div>
-                                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Telepon</div>
-                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ $callPhoneDisplay }}</div>
-                            </div>
-                            <div class="flex items-center">
-                                <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="h-[25px]">
-                            </div>
-                        </div>
-                        <div class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
-                            <div>
-                                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Whatsapp</div>
-                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ $callWaDisplay }}</div>
-                            </div>
-                            <div class="flex items-center">
-                                <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="h-[25px]">
-                            </div>
-                        </div>
-                        <button id="btn-open-guide"
-                            class="guide-priority-btn flex mt-[12px] w-full h-[38px] rounded-full text-[12px] font-semibold transition duration-200 justify-center items-center gap-2">
-                            <p class="relative z-[1]">Panduan Pembelian</p>
-                            <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt=""
-                                class="relative z-[1] h-[15px] brightness-0 invert">
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <div id="modal-guide" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40">
-        <div class="bg-white w-full max-w-[460px] rounded-[20px] p-[40px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
+    <div id="checkout-float"
+        class="fixed bottom-3 left-1/2 z-40 hidden w-[calc(100%-20px)] max-w-[480px] -translate-x-1/2 rounded-[14px] border border-[#e4d7f6] bg-white/95 p-3 shadow-[0_12px_30px_rgba(60,34,97,0.18)] backdrop-blur">
+        <div id="checkout-expanded" class="flex items-center gap-3">
+            <div class="flex-1">
+                <div class="text-[11px] text-[#6d5a88]">Total Belanja</div>
+                <div id="cart-total-floating" class="text-[15px] font-semibold text-[#2b1a43]">Rp 0</div>
+                <div id="cart-items-count" class="mt-0.5 text-[11px] text-[#6d5a88]">0 item</div>
+                <div id="cart-items-preview" class="cart-preview-clamp mt-1 text-[11px] leading-tight text-[#4d3a6f]"></div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="btn-clear-cart-floating" type="button"
+                    class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[10px] justify-center items-center">
+                    <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="" class="h-[16px]">
+                </button>
+                <button id="btn-pay-floating"
+                    class="h-[38px] min-w-[130px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                    Bayar Sekarang
+                </button>
+                <button id="btn-minimize-checkout-floating" type="button"
+                    class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[8px] justify-center items-center">
+                    <img src="{{ asset('assets/icons/landing/down.svg') }}" alt="" class="h-[20px]">
+                </button>
+            </div>
+        </div>
+
+        <div id="checkout-minimized" class="hidden flex items-center gap-2">
+            <div class="flex min-w-0 flex-1 items-center justify-between border-[#d8c9f0] px-3 py-2 text-left">
+                <div class="min-w-0">
+                    <div class="text-[10px] leading-none text-[#6d5a88]">Total Belanja</div>
+                    <div id="cart-total-minimized" class="mt-0.5 truncate text-[13px] font-semibold text-[#2b1a43]">Rp 0
+                    </div>
+                </div>
+            </div>
+            <button id="btn-pay-minimized"
+                class="h-[38px] min-w-[88px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                Bayar
+            </button>
+            <button id="btn-expand-checkout-floating" type="button"
+                class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[8px] justify-center items-center">
+                <img src="{{ asset('assets/icons/landing/up.svg') }}" alt="" class="h-[20px]">
+            </button>
+        </div>
+    </div>
+
+    <button id="btn-open-guide-floating" type="button"
+        class="fixed bottom-16 right-4 z-40 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
+        <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[18px] brightness-0 invert">
+    </button>
+
+    <div id="modal-guide" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/40 p-3">
+        <div class="bg-white w-full max-w-[500px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="flex items-center justify-between gap-3">
                 <div class="text-[18px] font-semibold text-[#2b1a43]">Panduan Pembelian</div>
                 <button id="btn-close-guide" type="button"
@@ -211,47 +207,17 @@
                 <li>Scan QRIS dari aplikasi pembayaran, lalu tunggu status terverifikasi.</li>
                 <li>Jika gagal atau butuh bantuan, hubungi Call Center.</li>
             </ol>
-            {{-- <div class="mt-[14px] grid grid-cols-2 gap-[8px]">
-                <a href="tel:{{ $callPhoneHref }}"
-                    class="inline-flex h-[38px] items-center justify-center rounded-full border border-[#cfbeea] bg-white text-[12px] font-semibold text-[#5c2a94] transition hover:bg-[#f6f1ff]">
-                    Telepon
-                </a>
-                <a href="https://wa.me/{{ $callWaDigits }}" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex h-[38px] items-center justify-center rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white transition hover:bg-[#4a1f79]">
-                    WhatsApp
-                </a>
-            </div> --}}
-        </div>
-    </div>
-
-    <div id="modal-pay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-[24px]">
-        <div class="bg-white w-full max-w-[420px] rounded-[20px] p-[24px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
-            <div class="text-[18px] font-semibold text-[#2b1a43] text-center">Pembayaran QRIS</div>
-            <div
-                class="mt-[16px] mx-auto h-[220px] w-[220px] rounded-[16px] border border-[#e9dcf9] bg-gradient-to-br from-[#f6f0ff] to-white flex items-center justify-center">
-                <img id="qris-image" src="" alt="qr-code">
+            <div class="mt-[14px] rounded-[12px] bg-[#f8f3ff] p-3 text-[13px] text-[#4a3a66]">
+                <div class="font-semibold text-[#3C1C5E]">Call Center</div>
+                <div class="flex mt-2 items-center gap-2">
+                    <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="">
+                    <p class="font-semibold text-[#5c2a94] items-center">{{ $callPhoneDisplay }}</p>
+                </div>
+                <div class="flex mt-2 items-center gap-2">
+                    <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="">
+                    <p class="font-semibold text-[#5c2a94] items-center">{{ $callWaDisplay }}</p>
+                </div>
             </div>
-            <div id="payment-status-note" class="mt-[12px] text-center text-[12px] text-[#6b5a84]">Scan untuk membayar
-            </div>
-            <div class="mt-[20px] flex gap-[10px]">
-                <button id="btn-cancel-pay"
-                    class="w-full h-[40px] rounded-full border border-[#d6c7ee] text-[#5c2a94] font-semibold">Batal</button>
-                <button id="btn-success" class="w-full h-[40px] rounded-full bg-[#5c2a94] text-white font-semibold">Sudah
-                    Bayar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-success" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-[24px]">
-        <div
-            class="bg-white w-full max-w-[420px] rounded-[20px] p-[24px] text-center shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
-            <div class="mx-auto h-[72px] w-[72px] rounded-full bg-[#dcffe7] flex items-center justify-center">
-                <img src="{{ asset('assets/icons/landing/check-mark.png') }}" class="w-[40px] h-auto" alt="success">
-            </div>
-            <div class="mt-[12px] text-[18px] font-semibold text-[#2b1a43]">Pembayaran Berhasil</div>
-            <div class="mt-[6px] text-[12px] text-[#6b5a84]">Silakan ambil produk Anda.</div>
-            <button id="btn-close-success"
-                class="mt-[18px] w-full h-[40px] rounded-full bg-[#5c2a94] text-white font-semibold">Tutup</button>
         </div>
     </div>
 
@@ -292,27 +258,30 @@
         const productsCarousel = document.getElementById('products-carousel');
         const cartLines = document.getElementById('cart-lines');
         const cartTotal = document.getElementById('cart-total');
-        const btnPay = document.getElementById('btn-pay');
-        const btnClearCart = document.getElementById('btn-clear-cart');
-        const modalPay = document.getElementById('modal-pay');
-        const btnCancel = document.getElementById('btn-cancel-pay');
-        const btnSuccess = document.getElementById('btn-success');
-        const modalSuccess = document.getElementById('modal-success');
-        const btnCloseSuccess = document.getElementById('btn-close-success');
+        const cartTotalFloating = document.getElementById('cart-total-floating');
+        const cartTotalMinimized = document.getElementById('cart-total-minimized');
+        const cartItemsCount = document.getElementById('cart-items-count');
+        const cartItemsPreview = document.getElementById('cart-items-preview');
+        const checkoutFloat = document.getElementById('checkout-float');
+        const checkoutExpanded = document.getElementById('checkout-expanded');
+        const checkoutMinimized = document.getElementById('checkout-minimized');
+        const btnMinimizeCheckout = document.getElementById('btn-minimize-checkout-floating');
+        const btnExpandCheckout = document.getElementById('btn-expand-checkout-floating');
+        const btnGuideFloating = document.getElementById('btn-open-guide-floating');
+        const payButtons = [...document.querySelectorAll('#btn-pay, #btn-pay-floating, #btn-pay-minimized')];
+        const clearCartButtons = [...document.querySelectorAll('#btn-clear-cart, #btn-clear-cart-floating')];
         const modalFail = document.getElementById('modal-fail');
         const btnCloseFail = document.getElementById('btn-close-fail');
         const modalLoading = document.getElementById('modal-loading');
         const modalGuide = document.getElementById('modal-guide');
-        const btnOpenGuide = document.getElementById('btn-open-guide');
+        const btnOpenGuide = document.querySelector('#btn-open-guide, #btn-open-guide-floating');
         const btnCloseGuide = document.getElementById('btn-close-guide');
         const failMessage = document.getElementById('fail-message');
-        const qrisImage = document.getElementById('qris-image');
-        const paymentStatusNote = document.getElementById('payment-status-note');
+        const paymentPageTemplate = @json(route('landing.payment', ['saleId' => '__SALE_ID__']));
+        const paymentContextKey = 'vm_payment_context';
+        let isCheckoutMinimized = true;
 
         const defaultQrisImage = '{{ asset('assets/images/transaction/QR_code.svg') }}';
-        let currentSale = null;
-        let paymentStatusTimer = null;
-        let isStatusSyncing = false;
 
         // Cart
         const saveCart = () => {
@@ -352,17 +321,22 @@
                         style="background-image: url('${product.image}');">
                         ${isOutOfStock ? '<div class="absolute inset-0 bg-white/70 flex items-center justify-center text-[12px] font-semibold text-[#c0392b]">HABIS</div>' : ''}
                     </div>
-                    <div class="mt-[12px]">
+                    <div class="flex flex-col mt-[12px] h-[95px]">
                         <div class="text-[13px] font-semibold text-[#2b1a43] leading-tight">${product.name}</div>
                         <div class="text-[12px] font-semibold text-[#6d5a88] mt-[2px]">Rp ${rupiah(product.price)}</div>
-                        <div class="text-[11px] ${isOutOfStock ? 'text-[#c0392b]' : 'text-[#6b5a84]'} mt-[2px]">
+                        {{-- <div class="text-[11px] ${isOutOfStock ? 'text-[#c0392b]' : 'text-[#6b5a84]'} mt-[2px]">
                             ${isOutOfStock ? 'Stok habis' : `Stok ${product.stock}`}
+                        </div> --}}
+                        <div class="mt-auto w-full">
+                            <a href="${product.detail_url}" class="btn-buy flex h-[30px] w-full items-center justify-center rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white">
+                                Beli
+                            </a>
                         </div>
-                        <div class="mt-[10px] flex items-center justify-between" data-product="${product.id}">
+                        {{-- <div class="mt-[10px] flex items-center justify-between" data-product="${product.id}">
                             <button class="btn-min h-[28px] w-[28px] rounded-full border border-[#ceb9ee] text-[#5c2a94]">-</button>
                             <div class="qty text-[12px] font-semibold text-[#2b1a43]">${qty}</div>
                                 <button class="btn-plus h-[28px] w-[28px] rounded-full bg-[#5c2a94] text-white ${(isOutOfStock || isMaxed) ? 'opacity-40 cursor-not-allowed' : ''}" ${(isOutOfStock || isMaxed) ? 'disabled' : ''}>+</button>
-                        </div>
+                        </div> --}}
                     </div>
                 `;
                     track.appendChild(card);
@@ -384,31 +358,66 @@
 
         // Show Products in Cart
         const renderCart = () => {
-            if (!cartLines || !cartTotal) return;
-            cartLines.innerHTML = '';
             let total = 0;
+            let totalQty = 0;
+            const previewItems = [];
+            if (cartLines) {
+                cartLines.innerHTML = '';
+            }
             Object.keys(cart).forEach((id) => {
                 const item = cart[id];
                 if (!item || item.qty <= 0) return;
                 const line = document.createElement('div');
                 const lineTotal = item.qty * item.price;
+                totalQty += Number(item.qty);
                 total += lineTotal;
+                previewItems.push(`${item.name} x${item.qty}`);
                 line.className = 'grid grid-cols-[1fr_40px_80px]';
                 line.innerHTML = `
                     <div>${item.name}</div>
                     <div class="text-center">${item.qty}</div>
                     <div class="text-right">${rupiah(lineTotal)},-</div>
                 `;
-                cartLines.appendChild(line);
+                cartLines?.appendChild(line);
             });
-            if (!cartLines.children.length) {
+            if (cartLines && !cartLines.children.length) {
                 cartLines.innerHTML = '<div class="text-center text-[#6b5a84]">Keranjang kosong</div>';
             }
-            cartTotal.textContent = `Rp ${rupiah(total)}`;
-            btnPay.disabled = total === 0;
-            btnPay.classList.toggle('opacity-50', total === 0);
-            btnPay.classList.toggle('cursor-not-allowed', total === 0);
-            btnClearCart?.classList.toggle('hidden', total === 0);
+            if (cartTotal) {
+                cartTotal.textContent = `Rp ${rupiah(total)}`;
+            }
+            if (cartTotalFloating) {
+                cartTotalFloating.textContent = `Rp ${rupiah(total)}`;
+            }
+            if (cartTotalMinimized) {
+                cartTotalMinimized.textContent = `Rp ${rupiah(total)}`;
+            }
+            if (cartItemsCount) {
+                cartItemsCount.textContent = `${totalQty} item`;
+            }
+            if (cartItemsPreview) {
+                const firstTwo = previewItems.slice(0, 2);
+                const remain = Math.max(0, previewItems.length - firstTwo.length);
+                const previewText = firstTwo.join(' • ');
+                cartItemsPreview.textContent = remain > 0 ? `${previewText} • +${remain} lainnya` : previewText;
+            }
+            const hasCheckout = total > 0;
+            payButtons.forEach((button) => {
+                button.toggleAttribute('disabled', !hasCheckout);
+                button.classList.toggle('opacity-50', !hasCheckout);
+                button.classList.toggle('cursor-not-allowed', !hasCheckout);
+            });
+            checkoutFloat?.classList.toggle('hidden', !hasCheckout);
+            clearCartButtons.forEach((button) => {
+                button.classList.toggle('hidden', !hasCheckout);
+            });
+            btnGuideFloating?.classList.toggle('hidden', hasCheckout);
+
+            if (!hasCheckout) {
+                isCheckoutMinimized = true;
+            }
+            checkoutExpanded?.classList.toggle('hidden', isCheckoutMinimized);
+            checkoutMinimized?.classList.toggle('hidden', !isCheckoutMinimized);
         };
 
         // Add or Remove Product Quantity
@@ -464,68 +473,6 @@
             return data;
         };
 
-        const syncPaymentStatus = async (saleId) => {
-            const response = await fetch(`/api/transaction/status/${saleId}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            });
-
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data?.error || data?.message || 'Gagal sinkron status pembayaran.');
-            }
-
-            return data;
-        };
-
-        const cancelPayment = async (saleId) => {
-            const response = await fetch(`/api/transaction/cancel/${saleId}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            });
-
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data?.error || data?.message || 'Gagal membatalkan pembayaran.');
-            }
-
-            return data;
-        };
-
-        const applyDispenseResult = (sale) => {
-            const successByDisplayId = {};
-            const shouldApplyOptimistic = sale?.status === 'paid' && sale?.dispense_status === 'pending';
-
-            (sale?.salesLines || []).forEach((line) => {
-                if (!shouldApplyOptimistic && line.status !== 'success') return;
-                const key = String(line.product_display_id);
-                successByDisplayId[key] = (successByDisplayId[key] || 0) + 1;
-            });
-
-            Object.entries(successByDisplayId).forEach(([displayId, successQty]) => {
-                const product = products.find((item) => String(item.id) === displayId);
-                if (product) {
-                    product.stock = Math.max(0, Number(product.stock || 0) - Number(successQty));
-                }
-
-                if (!cart[displayId]) return;
-                const newQty = Number(cart[displayId].qty || 0) - Number(successQty);
-                if (newQty <= 0) {
-                    delete cart[displayId];
-                } else {
-                    cart[displayId].qty = newQty;
-                }
-            });
-
-            saveCart();
-            renderProducts();
-            renderCart();
-        };
-
         const openModal = (modal) => {
             modal?.classList.remove('hidden');
             modal?.classList.add('flex');
@@ -534,77 +481,6 @@
         const closeModal = (modal) => {
             modal?.classList.add('hidden');
             modal?.classList.remove('flex');
-        };
-
-        const stopPaymentStatusPolling = () => {
-            if (paymentStatusTimer) {
-                clearInterval(paymentStatusTimer);
-                paymentStatusTimer = null;
-            }
-        };
-
-        const resetPaymentState = () => {
-            currentSale = null;
-            stopPaymentStatusPolling();
-            isStatusSyncing = false;
-            if (qrisImage) {
-                qrisImage.src = defaultQrisImage;
-            }
-        };
-
-        const handleSaleStatus = (sale) => {
-            if (!sale) return false;
-
-            if (sale.status === 'paid') {
-                stopPaymentStatusPolling();
-                closeModal(modalPay);
-                applyDispenseResult(sale);
-                openModal(modalSuccess);
-                resetPaymentState();
-                return true;
-            }
-
-            if (sale.status === 'failed' || sale.status === 'expired') {
-                stopPaymentStatusPolling();
-                closeModal(modalPay);
-                if (failMessage) {
-                    failMessage.textContent = 'Pembayaran tidak berhasil. Silakan coba lagi.';
-                }
-                openModal(modalFail);
-                resetPaymentState();
-                return true;
-            }
-
-            return false;
-        };
-
-        const checkCurrentSaleStatus = async () => {
-            if (!currentSale?.id || isStatusSyncing) return;
-            isStatusSyncing = true;
-
-            try {
-                const result = await syncPaymentStatus(currentSale.id);
-                const sale = result?.data;
-
-                if (!handleSaleStatus(sale) && paymentStatusNote) {
-                    paymentStatusNote.textContent = 'Menunggu pembayaran...';
-                }
-            } catch (error) {
-                stopPaymentStatusPolling();
-                closeModal(modalPay);
-                if (failMessage) {
-                    failMessage.textContent = error.message || 'Gagal mengecek status pembayaran.';
-                }
-                openModal(modalFail);
-                resetPaymentState();
-            } finally {
-                isStatusSyncing = false;
-            }
-        };
-
-        const startPaymentStatusPolling = () => {
-            stopPaymentStatusPolling();
-            paymentStatusTimer = setInterval(checkCurrentSaleStatus, 3000);
         };
 
         productsCarousel?.addEventListener('click', (event) => {
@@ -620,106 +496,57 @@
             }
         });
 
-        btnPay?.addEventListener('click', async () => {
+        const onCheckout = async () => {
             if (!Object.keys(cart).length) return;
 
             openModal(modalLoading);
             try {
                 const result = await requestCheckout();
-                currentSale = result?.data || null;
-
+                const saleId = String(result?.data?.id || '');
+                if (!saleId) {
+                    throw new Error('Checkout berhasil tetapi ID transaksi tidak ditemukan.');
+                }
                 const qrUrl = result?.payment?.qr_url || result?.payment?.qr_string || defaultQrisImage;
-                if (qrisImage) {
-                    qrisImage.src = qrUrl;
-                }
-                if (paymentStatusNote) {
-                    paymentStatusNote.textContent = 'Scan untuk membayar';
-                }
+                sessionStorage.setItem(paymentContextKey, JSON.stringify({
+                    saleId,
+                    qrUrl,
+                }));
 
                 closeModal(modalLoading);
-                openModal(modalPay);
-                startPaymentStatusPolling();
+                window.location.href = paymentPageTemplate.replace('__SALE_ID__', encodeURIComponent(saleId));
             } catch (error) {
                 closeModal(modalLoading);
                 if (failMessage) {
                     failMessage.textContent = error.message || 'Checkout gagal. Coba ulangi.';
                 }
-                resetPaymentState();
                 openModal(modalFail);
             }
-        });
+        };
 
-        btnCancel?.addEventListener('click', async () => {
-            closeModal(modalPay);
-            stopPaymentStatusPolling();
-
-            if (!currentSale?.id) {
-                resetPaymentState();
-                return;
-            }
-
-            openModal(modalLoading);
-            try {
-                await cancelPayment(currentSale.id);
-                closeModal(modalLoading);
-                if (failMessage) {
-                    failMessage.textContent = 'Pembayaran dibatalkan.';
-                }
-                openModal(modalFail);
-            } catch (error) {
-                closeModal(modalLoading);
-                if (failMessage) {
-                    failMessage.textContent = error.message || 'Gagal membatalkan pembayaran.';
-                }
-                openModal(modalFail);
-            } finally {
-                resetPaymentState();
-            }
-        });
-
-        btnSuccess?.addEventListener('click', async () => {
-            if (!currentSale?.id) return;
-
-            closeModal(modalPay);
-            openModal(modalLoading);
-            try {
-                const result = await syncPaymentStatus(currentSale.id);
-                const sale = result?.data;
-
-                closeModal(modalLoading);
-                if (!handleSaleStatus(sale)) {
-                    if (paymentStatusNote) {
-                        paymentStatusNote.textContent = 'Pembayaran belum terdeteksi. Coba lagi sebentar.';
-                    }
-                    openModal(modalPay);
-                    startPaymentStatusPolling();
-                }
-            } catch (error) {
-                closeModal(modalLoading);
-                if (failMessage) {
-                    failMessage.textContent = error.message || 'Gagal mengecek status pembayaran.';
-                }
-                resetPaymentState();
-                openModal(modalFail);
-            }
-        });
-
-        btnCloseSuccess?.addEventListener('click', () => {
-            closeModal(modalSuccess);
-            resetPaymentState();
+        payButtons.forEach((button) => {
+            button.addEventListener('click', onCheckout);
         });
 
         btnCloseFail?.addEventListener('click', () => {
             closeModal(modalFail);
-            if (!currentSale?.id) {
-                resetPaymentState();
-            }
         });
 
-        btnClearCart?.addEventListener('click', () => {
-            Object.keys(cart).forEach((key) => delete cart[key]);
-            saveCart();
-            renderProducts();
+        clearCartButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                Object.keys(cart).forEach((key) => delete cart[key]);
+                saveCart();
+                renderProducts();
+                renderCart();
+            });
+        });
+
+        btnMinimizeCheckout?.addEventListener('click', () => {
+            isCheckoutMinimized = true;
+            renderCart();
+        });
+
+        btnExpandCheckout?.addEventListener('click', () => {
+            isCheckoutMinimized = false;
             renderCart();
         });
 
@@ -807,7 +634,7 @@
             requestAnimationFrame(loopScroll);
 
             viewport.addEventListener('pointerdown', (event) => {
-                if (event.target?.closest('.btn-plus, .btn-min')) {
+                if (event.target?.closest('.btn-plus, .btn-min, .btn-buy')) {
                     return;
                 }
                 isDown = true;
