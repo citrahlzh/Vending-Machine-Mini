@@ -10,9 +10,9 @@
         </div>
 
         <div
-            class="mt-[16px] mx-auto h-[240px] w-[240px] rounded-[16px] border border-[#e9dcf9] bg-gradient-to-br from-[#f6f0ff] to-white flex items-center justify-center">
+            class="mt-[16px] mx-auto h-[240px] flex items-center justify-center">
             <img id="qris-image" src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code"
-                class="max-h-[220px] max-w-[220px] object-contain">
+                class="max-w-full object-contain w-[240px] rounded-[16px] border border-[#e9dcf9]">
         </div>
 
         <div id="payment-status-note" class="mt-[12px] text-center text-[12px] text-[#6b5a84]">

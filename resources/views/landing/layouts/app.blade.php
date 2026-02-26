@@ -41,9 +41,11 @@
             @yield('content')
         </main>
 
-        <footer class="shrink-0">
-            @include('landing.partials.footer')
-        </footer>
+        @if (request()->routeIs('landing.index'))
+            <footer class="shrink-0">
+                @include('landing.partials.footer')
+            </footer>
+        @endif
     </div>
 
     @include('landing.partials.script')
