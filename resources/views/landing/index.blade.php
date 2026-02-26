@@ -152,7 +152,7 @@
                 <div id="cart-items-preview" class="cart-preview-clamp mt-1 text-[11px] leading-tight text-[#4d3a6f]"></div>
             </div>
             <div class="flex items-center gap-2">
-                <button id="btn-clear-cart-floating" type="button"
+                <button id="btn-clear-cart-floating" type="button" aria-label="Kosongkan keranjang"
                     class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[10px] justify-center items-center">
                     <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="" class="h-[16px]">
                 </button>
@@ -160,7 +160,7 @@
                     class="h-[38px] min-w-[130px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                     Bayar Sekarang
                 </button>
-                <button id="btn-minimize-checkout-floating" type="button"
+                <button id="btn-minimize-checkout-floating" type="button" aria-label="Minimalkan panel checkout"
                     class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[8px] justify-center items-center">
                     <img src="{{ asset('assets/icons/landing/down.svg') }}" alt="" class="h-[20px]">
                 </button>
@@ -179,14 +179,14 @@
                 class="h-[38px] min-w-[88px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                 Bayar
             </button>
-            <button id="btn-expand-checkout-floating" type="button"
+            <button id="btn-expand-checkout-floating" type="button" aria-label="Perbesar panel checkout"
                 class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[8px] justify-center items-center">
                 <img src="{{ asset('assets/icons/landing/up.svg') }}" alt="" class="h-[20px]">
             </button>
         </div>
     </div>
 
-    <button id="btn-open-guide-floating" type="button"
+    <button id="btn-open-guide-floating" type="button" aria-label="Buka panduan pembelian"
         class="fixed bottom-16 right-4 z-40 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
         <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[18px] brightness-0 invert">
     </button>
@@ -195,7 +195,7 @@
         <div class="bg-white w-full max-w-[500px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="flex items-center justify-between gap-3">
                 <div class="text-[18px] font-semibold text-[#2b1a43]">Panduan Pembelian</div>
-                <button id="btn-close-guide" type="button"
+                <button id="btn-close-guide" type="button" aria-label="Tutup panduan pembelian"
                     class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#5c2a94] items-center justify-center">
                     <img src="{{ asset('assets/icons/landing/close.svg') }}" alt="">
                 </button>

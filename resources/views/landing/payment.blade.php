@@ -17,7 +17,7 @@
                 </div>
 
                 <div id="payment-status-note" class="mt-3 text-center text-[12px] text-[#6b5a84]">
-                    Scan QRIS lalu tunggu verifikasi otomatis.
+                    Scan QRIS lalu tunggu konfirmasi pembayaran.
                 </div>
 
                 <div id="payment-error" class="mt-2 hidden rounded-[10px] bg-[#fff1f1] px-3 py-2 text-[12px] text-[#b83232]">
@@ -56,6 +56,10 @@
             </a>
         </div>
     </div>
+
+    <div id="payment-toast"
+        class="pointer-events-none fixed bottom-4 left-1/2 z-[60] hidden -translate-x-1/2 rounded-full px-4 py-2 text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(0,0,0,0.2)]">
+    </div>
 @endsection
 
 @push('script')
@@ -80,9 +84,45 @@
         const btnSuccess = document.getElementById('btn-success');
         const btnCancel = document.getElementById('btn-cancel');
         const btnBackHome = document.getElementById('btn-back-home');
+        const paymentToast = document.getElementById('payment-toast');
 
         let isStatusSyncing = false;
         let paymentStatusTimer = null;
+        let toastTimer = null;
+
+        const setActionButtonsBusy = (busy) => {
+            [btnSuccess, btnCancel].forEach((button) => {
+                if (!button) return;
+                button.disabled = busy;
+                button.classList.toggle('opacity-60', busy);
+                button.classList.toggle('cursor-not-allowed', busy);
+            });
+        };
+
+        const setButtonLabel = (button, text) => {
+            if (!button) return;
+            if (!button.dataset.defaultLabel) {
+                button.dataset.defaultLabel = button.textContent.trim();
+            }
+            button.textContent = text;
+        };
+
+        const resetButtonLabel = (button) => {
+            if (!button?.dataset.defaultLabel) return;
+            button.textContent = button.dataset.defaultLabel;
+        };
+
+        const showToast = (message, tone = 'info') => {
+            if (!paymentToast) return;
+            if (toastTimer) clearTimeout(toastTimer);
+            paymentToast.textContent = message;
+            paymentToast.className =
+                `pointer-events-none fixed bottom-4 left-1/2 z-[60] -translate-x-1/2 rounded-full px-4 py-2 text-[12px] font-medium text-white shadow-[0_10px_24px_rgba(0,0,0,0.2)] ${tone === 'error' ? 'bg-[#c0392b]' : 'bg-[#5c2a94]'}`;
+            paymentToast.classList.remove('hidden');
+            toastTimer = setTimeout(() => {
+                paymentToast.classList.add('hidden');
+            }, 2200);
+        };
 
         const clearPaymentContext = () => {
             sessionStorage.removeItem(paymentContextKey);
@@ -193,20 +233,33 @@
                 return true;
             }
 
-            paymentStatusNote.textContent = 'Menunggu pembayaran...';
+            paymentState.textContent = 'Menunggu pembayaran';
+            paymentStatusNote.textContent = 'Scan QRIS lalu tunggu konfirmasi pembayaran.';
             return false;
         };
 
-        const checkCurrentSaleStatus = async () => {
+        const checkCurrentSaleStatus = async (manual = false) => {
             if (isStatusSyncing) return;
             isStatusSyncing = true;
+            if (manual) {
+                setActionButtonsBusy(true);
+                setButtonLabel(btnSuccess, 'Memeriksa...');
+            }
             try {
                 hideError();
+                paymentState.textContent = 'Memeriksa status pembayaran...';
                 const result = await syncPaymentStatus();
-                handleSaleStatus(result?.data);
+                return handleSaleStatus(result?.data);
             } catch (error) {
+                paymentState.textContent = 'Gagal sinkron status';
                 showError(error.message || 'Gagal mengecek status pembayaran.');
+                if (manual) showToast('Gagal cek status pembayaran.', 'error');
+                return false;
             } finally {
+                if (manual) {
+                    setActionButtonsBusy(false);
+                    resetButtonLabel(btnSuccess);
+                }
                 isStatusSyncing = false;
             }
         };
@@ -243,17 +296,26 @@
         };
 
         btnSuccess?.addEventListener('click', async () => {
-            await checkCurrentSaleStatus();
+            const finalized = await checkCurrentSaleStatus(true);
+            if (!finalized) {
+                showToast('Pembayaran belum terdeteksi. Coba lagi sebentar.', 'info');
+            }
         });
 
         btnCancel?.addEventListener('click', async () => {
             try {
                 hideError();
+                setActionButtonsBusy(true);
+                setButtonLabel(btnCancel, 'Membatalkan...');
                 await cancelPayment();
                 clearPaymentContext();
                 setFinalState(false, 'Pembayaran dibatalkan.');
             } catch (error) {
                 showError(error.message || 'Gagal membatalkan pembayaran.');
+                showToast('Gagal membatalkan pembayaran.', 'error');
+            } finally {
+                setActionButtonsBusy(false);
+                resetButtonLabel(btnCancel);
             }
         });
 
