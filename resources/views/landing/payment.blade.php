@@ -4,36 +4,39 @@
 
 @section('content')
     <div id="payment-screen"
-        class="min-h-screen bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] px-4 sm:px-5 lg:px-6 py-4 sm:py-5">
-        <div class="text-[18px] font-semibold text-[#2b1a43] text-center">Pembayaran QRIS</div>
-        <div id="payment-state" class="mt-[6px] text-center text-[12px] font-semibold text-[#6d5a88]">Menunggu pembayaran
-        </div>
+        class="min-h-screen bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] px-4 py-4 sm:px-5 sm:py-5 lg:px-6">
+        <div class="mx-auto flex min-h-[calc(100vh-2rem)] w-full max-w-[460px] items-center justify-center sm:min-h-[calc(100vh-2.5rem)]">
+            <div class="w-full rounded-[20px] border border-[#e7dcf8] bg-white p-5 shadow-[0_12px_30px_rgba(60,34,97,0.1)] sm:p-6">
+                <div class="text-center text-[22px] font-semibold text-[#2b1a43]">Pembayaran QRIS</div>
+                <div id="payment-state" class="mt-1 text-center text-[13px] font-semibold text-[#6d5a88]">Menunggu pembayaran
+                </div>
 
-        <div
-            class="mt-[16px] mx-auto h-[240px] flex items-center justify-center">
-            <img id="qris-image" src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code"
-                class="max-w-full object-contain w-[240px] rounded-[16px] border border-[#e9dcf9]">
-        </div>
+                <div class="mt-5 flex items-center justify-center">
+                    <img id="qris-image" src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code"
+                        class="h-[300px] w-[300px] max-w-full rounded-[16px] border border-[#e9dcf9] object-contain p-2 sm:h-[340px] sm:w-[340px]">
+                </div>
 
-        <div id="payment-status-note" class="mt-[12px] text-center text-[12px] text-[#6b5a84]">
-            Scan QRIS lalu tunggu verifikasi otomatis.
-        </div>
+                <div id="payment-status-note" class="mt-3 text-center text-[12px] text-[#6b5a84]">
+                    Scan QRIS lalu tunggu verifikasi otomatis.
+                </div>
 
-        <div id="payment-error" class="mt-[8px] hidden rounded-[10px] bg-[#fff1f1] px-3 py-2 text-[12px] text-[#b83232]">
-        </div>
+                <div id="payment-error" class="mt-2 hidden rounded-[10px] bg-[#fff1f1] px-3 py-2 text-[12px] text-[#b83232]">
+                </div>
 
-        <div class="mt-[20px] grid grid-cols-1 gap-2">
-            <button id="btn-success" class="h-[40px] rounded-full bg-[#5c2a94] text-white font-semibold text-[13px]">
-                Saya Sudah Bayar
-            </button>
-            <button id="btn-cancel"
-                class="h-[40px] rounded-full border border-[#d6c7ee] text-[#5c2a94] font-semibold text-[13px]">
-                Batalkan Pembayaran
-            </button>
-            <a id="btn-back-home" href="{{ route('landing.index') }}"
-                class="hidden h-[40px] rounded-full bg-[#5c2a94] text-white font-semibold text-[13px] items-center justify-center">
-                Kembali ke Beranda
-            </a>
+                <div class="mt-5 grid grid-cols-1 gap-2">
+                    <button id="btn-success" class="h-[42px] rounded-full bg-[#5c2a94] text-[13px] font-semibold text-white">
+                        Saya Sudah Bayar
+                    </button>
+                    <button id="btn-cancel"
+                        class="h-[42px] rounded-full border border-[#d6c7ee] text-[13px] font-semibold text-[#5c2a94]">
+                        Batalkan Pembayaran
+                    </button>
+                    <a id="btn-back-home" href="{{ route('landing.index') }}"
+                        class="hidden h-[42px] items-center justify-center rounded-full bg-[#5c2a94] text-[13px] font-semibold text-white">
+                        Kembali ke Beranda
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
