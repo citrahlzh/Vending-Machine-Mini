@@ -25,7 +25,7 @@ Aplikasi ini adalah sistem vending machine berbasis Laravel dengan pembayaran QR
 - Node.js + npm
 - Database (MySQL/SQLite sesuai env)
 - Python 3.10+
-- Python package: `flask`, `pyserial`
+- Python package: `flask`, `pyserial`, `waitress`
 
 ## Setup Laravel
 
@@ -152,6 +152,17 @@ Contoh jalankan service Python:
 pip install flask pyserial
 python app.py
 ```
+
+Contoh jalankan service Python dengan Waitress (disarankan untuk lokal non-debug):
+
+```bash
+pip install flask pyserial waitress
+waitress-serve --host=127.0.0.1 --port=9000 app:app
+```
+
+Catatan:
+- Gunakan `127.0.0.1` agar hanya bisa diakses dari mesin lokal.
+- Hindari `flask run` atau mode debug untuk skenario operasional harian.
 
 Konfigurasi serial di `app.py`:
 
