@@ -70,6 +70,7 @@
         const defaultQrisImage = '{{ asset('assets/images/transaction/QR_code.svg') }}';
         const successIcon = '{{ asset('assets/icons/landing/check-mark.png') }}';
         const failIcon = '{{ asset('assets/icons/landing/exclamation-mark.png') }}';
+        const homeUrl = '{{ route('landing.index') }}';
 
         const paymentScreen = document.getElementById('payment-screen');
         const finalScreen = document.getElementById('final-screen');
@@ -89,6 +90,7 @@
         let isStatusSyncing = false;
         let paymentStatusTimer = null;
         let toastTimer = null;
+        let finalRedirectTimer = null;
 
         const setActionButtonsBusy = (busy) => {
             [btnSuccess, btnCancel].forEach((button) => {
@@ -143,6 +145,10 @@
 
         const setFinalState = (isSuccess, message) => {
             stopPaymentStatusPolling();
+            if (finalRedirectTimer) {
+                clearTimeout(finalRedirectTimer);
+                finalRedirectTimer = null;
+            }
             paymentScreen?.classList.add('hidden');
             finalScreen?.classList.remove('hidden');
             finalScreen?.classList.add('flex');
@@ -157,8 +163,11 @@
                 finalTitle.textContent = isSuccess ? 'Pembayaran Berhasil' : 'Pembayaran Gagal';
             }
             if (finalMessage) {
-                finalMessage.textContent = message;
+                finalMessage.textContent = `${message} Anda akan diarahkan ke beranda dalam 5 detik.`;
             }
+            finalRedirectTimer = setTimeout(() => {
+                window.location.href = homeUrl;
+            }, 5000);
         };
 
         const syncPaymentStatus = async () => {
