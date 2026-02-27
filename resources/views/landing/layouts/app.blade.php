@@ -18,17 +18,23 @@
         }
 
         .landing-frame {
-            width: 100%;
-            max-width: 500px;
-            min-height: 100vh;
+            width: min(100vw, 600px);
+            min-height: 100dvh;
+            height: 100dvh;
             margin: 0 auto;
             background: #fff;
+            overflow: hidden;
         }
 
-        @media (min-width: 501px) {
+        @media (min-width: 601px) {
+            body {
+                padding: 8px;
+            }
+
             .landing-frame {
-                min-height: 800px;
-                overflow: hidden;
+                border-radius: 20px;
+                border: 1px solid #e7dcf8;
+                box-shadow: 0 24px 60px rgba(60, 34, 97, 0.2);
             }
         }
     </style>
@@ -37,7 +43,7 @@
 </head>
 <body class="min-h-screen bg-[#f7f3ff]">
     <div class="landing-frame flex flex-col">
-        <main class="flex-1 overflow-x-hidden bg-[#f7f3ff]">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#f7f3ff]">
             @yield('content')
         </main>
 

@@ -3,53 +3,60 @@
 ])
 
 @section('content')
-    <div class="min-h-screen bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] px-4 sm:px-5 lg:px-6 py-4 sm:py-5">
-        <a href="{{ route('landing.index') }}" aria-label="Kembali ke beranda"
-            class="inline-flex h-9 items-center gap-1 rounded-full border border-[#dbcdf2] bg-white px-3 text-[12px] font-semibold text-[#5c2a94]">
-            <img src="{{ asset('assets/icons/landing/back.svg') }}" alt="" class="h-[15px]">
-            <span>Kembali</span>
-        </a>
+    <div class="min-h-screen bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] px-4 py-4 sm:px-5 sm:py-5">
+        <div class="mx-auto w-full max-w-[560px]">
+            <a href="{{ route('landing.index') }}" aria-label="Kembali ke beranda"
+                class="inline-flex h-10 items-center gap-2 rounded-full border border-[#dbcdf2] bg-white px-4 text-[13px] font-semibold text-[#5c2a94] shadow-[0_4px_12px_rgba(60,34,97,0.08)]">
+                <img src="{{ asset('assets/icons/landing/back.svg') }}" alt="" class="h-[15px]">
+                <span>Kembali</span>
+            </a>
 
-        <div
-            class="flex flex-col mt-2 rounded-[16px] border border-[#e7dcf8] bg-white p-5 shadow-[0_8px_20px_rgba(60,34,97,0.08)] h-full">
             <div
-                class="w-full rounded-[14px] border border-[#ece4f7] bg-gradient-to-b from-[#f4efff] via-[#f9f6ff] to-white bg-cover bg-center">
-                @if ($product['image'])
-                    <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}"
-                        class="h-full w-full object-contain rounded-[14px]">
-                @endif
-            </div>
-
-            <div class="mt-4">
-                <div class="flex items-start justify-between gap-3">
-                    <h1 class="text-[18px] font-semibold leading-tight text-[#2b1a43]">{{ $product['name'] }}</h1>
-                    <div
-                        class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium {{ $product['stock'] > 0 ? 'bg-[#f4efff] text-[#5c2a94]' : 'bg-[#fdecea] text-[#c0392b]' }}">
-                        Sisa stok: {{ $product['stock'] > 0 ? $product['stock'] : 'Habis' }}
-                    </div>
+                class="mt-3 rounded-[18px] border border-[#e7dcf8] bg-white p-5 shadow-[0_10px_24px_rgba(60,34,97,0.1)] sm:p-6">
+                <div
+                    class="flex h-auto w-full items-center justify-center rounded-[14px] border border-[#ece4f7] bg-gradient-to-b from-[#f4efff] via-[#f9f6ff] to-white">
+                    @if ($product['image'])
+                        <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}"
+                            class="h-full w-full rounded-[14px] object-contain">
+                    @endif
                 </div>
-                <div class="mt-1 text-[18px] font-semibold text-[#6d5a88]">Rp
-                    {{ number_format($product['price'], 0, ',', '.') }}</div>
-                <p class="mt-4 text-[13px] leading-relaxed text-[#5f4c7f]">{{ $product['description'] }}</p>
-            </div>
 
-            <div class="mt-5 w-full">
-                <div class="flex items-center gap-3">
-                    <button id="btn-min" type="button"
-                        class="h-10 w-10 rounded-full border border-[#ceb9ee] text-[20px] leading-none text-[#5c2a94] disabled:cursor-not-allowed disabled:opacity-40">-</button>
-                    <div id="qty-display"
-                        class="flex h-10 min-w-[50px] items-center justify-center rounded-[10px] border border-[#e1d7f0] bg-white text-[16px] font-semibold text-[#2b1a43]">
-                        1
+                <div class="mt-5">
+                    <div class="flex items-start justify-between gap-3">
+                        <h1 class="text-[22px] font-semibold leading-tight text-[#2b1a43]">{{ $product['name'] }}</h1>
+                        <div
+                            class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-[12px] font-semibold {{ $product['stock'] > 0 ? 'bg-[#f4efff] text-[#5c2a94]' : 'bg-[#fdecea] text-[#c0392b]' }}">
+                            Sisa stok: {{ $product['stock'] > 0 ? $product['stock'] : 'Habis' }}
+                        </div>
                     </div>
-                    <button id="btn-plus" type="button"
-                        class="h-10 w-10 rounded-full bg-[#5c2a94] text-[20px] leading-none text-white disabled:cursor-not-allowed disabled:bg-[#b9a3db] disabled:opacity-60">+</button>
+                    <div class="mt-2 text-[24px] font-bold text-[#5c2a94]">Rp
+                        {{ number_format($product['price'], 0, ',', '.') }}</div>
+                    <p class="mt-4 rounded-[12px] bg-[#f8f4ff] px-4 py-3 text-[14px] leading-relaxed text-[#5f4c7f]">
+                        {{ $product['description'] ?: 'Produk siap dibeli.' }}
+                    </p>
                 </div>
-                <button id="btn-buy-now" type="button"
-                    class="mt-3 h-12 w-full rounded-full bg-[#5c2a94] text-[16px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
-                    Beli Sekarang
-                </button>
+
+                <div class="mt-5 border-t border-[#eee5fa] pt-4">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="text-[13px] font-medium text-[#6b5a84]">Jumlah</div>
+                        <div class="flex items-center gap-3">
+                            <button id="btn-min" type="button"
+                                class="h-10 w-10 rounded-full border border-[#ceb9ee] text-[20px] leading-none text-[#5c2a94] disabled:cursor-not-allowed disabled:opacity-40">-</button>
+                            <div id="qty-display"
+                                class="flex h-10 min-w-[56px] items-center justify-center rounded-[10px] border border-[#e1d7f0] bg-white text-[16px] font-semibold text-[#2b1a43]">
+                                1
+                            </div>
+                            <button id="btn-plus" type="button"
+                                class="h-10 w-10 rounded-full bg-[#5c2a94] text-[20px] leading-none text-white disabled:cursor-not-allowed disabled:bg-[#b9a3db] disabled:opacity-60">+</button>
+                        </div>
+                    </div>
+                    <div id="qty-note" class="mt-3 text-[12px] text-[#6b5a84]"></div>
+                    <button id="btn-buy-now" type="button"
+                        class="mt-4 h-12 w-full rounded-full bg-[#5c2a94] text-[16px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                        Beli Sekarang
+                    </button>
+                </div>
             </div>
-            <div id="qty-note" class="mt-2 text-[12px] text-[#6b5a84]"></div>
         </div>
     </div>
 @endsection

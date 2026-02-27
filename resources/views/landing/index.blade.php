@@ -105,23 +105,23 @@
 
 @section('content')
     <div class="min-h-full bg-[#f7f3ff]">
-        <div id="default-carousel" class="relative w-full px-4 sm:px-5 lg:px-6 pt-4 sm:pt-5 pb-5" data-carousel="slide">
+        <div id="default-carousel" class="relative w-full px-5 sm:px-5 lg:px-6 pt-5 sm:pt-5 pb-5" data-carousel="slide">
             <!-- Carousel wrapper -->
-            <div class="relative overflow-hidden rounded-base h-[132px] sm:h-[145px]">
+            <div class="relative overflow-hidden rounded-base h-[200px] sm:h-[145px]">
                 @foreach ($ads as $ad)
                     <div class="hidden duration-700 ease-in-out bg-cover shadow-[0_24px_60px_rgba(89,42,155,0.18)]"
                         data-carousel-item>
                         <img src="{{ asset('/image/' . $ad->image_url) }}"
-                            class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-[190px] sm:h-[220px] lg:h-[360px]"
+                            class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-[200px] sm:h-[220px] lg:h-[360px]"
                             alt="...">
                     </div>
                 @endforeach
             </div>
         </div>
 
-        <div class="px-4 sm:px-5 lg:px-6 pb-5">
-            <div class="flex gap-3 lg:gap-8 items-start">
-                <div id="products-carousel" class="flex-1 min-w-0 space-y-[16px]">
+        <div class="px-5 sm:px-6 lg:px-6 pb-5">
+            <div class="flex gap-8 lg:gap-8 items-start">
+                <div id="products-carousel" class="flex-1 min-w-0 space-y-[4px]">
                     @for ($i = 0; $i < 2; $i++)
                         <div class="carousel-viewport w-full">
                             <div class="carousel-track" data-carousel-track></div>
@@ -143,13 +143,13 @@
     </div>
 
     <div id="checkout-float"
-        class="fixed bottom-3 left-1/2 z-40 hidden w-[calc(100%-20px)] max-w-[480px] -translate-x-1/2 rounded-[14px] border border-[#e4d7f6] bg-white/95 p-3 shadow-[0_12px_30px_rgba(60,34,97,0.18)] backdrop-blur">
+        class="fixed bottom-[73px] left-1/2 z-40 hidden w-[calc(100%-20px)] max-w-[560px] -translate-x-1/2 rounded-[14px] border border-[#e4d7f6] bg-white/95 p-3 shadow-[0_12px_30px_rgba(60,34,97,0.18)] backdrop-blur">
         <div id="checkout-expanded" class="flex items-center gap-3">
             <div class="flex-1">
-                <div class="text-[11px] text-[#6d5a88]">Total Belanja</div>
-                <div id="cart-total-floating" class="text-[15px] font-semibold text-[#2b1a43]">Rp 0</div>
-                <div id="cart-items-count" class="mt-0.5 text-[11px] text-[#6d5a88]">0 item</div>
-                <div id="cart-items-preview" class="cart-preview-clamp mt-1 text-[11px] leading-tight text-[#4d3a6f]"></div>
+                <div class="text-[12px] text-[#6d5a88]">Total Belanja</div>
+                <div id="cart-total-floating" class="text-[16px] font-semibold text-[#2b1a43]">Rp 0</div>
+                <div id="cart-items-count" class="mt-0.5 text-[12px] text-[#6d5a88]">0 item</div>
+                <div id="cart-items-preview" class="cart-preview-clamp mt-1 text-[12px] leading-tight text-[#4d3a6f]"></div>
             </div>
             <div class="flex items-center gap-2">
                 <button id="btn-clear-cart-floating" type="button" aria-label="Kosongkan keranjang"
@@ -157,7 +157,7 @@
                     <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="" class="h-[16px]">
                 </button>
                 <button id="btn-pay-floating"
-                    class="h-[38px] min-w-[130px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                    class="h-[38px] min-w-[150px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                     Bayar Sekarang
                 </button>
                 <button id="btn-minimize-checkout-floating" type="button" aria-label="Minimalkan panel checkout"
@@ -170,8 +170,8 @@
         <div id="checkout-minimized" class="hidden flex items-center gap-2">
             <div class="flex min-w-0 flex-1 items-center justify-between border-[#d8c9f0] px-3 py-2 text-left">
                 <div class="min-w-0">
-                    <div class="text-[10px] leading-none text-[#6d5a88]">Total Belanja</div>
-                    <div id="cart-total-minimized" class="mt-0.5 truncate text-[13px] font-semibold text-[#2b1a43]">Rp 0
+                    <div class="text-[12px] leading-none text-[#6d5a88]">Total Belanja</div>
+                    <div id="cart-total-minimized" class="mt-0.5 truncate text-[16px] font-semibold text-[#2b1a43]">Rp 0
                     </div>
                 </div>
             </div>
@@ -187,12 +187,12 @@
     </div>
 
     <button id="btn-open-guide-floating" type="button" aria-label="Buka panduan pembelian"
-        class="fixed bottom-16 right-4 z-40 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
+        class="fixed bottom-20 right-5 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
         <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[18px] brightness-0 invert">
     </button>
 
-    <div id="modal-guide" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/40 p-3">
-        <div class="bg-white w-full max-w-[500px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
+    <div id="modal-guide" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/40 p-3 pb-[80px]">
+        <div class="bg-white w-full max-w-[560px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="flex items-center justify-between gap-3">
                 <div class="text-[18px] font-semibold text-[#2b1a43]">Panduan Pembelian</div>
                 <button id="btn-close-guide" type="button" aria-label="Tutup panduan pembelian"
@@ -313,22 +313,22 @@
                     const isMaxed = qty >= product.stock;
                     const card = document.createElement('div');
                     card.className =
-                        `bg-white rounded-[16px] p-[10px] w-[140px] my-2 transition duration-200 ${
+                        `bg-white rounded-[16px] p-[10px] w-[170px] my-2 transition duration-200 ${
                         isSelected ? 'border-2 border-[#5c2a94] shadow-[0_10px_24px_rgba(92,42,148,0.18)]' : 'border border-[#e1d7f0] shadow-[0_6px_18px_rgba(60,34,97,0.08)]'
                     } ${isOutOfStock ? 'opacity-70 grayscale' : 'hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(92,42,148,0.16)]'}`;
                     card.innerHTML = `
-                    <div class="bg-cover h-[120px] w-full rounded-[14px] bg-gradient-to-b from-[#f4efff] via-[#f9f6ff] to-white border border-[#ece4f7] flex items-center justify-center relative overflow-hidden"
+                    <div class="bg-cover h-[150px] w-full rounded-[14px] bg-gradient-to-b from-[#f4efff] via-[#f9f6ff] to-white border border-[#ece4f7] flex items-center justify-center relative overflow-hidden"
                         style="background-image: url('${product.image}');">
                         ${isOutOfStock ? '<div class="absolute inset-0 bg-white/70 flex items-center justify-center text-[12px] font-semibold text-[#c0392b]">HABIS</div>' : ''}
                     </div>
-                    <div class="flex flex-col mt-[12px] h-[95px]">
-                        <div class="text-[13px] font-semibold text-[#2b1a43] leading-tight">${product.name}</div>
-                        <div class="text-[12px] font-semibold text-[#6d5a88] mt-[2px]">Rp ${rupiah(product.price)}</div>
-                        {{-- <div class="text-[11px] ${isOutOfStock ? 'text-[#c0392b]' : 'text-[#6b5a84]'} mt-[2px]">
+                    <div class="flex flex-col mt-[12px] h-[110px]">
+                        <div class="text-[16px] font-semibold text-[#2b1a43] leading-tight">${product.name}</div>
+                        <div class="mt-3 text-[14px] font-semibold text-[#6d5a88] mt-[2px]">Rp ${rupiah(product.price)}</div>
+                        {{-- <div class="text-[14px] ${isOutOfStock ? 'text-[#c0392b]' : 'text-[#6b5a84]'} mt-[2px]">
                             ${isOutOfStock ? 'Stok habis' : `Stok ${product.stock}`}
                         </div> --}}
                         <div class="mt-auto w-full">
-                            <a href="${product.detail_url}" class="btn-buy flex h-[30px] w-full items-center justify-center rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white">
+                            <a href="${product.detail_url}" class="btn-buy flex h-[35px] w-full items-center justify-center rounded-full bg-[#5c2a94] text-[14px] font-semibold text-white">
                                 Beli
                             </a>
                         </div>
