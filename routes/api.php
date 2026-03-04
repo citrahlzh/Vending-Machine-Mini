@@ -13,6 +13,10 @@ use App\Http\Controllers\API\ProductDisplayController;
 use App\Http\Controllers\API\AdController;
 use App\Http\Controllers\API\TransactionController;
 use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\GameController;
+use App\Http\Controllers\API\QuestController;
+use App\Http\Controllers\API\RewardController;
+use App\Http\Controllers\API\SpinSegmentController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -120,6 +124,42 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
         Route::get('/unread-count', [NotificationController::class, 'unreadCount']);
         Route::post('/read-all', [NotificationController::class, 'markAllRead']);
         Route::post('/read/{id}', [NotificationController::class, 'markRead']);
+    });
+
+    Route::group(['prefix' => 'game'], function () {
+        Route::get('/list', [GameController::class, 'index']);
+        Route::post('/store', [GameController::class, 'store']);
+        Route::get('/show/{id}', [GameController::class, 'show']);
+        Route::get('/edit/{id}', [GameController::class, 'edit']);
+        Route::post('/update/{id}', [GameController::class, 'update']);
+        Route::delete('/delete/{id}', [GameController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'quest'], function () {
+        Route::get('/list', [QuestController::class, 'index']);
+        Route::post('/store', [QuestController::class, 'store']);
+        Route::get('/show/{id}', [QuestController::class, 'show']);
+        Route::get('/edit/{id}', [QuestController::class, 'edit']);
+        Route::post('/update/{id}', [QuestController::class, 'update']);
+        Route::delete('/delete/{id}', [QuestController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'reward'], function () {
+        Route::get('/list', [RewardController::class, 'index']);
+        Route::post('/store', [RewardController::class, 'store']);
+        Route::get('/show/{id}', [RewardController::class, 'show']);
+        Route::get('/edit/{id}', [RewardController::class, 'edit']);
+        Route::post('/update/{id}', [RewardController::class, 'update']);
+        Route::delete('/delete/{id}', [RewardController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'spin-segment'], function () {
+        Route::get('/list', [SpinSegmentController::class, 'index']);
+        Route::post('/store', [SpinSegmentController::class, 'store']);
+        Route::get('/show/{id}', [SpinSegmentController::class, 'show']);
+        Route::get('/edit/{id}', [SpinSegmentController::class, 'edit']);
+        Route::post('/update/{id}', [SpinSegmentController::class, 'update']);
+        Route::delete('/delete/{id}', [SpinSegmentController::class, 'destroy']);
     });
 });
 
