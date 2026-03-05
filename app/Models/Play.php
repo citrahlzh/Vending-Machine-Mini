@@ -11,6 +11,7 @@ class Play extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'idempotency_key',
         'game_id',
         'status',
         'score',

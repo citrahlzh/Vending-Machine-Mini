@@ -16,6 +16,7 @@ class PlayResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'idempotency_key' => $this->idempotency_key,
             'game_id' => $this->game_id,
             'status' => $this->status,
             'score' => $this->score,

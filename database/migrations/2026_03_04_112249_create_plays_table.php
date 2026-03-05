@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plays', function (Blueprint $table) {
             $table->id();
+            $table->string('idempotency_key')->unique();
             $table->foreignId('game_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['started', 'finished', 'cancelled'])->default('started');
             $table->integer('score')->default(0);
