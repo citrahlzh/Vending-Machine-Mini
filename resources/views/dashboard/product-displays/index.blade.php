@@ -1,11 +1,11 @@
 @extends('dashboard.layouts.app', [
-    'title' => 'Stok dan Slot (Penataan Produk)',
+    'title' => 'Etalase Produk (Penataan Produk)',
 ])
 
 @section('content')
     <section class="space-y-6 p-2">
         <div>
-            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Stok dan Slot (Penataan Produk)</h1>
+            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Etalase Produk (Penataan Produk)</h1>
             <p class="mt-3 text-[18px] text-[#4F3970]">
                 Halaman ini untuk menampilkan daftar produk yang ditampilkan di Vending Machine.
             </p>
@@ -118,7 +118,7 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 860px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Tambah Data Stok dan Slot</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Tambah Data Etalase Produk</h2>
 
             <form id="createProductDisplayForm" class="mt-6 space-y-4">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
