@@ -15,6 +15,10 @@ use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\ReportController;
 use App\Http\Controllers\Dashboard\AdController;
 use App\Http\Controllers\Dashboard\NotificationController;
+use App\Http\Controllers\Dashboard\GameController;
+use App\Http\Controllers\Dashboard\QuestController;
+use App\Http\Controllers\Dashboard\RewardController;
+use App\Http\Controllers\Dashboard\GameHistoryController;
 
 Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -55,6 +59,36 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
     Route::prefix('report')->name('reports.')->group(function () {
         Route::get('/', [ReportController::class, 'index'])->name('index');
         Route::get('/export-excel', [ReportController::class, 'exportExcel'])->name('export-excel');
+    });
+
+    Route::prefix('game-management')->name('game-management.')->group(function () {
+        Route::get('/', [DashboardController::class, 'gameManagementIndex'])->name('index');
+
+        Route::prefix('games')->name('games.')->group(function () {
+            Route::get('/', [GameController::class, 'index'])->name('index');
+            Route::get('/create', [GameController::class, 'create'])->name('create');
+            Route::get('/{id}/edit', [GameController::class, 'edit'])->name('edit');
+            Route::get('/{id}', [GameController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('quests')->name('quests.')->group(function () {
+            Route::get('/', [QuestController::class, 'index'])->name('index');
+            Route::get('/create', [QuestController::class, 'create'])->name('create');
+            Route::get('/{id}/edit', [QuestController::class, 'edit'])->name('edit');
+            Route::get('/{id}', [QuestController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('rewards')->name('rewards.')->group(function () {
+            Route::get('/', [RewardController::class, 'index'])->name('index');
+            Route::get('/create', [RewardController::class, 'create'])->name('create');
+            Route::get('/{id}/edit', [RewardController::class, 'edit'])->name('edit');
+            Route::get('/{id}', [RewardController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('game-history')->name('game-history.')->group(function () {
+            Route::get('/', [GameHistoryController::class, 'index'])->name('index');
+            Route::get('/{id}', [GameHistoryController::class, 'show'])->name('show');
+        });
     });
 
     Route::prefix('master-data')->name('master-data.')->group(function () {

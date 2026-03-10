@@ -46,6 +46,13 @@
 
     $bottomMenus = [
         [
+            'label' => 'Manajemen Permainan',
+            'route' => 'dashboard.game-management.index',
+            'patterns' => ['dashboard.game-management.*'],
+            'icon' => 'game.svg',
+            'active_icon' => 'game-active.svg',
+        ],
+        [
             'label' => 'Master Data',
             'route' => 'dashboard.master-data.index',
             'patterns' => ['dashboard.master-data.*'],
