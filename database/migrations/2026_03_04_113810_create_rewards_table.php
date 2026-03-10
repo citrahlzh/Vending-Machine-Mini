@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->enum('type', ['product', 'voucher', 'none']);
-            $table->decimal('value')->nullable();
-            $table->integer('quantity')->default(0);
+            $table->enum('type', ['product', 'none']);
+            $table->foreignId('product_display_id')->nullable()->constrained()->onDelete('set null');
+            $table->integer('stock')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

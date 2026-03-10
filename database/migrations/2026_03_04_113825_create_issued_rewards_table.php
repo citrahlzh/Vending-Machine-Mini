@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->enum('status', ['issued', 'redeemed', 'expired', 'void'])->default('issued');
             $table->dateTime('issued_at')->nullable();
-            $table->dateTime('expires_at')->nullable();
+            $table->dateTime('expired_at')->nullable();
             $table->dateTime('redeemed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

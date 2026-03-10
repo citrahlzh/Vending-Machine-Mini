@@ -17,7 +17,8 @@ class SaleLine extends Model
     protected $fillable = [
         'sale_id',
         'product_display_id',
-        'status'
+        'status',
+        'price',
     ];
 
     public function sale(){
@@ -25,6 +26,6 @@ class SaleLine extends Model
     }
 
     public function productDisplay() {
-        return $this->belongsTo(ProductDisplay::class);
+        return $this->belongsTo(ProductDisplay::class)->withTrashed();
     }
 }

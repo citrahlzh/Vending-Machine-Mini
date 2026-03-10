@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('sale_id')->constrained('sales');
             $table->foreignId('product_display_id')->constrained('product_displays');
             $table->enum('status', ['pending', 'success', 'failed']);
+            $table->decimal('price', 8, 2);
             $table->timestamps();
             $table->softDeletes();
         });

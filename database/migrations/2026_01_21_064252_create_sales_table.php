@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->string('idempotency_key')->unique();
-            $table->string('qris_id');
+            $table->string('qris_id')->unique();
             $table->datetime('transaction_date');
             $table->enum('status', ['pending', 'paid', 'failed', 'expired']);
             $table->enum('dispense_status', ['pending', 'success', 'failed', 'partial']);

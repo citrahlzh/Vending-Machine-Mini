@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('price_id')->constrained('prices');
             $table->foreignId('cell_id')->constrained('cells');
             $table->boolean('is_empty');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes();
         });

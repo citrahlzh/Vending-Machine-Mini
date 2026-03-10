@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->integer('price');
+            $table->decimal('price', 10, 2);
             $table->boolean('is_active');
             $table->timestamps();
             $table->softDeletes();

@@ -54,4 +54,9 @@ class DashboardController extends Controller
     {
         return view('dashboard.master-data.index');
     }
+
+    public function gameManagementIndex()
+    {
+        return view('dashboard.game-management.index');
+    }
 }
