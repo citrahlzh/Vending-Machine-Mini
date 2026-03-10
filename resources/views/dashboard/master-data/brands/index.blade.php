@@ -61,7 +61,7 @@
                                 <td class="text-center">
                                     <div class="flex items-center justify-center gap-2">
                                         <button type="button" class="open-edit-brand-modal">
-                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Edit">
+                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Ubah">
                                         </button>
                                         <button type="button" class="open-delete-brand-modal">
                                             <img src="{{ asset('assets/icons/dashboard/delete.svg') }}" alt="Hapus">
@@ -118,7 +118,7 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Edit Merek</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Ubah Merek</h2>
 
             <form id="editBrandForm" class="mt-6 space-y-4">
                 <input id="editBrandId" type="hidden">

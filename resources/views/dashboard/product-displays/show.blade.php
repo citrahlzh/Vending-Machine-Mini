@@ -1,5 +1,5 @@
 @extends('dashboard.layouts.app', [
-    'title' => 'Detail Stok & Slot',
+    'title' => 'Detail Etalase Produk',
 ])
 
 @section('content')
@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.product-displays.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Detail Stok & Slot</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Detail Etalase Produk</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">

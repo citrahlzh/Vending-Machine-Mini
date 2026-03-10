@@ -98,7 +98,7 @@
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
                                         </a>
                                         <a href="{{ route('dashboard.product-displays.edit', ['id' => $productDisplay->id]) }}">
-                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Edit">
+                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Ubah">
                                         </a>
                                         <button type="button" class="open-delete-product-display">
                                             <img src="{{ asset('assets/icons/dashboard/delete.svg') }}" alt="Hapus">

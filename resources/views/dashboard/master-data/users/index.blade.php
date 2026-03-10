@@ -65,7 +65,7 @@
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
                                         </a>
                                         <a href="{{ route('dashboard.master-data.users.edit', ['id' => $user->id]) }}">
-                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Edit">
+                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Ubah">
                                         </a>
                                         <button type="button" class="open-delete-user">
                                             <img src="{{ asset('assets/icons/dashboard/delete.svg') }}" alt="Hapus">

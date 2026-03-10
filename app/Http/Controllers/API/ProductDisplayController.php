@@ -256,8 +256,18 @@ class ProductDisplayController extends Controller
 
     public function destroy($id)
     {
-        $productDisplay = ProductDisplay::findOrFail($id);
-        $productDisplay->delete();
+        // $productDisplay = ProductDisplay::findOrFail($id);
+        // $productDisplay->delete();
+        DB::transaction(function () use ($id) {
+            $productDisplay = ProductDisplay::lockForUpdate()->findOrFail($id);
+            $cell = Cell::lockForUpdate()->findOrFail($productDisplay->cell_id);
+
+            $cell->qty_current = 0;
+            $cell->save();
+
+            $productDisplay->delete();
+        });
+
 
         return response()->json([
             'message' => 'Data penataan produk berhasil dihapus.',

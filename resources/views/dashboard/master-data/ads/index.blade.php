@@ -67,7 +67,7 @@
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
                                         </button>
                                         <button type="button" class="open-edit-ad-modal">
-                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Edit">
+                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Ubah">
                                         </button>
                                         <button type="button" class="open-delete-ad-modal">
                                             <img src="{{ asset('assets/icons/dashboard/delete.svg') }}" alt="Hapus">
@@ -161,7 +161,7 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Edit Data Iklan</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Ubah Data Iklan</h2>
 
             <form id="editAdForm" class="mt-6 space-y-3.5" enctype="multipart/form-data">
                 <input id="editAdId" type="hidden">

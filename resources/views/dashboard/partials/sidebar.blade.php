@@ -15,7 +15,7 @@
             'active_icon' => 'transaction-active.svg',
         ],
         [
-            'label' => 'Stok & Slot',
+            'label' => 'Etalase Produk',
             'route' => 'dashboard.product-displays.index',
             'patterns' => ['dashboard.product-displays.*'],
             'icon' => 'display.svg',

@@ -70,7 +70,7 @@
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
                                         </a>
                                         <a href="{{ route('dashboard.prices.edit', ['id' => $price->id]) }}">
-                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Edit">
+                                            <img src="{{ asset('assets/icons/dashboard/edit.svg') }}" alt="Ubah">
                                         </a>
                                         <button type="button" class="open-delete-price">
                                             <img src="{{ asset('assets/icons/dashboard/delete.svg') }}" alt="Hapus">
