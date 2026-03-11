@@ -17,10 +17,14 @@ use App\Http\Controllers\API\GameController;
 use App\Http\Controllers\API\QuestController;
 use App\Http\Controllers\API\RewardController;
 use App\Http\Controllers\API\SpinSegmentController;
+use App\Http\Controllers\API\SiteSettingController;
+use App\Http\Controllers\API\AuthController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
+
+Route::post('/login', [AuthController::class,'login']);
 
 Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function () {
     Route::group(['prefix' => 'user'], function () {
@@ -160,6 +164,11 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
         Route::get('/edit/{id}', [SpinSegmentController::class, 'edit']);
         Route::post('/update/{id}', [SpinSegmentController::class, 'update']);
         Route::delete('/delete/{id}', [SpinSegmentController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'site-setting'], function () {
+        Route::get('/list', [SiteSettingController::class, 'index']);
+        Route::post('/update', [SiteSettingController::class, 'update']);
     });
 });
 

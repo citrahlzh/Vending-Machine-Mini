@@ -14,10 +14,11 @@ use App\Models\PackagingSize;
 use App\Models\Product;
 use App\Models\Price;
 use App\Models\ProductDisplay;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

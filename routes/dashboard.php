@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\SiteSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\BrandController;
@@ -125,5 +126,7 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
             Route::get('/', [AdController::class, 'index'])->name('index');
         });
     });
+
+    Route::get('/setelan-situs', [SiteSettingController::class, 'index'])->name('site-setting.index');
 });
 

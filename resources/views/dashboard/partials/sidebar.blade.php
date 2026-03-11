@@ -42,9 +42,6 @@
             'icon' => 'report.svg',
             'active_icon' => 'report-active.svg',
         ],
-    ];
-
-    $bottomMenus = [
         [
             'label' => 'Manajemen Permainan',
             'route' => 'dashboard.game-management.index',
@@ -59,6 +56,13 @@
             'icon' => 'master-data.svg',
             'active_icon' => 'master-data-active.svg',
         ],
+        [
+            'label' => 'Setelan Situs',
+            'route' => 'dashboard.site-setting.index',
+            'patterns' => ['dashboard.site-setting.index'],
+            'icon' => 'setting.svg',
+            'active_icon' => 'setting-active.svg'
+        ]
     ];
 @endphp
 
@@ -75,7 +79,7 @@
             class="mt-5 w-[70px]" />
     </div>
 
-    <ul class="mt-12 space-y-1">
+    <ul class="mt-10 space-y-1">
         @foreach ($topMenus as $menu)
             @php
                 $isActive = request()->routeIs(...$menu['patterns']);
@@ -88,13 +92,13 @@
                     @endif
                     <img src="{{ asset('assets/icons/dashboard/' . ($isActive ? $menu['active_icon'] : $menu['icon'])) }}"
                         alt="{{ $menu['label'] }}" class="h-7 w-7 shrink-0">
-                    <span class="text-[15px] leading-6">{{ $menu['label'] }}</span>
+                    <span class="text-[14px] leading-6">{{ $menu['label'] }}</span>
                 </a>
             </li>
         @endforeach
     </ul>
 
-    <ul class="mt-auto pt-10">
+    {{-- <ul class="mt-auto pt-10">
         @foreach ($bottomMenus as $menu)
             @php
                 $isActive = request()->routeIs(...$menu['patterns']);
@@ -111,5 +115,5 @@
                 </a>
             </li>
         @endforeach
-    </ul>
+    </ul> --}}
 </nav>
