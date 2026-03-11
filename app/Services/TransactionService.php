@@ -54,7 +54,7 @@ class TransactionService
 
             $displayIds = $normalizedItems->keys()->values();
 
-            $productDisplays = ProductDisplay::with(['price', 'cell'])
+            $productDisplays = ProductDisplay::with(['price', 'cell', 'product'])
                 ->whereIn('id', $displayIds)
                 ->lockForUpdate()
                 ->get()
@@ -64,6 +64,7 @@ class TransactionService
 
             foreach ($normalizedItems as $displayId => $qty) {
                 $display = $productDisplays->get((int) $displayId);
+
                 if (!$display) {
                     throw new Exception('Product display not found.');
                 }
@@ -86,7 +87,10 @@ class TransactionService
                     throw new Exception('Requested quantity exceeds available stock.');
                 }
 
-                $totalAmount += ((int) $display->price->price) * $qty;
+                $price = (int) $display->price->price;
+
+                // $totalAmount += ((int) $display->price->price) * $qty;
+                $totalAmount += $price * $qty;
             }
 
             $sale = Sale::create([
@@ -99,13 +103,29 @@ class TransactionService
             ]);
 
             foreach ($normalizedItems as $displayId => $qty) {
+
+                $display = $productDisplays->get((int) $displayId);
+
+                $price = (int) $display->price->price;
+                $productName = $display->product->product_name ?? 'Unknown Product';
+                $cellCode = $display->cell->code ?? null;
+
                 $qty = (int) $qty;
+
                 for ($i = 0; $i < $qty; $i++) {
+
                     SaleLine::create([
                         'sale_id' => $sale->id,
                         'product_display_id' => (int) $displayId,
+
+                        // snapshot data
+                        'product_name' => $productName,
+                        'cell_code' => $cellCode,
+                        'price' => $price,
+
                         'status' => 'pending',
                     ]);
+
                 }
             }
 
@@ -335,7 +355,8 @@ class TransactionService
                 continue;
             }
 
-            $cellCode = (string) optional(optional($line->productDisplay)->cell)->code;
+            // $cellCode = (string) optional(optional($line->productDisplay)->cell)->code;
+            $cellCode = $line->cell_code;
             if ($cellCode === '') {
                 continue;
             }

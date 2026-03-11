@@ -18,6 +18,8 @@ class SaleLineResource extends JsonResource
             'id'=> $this->id,
             'sale_id'=> $this->sale_id,
             'product_display_id'=> $this->product_display_id,
+            'product_name'=> $this->product_name,
+            'cell_code'=> $this->cell_code,
             'price'=> $this->price,
             'status'=> $this->status,
             'created_at'=> $this->created_at,

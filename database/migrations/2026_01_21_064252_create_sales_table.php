@@ -18,7 +18,7 @@ return new class extends Migration
             $table->datetime('transaction_date');
             $table->enum('status', ['pending', 'paid', 'failed', 'expired']);
             $table->enum('dispense_status', ['pending', 'success', 'failed', 'partial']);
-            $table->integer('total_amount');
+            $table->decimal('total_amount', 8, 2);
             $table->timestamps();
             $table->softDeletes();
         });

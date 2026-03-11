@@ -60,21 +60,17 @@ class ReportController extends Controller
 
         $topProducts = SaleLine::query()
             ->select([
-                'products.id as product_id',
-                'products.product_name',
+                'sales_lines.product_name',
                 DB::raw('COUNT(sales_lines.id) as sold_qty'),
-                DB::raw('COALESCE(SUM(prices.price), 0) as omzet'),
+                DB::raw('SUM(sales_lines.price) as omzet'),
             ])
             ->join('sales', 'sales.id', '=', 'sales_lines.sale_id')
-            ->join('product_displays', 'product_displays.id', '=', 'sales_lines.product_display_id')
-            ->join('products', 'products.id', '=', 'product_displays.product_id')
-            ->leftJoin('prices', 'prices.id', '=', 'product_displays.price_id')
             ->where('sales.status', 'paid')
             ->where('sales_lines.status', 'success')
             ->whereBetween('sales.transaction_date', [$startDate, $endDate])
-            ->groupBy('products.id', 'products.product_name')
+            ->groupBy('sales_lines.product_name')
             ->orderByDesc('sold_qty')
-            ->limit(5)
+            ->limit(10)
             ->get();
 
         $salesByDay = $this->buildDailySalesStats($startDate, $endDate);
@@ -91,27 +87,41 @@ class ReportController extends Controller
             ->get(['id', 'idempotency_key', 'transaction_date', 'status', 'total_amount']);
 
         $exportTransactions = Sale::query()
-            ->with([
-                'salesLines.productDisplay.product:id,product_name',
-                'salesLines.productDisplay.cell:id,code',
-            ])
+            ->with('salesLines')
             ->whereBetween('transaction_date', [$startDate, $endDate])
             ->latest('transaction_date')
             ->get(['id', 'idempotency_key', 'transaction_date', 'status', 'total_amount'])
             ->map(function (Sale $sale) {
+                // $products = $sale->salesLines
+                //     ->groupBy('product_name')
+                //     ->map(function ($lines, $name) {
+                //         $qty = $lines->count();
+                //         return $qty > 1 ? "{$name} ({$qty})" : $name;
+                //     })
+                //     ->values()
+                //     ->implode("\n");
                 $products = $sale->salesLines
-                    ->map(fn (SaleLine $line) => $line->productDisplay?->product?->product_name)
-                    ->filter()
-                    ->unique()
+                    ->groupBy(fn($line) => $line->product_name . '-' . $line->price)
+                    ->map(function ($lines) {
+
+                    $first = $lines->first();
+
+                    return [
+                        'name' => $first->product_name,
+                        'qty' => $lines->count(),
+                        'price' => $first->price,
+                        'cell' => $first->cell_code
+                    ];
+                })
                     ->values()
-                    ->implode(', ');
+                    ->toArray();
 
                 $cells = $sale->salesLines
-                    ->map(fn (SaleLine $line) => $line->productDisplay?->cell?->code)
+                    ->map(fn(SaleLine $line) => $line->cell_code)
                     ->filter()
                     ->unique()
                     ->values()
-                    ->implode(', ');
+                    ->implode("\n");
 
                 $statusLabel = match ($sale->status) {
                     'paid' => 'Sukses',
@@ -122,37 +132,35 @@ class ReportController extends Controller
                 return [
                     'transaction_date' => $sale->transaction_date,
                     'idempotency_key' => $sale->idempotency_key,
-                    'products' => $products !== '' ? $products : '-',
+                    'products_detail' => $products,
                     'total_amount' => (int) $sale->total_amount,
                     'status_label' => $statusLabel,
-                    'cells' => $cells !== '' ? $cells : '-',
                 ];
             });
 
         $exportProducts = SaleLine::query()
             ->select([
-                'products.product_name',
-                'prices.price as unit_price',
-                'cells.code as cell_code',
-                'cells.qty_current as stock_remaining',
+                'sales_lines.product_name',
+                'sales_lines.price as unit_price',
+                'sales_lines.cell_code',
                 DB::raw('COUNT(sales_lines.id) as sold_qty'),
             ])
             ->join('sales', 'sales.id', '=', 'sales_lines.sale_id')
-            ->join('product_displays', 'product_displays.id', '=', 'sales_lines.product_display_id')
-            ->join('products', 'products.id', '=', 'product_displays.product_id')
-            ->leftJoin('prices', 'prices.id', '=', 'product_displays.price_id')
-            ->leftJoin('cells', 'cells.id', '=', 'product_displays.cell_id')
             ->where('sales.status', 'paid')
             ->where('sales_lines.status', 'success')
             ->whereBetween('sales.transaction_date', [$startDate, $endDate])
-            ->groupBy('products.product_name', 'prices.price', 'cells.code', 'cells.qty_current')
+            ->groupBy(
+                'sales_lines.product_name',
+                'sales_lines.price',
+                'sales_lines.cell_code'
+            )
             ->orderByDesc('sold_qty')
             ->get()
-            ->map(fn ($row) => [
+            ->map(fn($row) => [
                 'product_name' => $row->product_name ?? '-',
                 'unit_price' => (int) ($row->unit_price ?? 0),
                 'sold_qty' => (int) ($row->sold_qty ?? 0),
-                'stock_remaining' => (int) ($row->stock_remaining ?? 0),
+                'stock_remaining' => 0,
                 'cell_code' => $row->cell_code ?? '-',
             ]);
 

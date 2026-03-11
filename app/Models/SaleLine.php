@@ -17,8 +17,10 @@ class SaleLine extends Model
     protected $fillable = [
         'sale_id',
         'product_display_id',
-        'status',
+        'product_name',
+        'cell_code',
         'price',
+        'status',
     ];
 
     public function sale(){

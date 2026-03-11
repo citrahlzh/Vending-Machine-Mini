@@ -30,8 +30,9 @@
                                 $groupedProducts = $sale->salesLines
                                     ->groupBy('product_display_id')
                                     ->map(function ($lines) {
-                                        $productName = $lines->first()?->productDisplay?->product?->product_name ?? 'Produk tidak ditemukan';
+                                        $productName = $lines->first()?->product_name ?? 'Produk tidak ditemukan';
                                         $qty = $lines->count();
+
                                         return $qty > 1 ? $productName . ' (' . $qty . ')' : $productName;
                                     })
                                     ->values();
@@ -53,8 +54,10 @@
                             <tr>
                                 <td class="font-semibold text-[#1f1f1f] text-center">{{ $sale->idempotency_key }}</td>
                                 <td class="">{{ $productText }}</td>
-                                <td class="text-center whitespace-nowrap">{{ optional($sale->transaction_date)->format('d/m/Y H:m:s') }}</td>
-                                <td class="text-center whitespace-nowrap">Rp{{ number_format((int) $sale->total_amount, 0, ',', '.') }},00</td>
+                                <td class="text-center whitespace-nowrap">
+                                    {{ optional($sale->transaction_date)->format('d/m/Y H:m:s') }}</td>
+                                <td class="text-center whitespace-nowrap">
+                                    Rp{{ number_format((int) $sale->total_amount, 0, ',', '.') }},00</td>
                                 <td class="text-center whitespace-nowrap">
                                     <span
                                         class="inline-flex rounded-full px-4 py-1 text-[12px] font-medium {{ $statusClass }}">
@@ -66,10 +69,8 @@
                                         <a href="{{ route('dashboard.transactions.show', ['id' => $sale->id]) }}">
                                             <img src="{{ asset('assets/icons/dashboard/show.svg') }}" alt="Lihat">
                                         </a>
-                                        <button type="button"
-                                            data-transaction-id="{{ $sale->id }}"
-                                            data-order-id="{{ $sale->idempotency_key }}"
-                                            data-status="{{ $sale->status }}"
+                                        <button type="button" data-transaction-id="{{ $sale->id }}"
+                                            data-order-id="{{ $sale->idempotency_key }}" data-status="{{ $sale->status }}"
                                             title="{{ $sale->status === 'pending' ? 'Batalkan transaksi pending' : 'Hanya transaksi pending yang bisa dibatalkan' }}"
                                             @if ($sale->status !== 'pending') disabled @endif
                                             class="open-cancel-transaction {{ $sale->status !== 'pending' ? 'opacity-40 cursor-not-allowed' : '' }}">
@@ -157,4 +158,3 @@
         });
     </script>
 @endpush
-

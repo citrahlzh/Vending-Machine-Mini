@@ -19,21 +19,17 @@ class TransactionController extends Controller
 
     public function show($id)
     {
-        $sale = Sale::with([
-            'salesLines.productDisplay.product',
-            'salesLines.productDisplay.price',
-        ])->findOrFail($id);
+        $sale = Sale::with('salesLines')->findOrFail($id);
 
         $orderItems = $sale->salesLines
             ->groupBy('product_display_id')
             ->map(function ($lines) {
                 $firstLine = $lines->first();
-                $display = $firstLine?->productDisplay;
                 $qty = $lines->count();
-                $unitPrice = (int) ($display?->price?->price ?? 0);
+                $unitPrice = (int) ($firstLine->price);
 
                 return [
-                    'product_name' => $display?->product?->product_name ?? 'Produk tidak ditemukan',
+                    'product_name' => $firstLine->product_name ?? 'Produk tidak ditemukan',
                     'qty' => $qty,
                     'price' => $unitPrice,
                     'subtotal' => $unitPrice * $qty,
