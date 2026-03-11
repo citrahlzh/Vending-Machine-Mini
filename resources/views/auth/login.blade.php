@@ -42,7 +42,7 @@
                     <input class="w-full text-sm text-[#3C1C5E] placeholder:text-[#b7a4c7] mt-2 flex items-center gap-2 rounded-lg border border-[#d7c6e6] bg-white px-3 py-2.5 focus-within:border-[#6a3d8f] focus-within:ring-2 focus-within:ring-[#6a3d8f]/20"
                         id="password" name="password" type="password" placeholder="Masukkan kata sandi Anda" required>
                     <button id="togglePassword" type="button" class="absolute right-3 top-1/2 -translate-y-1/2">
-                        <img id="passwordIcon" src="{{ asset('assets/icons/dashboard/password-hidden.svg') }}" alt="Lihat kata sandi"
+                        <img id="passwordIcon" src="{{ asset('assets/icons/dashboard/password.svg') }}" alt="Lihat kata sandi"
                             class="w-auto object-contain">
                     </button>
                 </div>
