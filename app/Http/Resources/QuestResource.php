@@ -19,6 +19,7 @@ class QuestResource extends JsonResource
             'id' => $this->id,
             'game_id' => $this->game_id,
             'type' => $this->type,
+            'game_type' => $this->game_type,
             'prompt' => $this->prompt,
             'option' => $this->option,
             'answer' => $this->answer,

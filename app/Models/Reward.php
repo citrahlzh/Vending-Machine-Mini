@@ -15,8 +15,8 @@ class Reward extends Model
         'name',
         'description',
         'type',
-        'value',
-        'quantity',
+        'product_display_id',
+        'stock',
         'is_active',
     ];
 

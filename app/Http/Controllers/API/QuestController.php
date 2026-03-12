@@ -21,9 +21,10 @@ class QuestController extends Controller
         $validator = $request->validate([
             'game_id' => 'required|exists:games,id',
             'type' => 'required|string|max:255',
+            'game_type' => 'required|string',
             'prompt' => 'required|json',
-            'option' => 'required|json',
-            'answer' => 'required|json',
+            'option' => 'sometimes|json',
+            'answer' => 'sometimes|json',
             'image_url' => 'sometimes|url|max:255',
             'is_active' => 'sometimes|boolean',
         ]);
@@ -31,6 +32,7 @@ class QuestController extends Controller
         $quest = Quest::create([
             'game_id' => $validator['game_id'],
             'type' => $validator['type'],
+            'game_type' => $validator['game_type'],
             'prompt' => $validator['prompt'],
             'option' => $validator['option'],
             'answer' => $validator['answer'],
@@ -61,6 +63,7 @@ class QuestController extends Controller
         $validator = $request->validate([
             'game_id' => 'sometimes|required|exists:games,id',
             'type' => 'sometimes|required|string|max:255',
+            'game_type' => 'sometimes|required|string',
             'prompt' => 'sometimes|required|json',
             'option' => 'sometimes|required|json',
             'answer' => 'sometimes|required|json',

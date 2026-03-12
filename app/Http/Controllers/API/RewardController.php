@@ -23,8 +23,8 @@ class RewardController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|string|max:255',
-            'value' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:0',
+            'product_display_id' => 'sometimes|integer',
+            'stock' => 'sometimes|integer',
             'is_active' => 'sometimes|boolean',
         ]);
 
@@ -33,8 +33,8 @@ class RewardController extends Controller
             'name' => $validator['name'],
             'description' => $validator['description'],
             'type' => $validator['type'],
-            'value' => $validator['value'],
-            'quantity' => $validator['quantity'],
+            'product_display_id' => $validator['product_display_id'],
+            'stock' => $validator['stock'],
             'is_active' => $validator['is_active'] ?? false,
         ]);
 
@@ -63,8 +63,8 @@ class RewardController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'description' => 'sometimes|required|string',
             'type' => 'sometimes|required|string|max:255',
-            'value' => 'sometimes|required|numeric|min:0',
-            'quantity' => 'sometimes|required|integer|min:0',
+            'product_display_id' => 'sometimes|required|integer|min:0',
+            'stock' => 'sometimes|required|integer|min:0',
             'is_active' => 'sometimes|boolean',
         ]);
 

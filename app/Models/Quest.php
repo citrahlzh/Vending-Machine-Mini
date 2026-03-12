@@ -13,6 +13,7 @@ class Quest extends Model
     protected $fillable = [
         'game_id',
         'type',
+        'game_type',
         'prompt',
         'option',
         'answer',

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('game_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['multiple_choice', 'text']);
+            $table->enum('game_type', ['quiz', 'guess_image']);
             $table->json('prompt');
             $table->json('option')->nullable();
             $table->json('answer')->nullable();

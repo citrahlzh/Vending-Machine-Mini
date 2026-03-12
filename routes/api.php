@@ -19,6 +19,7 @@ use App\Http\Controllers\API\RewardController;
 use App\Http\Controllers\API\SpinSegmentController;
 use App\Http\Controllers\API\SiteSettingController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\PlayHistoryController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -141,11 +142,20 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
 
     Route::group(['prefix' => 'quest'], function () {
         Route::get('/list', [QuestController::class, 'index']);
-        Route::post('/store', [QuestController::class, 'store']);
+               Route::post('/store', [QuestController::class, 'store']);
         Route::get('/show/{id}', [QuestController::class, 'show']);
         Route::get('/edit/{id}', [QuestController::class, 'edit']);
         Route::post('/update/{id}', [QuestController::class, 'update']);
         Route::delete('/delete/{id}', [QuestController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'spin-segment'], function () {
+        Route::get('/list', [SpinSegmentController::class, 'index']);
+        Route::post('/store', [SpinSegmentController::class, 'store']);
+        Route::get('/show/{id}', [SpinSegmentController::class, 'show']);
+        Route::get('/edit/{id}', [SpinSegmentController::class, 'edit']);
+        Route::post('/update/{id}', [SpinSegmentController::class, 'update']);
+        Route::delete('/delete/{id}', [SpinSegmentController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'reward'], function () {
@@ -157,13 +167,8 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
         Route::delete('/delete/{id}', [RewardController::class, 'destroy']);
     });
 
-    Route::group(['prefix' => 'spin-segment'], function () {
-        Route::get('/list', [SpinSegmentController::class, 'index']);
-        Route::post('/store', [SpinSegmentController::class, 'store']);
-        Route::get('/show/{id}', [SpinSegmentController::class, 'show']);
-        Route::get('/edit/{id}', [SpinSegmentController::class, 'edit']);
-        Route::post('/update/{id}', [SpinSegmentController::class, 'update']);
-        Route::delete('/delete/{id}', [SpinSegmentController::class, 'destroy']);
+    Route::group(['prefix' => 'play-history'], function () {
+        Route::get('/play-history', [PlayHistoryController::class, 'index']);
     });
 
     Route::group(['prefix' => 'site-setting'], function () {
@@ -179,5 +184,7 @@ Route::group(['prefix'=>'transaction'], function () {
     Route::get('/status/{id}', [TransactionController::class, 'status']);
     Route::post('/cancel/{id}', [TransactionController::class, 'cancel']);
 });
+
+//Route game nanti disini
 
 Route::post('/webhooks/midtrans', [TransactionController::class, 'webhook']);
