@@ -33,7 +33,7 @@
                             <th>Merek</th>
                             <th>Dibuat Oleh</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -32,7 +32,7 @@
                             <th class="text-center">No</th>
                             <th>Jenis Kemasan</th>
                             <th>Dibuat Oleh</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

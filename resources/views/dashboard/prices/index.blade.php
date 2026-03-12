@@ -29,7 +29,7 @@
                             <th class="whitespace-nowrap">Masa Berlaku</th>
                             <th class="whitespace-nowrap">Dibuat Oleh</th>
                             <th class="text-center whitespace-nowrap">Status</th>
-                            <th class="text-center whitespace-nowrap">Action</th>
+                            <th class="text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

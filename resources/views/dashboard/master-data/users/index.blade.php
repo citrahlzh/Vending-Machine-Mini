@@ -35,7 +35,7 @@
                             <th>Nomor Telepon</th>
                             <th>Nomor Whatsapp</th>
                             <th class="text-center">Status</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

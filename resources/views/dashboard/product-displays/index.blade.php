@@ -37,7 +37,7 @@
                             <th class="whitespace-nowrap">Kode Sel</th>
                             <th class="text-center whitespace-nowrap">Sisa Stok</th>
                             <th class="text-center whitespace-nowrap">Status</th>
-                            <th class="text-center whitespace-nowrap">Action</th>
+                            <th class="text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -34,7 +34,7 @@
                             <th>Baris</th>
                             <th>Kolom</th>
                             <th class="text-center">Kapasitas</th>
-                            <th class="text-center">Action</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

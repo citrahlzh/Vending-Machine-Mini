@@ -30,7 +30,7 @@
                             <th class="">Jenis Kemasan</th>
                             <th class="">Ukuran Kemasan</th>
                             <th class="whitespace-nowrap">Dibuat Oleh</th>
-                            <th class="text-center whitespace-nowrap">Action</th>
+                            <th class="text-center whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
