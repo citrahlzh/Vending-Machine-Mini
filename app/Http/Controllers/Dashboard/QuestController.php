@@ -11,7 +11,9 @@ class QuestController extends Controller
 {
     public function index()
     {
-        return view('dashboard.game-management.quests.index');
+        $quests = Quest::all();
+
+        return view('dashboard.game-management.quests.index', compact(['quests']));
     }
 
     public function create()

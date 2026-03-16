@@ -5,82 +5,226 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Game;
-use App\Http\Resources\GameResource;
+use App\Models\SpinSegment;
+use App\Models\GameQuest;
+use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
 {
-    public function index()
+    public function destroy($id)
     {
-        $games = Game::all();
+        DB::beginTransaction();
 
-        return GameResource::collection($games);
+        try {
+            $game = Game::findOrFail($id);
+
+            SpinSegment::where('game_id', $game->id)->delete();
+            GameQuest::where('game_id', $game->id)->delete();
+
+            $game->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Game berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Gagal menghapus game',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function store(Request $request)
     {
-        $validator = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'config_json' => 'required|json',
-            'is_active' => 'sometimes|boolean',
-            'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date|after_or_equal:start_date',
+            'type' => 'required|in:quiz,guess_image,spin',
+            'is_active' => 'boolean',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+
+            'config' => 'nullable|array',
+            'quests' => 'nullable|array',
+
+            'segments' => 'nullable|array'
         ]);
 
-        $game = Game::create([
-            'name' => $validator['name'],
-            'type' => $validator['type'],
-            'config_json' => $validator['config_json'],
-            'is_active' => $validator['is_active'] ?? false,
-            'start_date' => $validator['start_date'] ?? null,
-            'end_date' => $validator['end_date'] ?? null,
+        DB::beginTransaction();
+
+        try {
+            $isActive = (bool) ($request->is_active ?? false);
+            $type = $request->type;
+
+            $game = Game::create([
+                'name' => $request->name,
+                'type' => $request->type,
+                'is_active' => $isActive,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'config_json' => $request->config ?? []
+            ]);
+
+            if ($isActive) {
+                Game::where('type', $type)
+                    ->where('id', '!=', $game->id)
+                    ->update(['is_active' => false]);
+            }
+            /*
+            =========================
+            QUIZ / GUESS IMAGE
+            =========================
+            */
+
+            if (in_array($game->type, ['quiz', 'guess_image'])) {
+
+                if (!empty($validated['quests'])) {
+
+                    foreach ($validated['quests'] as $index => $questId) {
+
+                        GameQuest::create([
+                            'game_id' => $game->id,
+                            'quest_id' => $questId,
+                            'order' => $index + 1
+                        ]);
+
+                    }
+
+                }
+
+            }
+
+            /*
+            =========================
+            SPIN
+            =========================
+            */
+
+            if ($game->type === 'spin') {
+
+                if (!empty($validated['segments'])) {
+
+                    foreach ($validated['segments'] as $index => $segment) {
+
+                        $imagePath = null;
+
+                        $image = $request->file("segments.$index.image");
+
+                        if ($image) {
+                            $imagePath = $image->store('spin_segments', 'public');
+                        }
+
+                        SpinSegment::create([
+                            'game_id' => $game->id,
+                            'reward_id' => $segment['reward_id'],
+                            'label' => $segment['label'],
+                            'image_url' => $imagePath,
+                            'weight' => $segment['weight'],
+                            'is_active' => true
+                        ]);
+
+                    }
+
+                }
+
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Game berhasil dibuat',
+                'data' => $game
+            ], 201);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Gagal membuat game',
+                'error' => $e->getMessage()
+            ], 500);
+
+        }
+    }
+
+    public function update(Request $request, Game $game)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'type' => 'required|in:quiz,guess_image,spin',
+            'is_active' => 'boolean',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'config' => 'nullable|array',
+            'quests' => 'nullable|array',
+            'segments' => 'nullable|array'
         ]);
 
-        return response()->json([
-            'data' => new GameResource($game),
-            'message' => 'Game berhasil ditambahkan.',
-        ], 201);
-    }
+        DB::beginTransaction();
 
-    public function show($id)
-    {
-        $game = Game::findOrFail($id);
+        try {
+            $game->update([
+                'name' => $request->name,
+                'type' => $request->type,
+                'is_active' => $request->is_active,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'config_json' => $request->config ?? []
+            ]);
 
-        return new GameResource($game);
-    }
+            if ($game->is_active) {
+                Game::where('type', $game->type)
+                    ->where('id', '!=', $game->id)
+                    ->update(['is_active' => false]);
+            }
 
-    public function edit($id)
-    {
-        //
-    }
+            if (in_array($game->type, ['quiz', 'guess_image'])) {
+                GameQuest::where('game_id', $game->id)->delete();
 
-    public function update(Request $request, $id)
-    {
-        $validator = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'type' => 'sometimes|required|string|max:255',
-            'config_json' => 'sometimes|required|json',
-            'is_active' => 'sometimes|boolean',
-            'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date|after_or_equal:start_date',
-        ]);
+                if (!empty($validated['quests'])) {
+                    foreach ($validated['quests'] as $index => $questId) {
+                        GameQuest::create([
+                            'game_id' => $game->id,
+                            'quest_id' => $questId,
+                            'order' => $index + 1
+                        ]);
+                    }
+                }
+            }
 
-        $game = Game::findOrFail($id);
-        $game->update($validator);
+            if ($game->type === 'spin') {
+                SpinSegment::where('game_id', $game->id)->delete();
 
-        return response()->json([
-            'data' => new GameResource($game),
-            'message' => 'Game berhasil diperbarui.',
-        ], 200);
-    }
+                if (!empty($validated['segments'])) {
+                    foreach ($validated['segments'] as $segment) {
+                        SpinSegment::create([
+                            'game_id' => $game->id,
+                            'label' => $segment['label'],
+                            'reward_id' => $segment['reward_id'],
+                            'weight' => $segment['weight'],
+                            'is_active' => true
+                        ]);
+                    }
+                }
+            }
 
-    public function destroy($id)
-    {
-        $game = Game::findOrFail($id);
-        $game->delete();
+            DB::commit();
 
-        return response()->json([
-            'message' => 'Game berhasil dihapus.',
-        ], 200);
+            return response()->json([
+                'message' => 'Game berhasil diperbarui'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Gagal memperbarui game',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
     }
 }

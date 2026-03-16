@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Sale;
 use App\Models\SaleLine;
 use App\Models\ProductDisplay;
+use App\Models\Reward;
 use App\Services\MidtransQrisService;
 use App\Services\SystemNotificationService;
 use App\Services\VendingDispenseService;
@@ -409,6 +410,10 @@ class TransactionService
                 if ((int) $cell->qty_current === 0 && !$display->is_empty) {
                     $display->is_empty = true;
                     $display->save();
+
+                    Reward::where('product_display_id', $display->id)
+                        ->where('is_active', true)
+                        ->update(['is_active' => false]);
                 }
 
                 $line->status = 'success';

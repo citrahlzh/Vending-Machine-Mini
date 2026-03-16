@@ -16,13 +16,13 @@ class IssuedReward extends Model
         'code',
         'status',
         'issued_at',
-        'expires_at',
+        'expired_at',
         'redeemed_at',
     ];
 
     protected $casts = [
         'issued_at' => 'datetime',
-        'expires_at' => 'datetime',
+        'expired_at' => 'datetime',
         'redeemed_at' => 'datetime',
     ];
 

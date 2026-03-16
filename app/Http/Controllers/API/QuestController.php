@@ -4,45 +4,48 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\QuestService;
 use App\Models\Quest;
 use App\Http\Resources\QuestResource;
 
 class QuestController extends Controller
 {
+    protected $questService;
+
+    public function __construct(QuestService $questService)
+    {
+        $this->questService = $questService;
+    }
+
     public function index()
     {
-        $quests = Quest::all();
+        $quests = Quest::latest()->get();
 
         return QuestResource::collection($quests);
     }
 
     public function store(Request $request)
     {
-        $validator = $request->validate([
-            'game_id' => 'required|exists:games,id',
-            'type' => 'required|string|max:255',
-            'game_type' => 'required|string',
-            'prompt' => 'required|json',
-            'option' => 'sometimes|json',
-            'answer' => 'sometimes|json',
-            'image_url' => 'sometimes|url|max:255',
-            'is_active' => 'sometimes|boolean',
+        $validated = $request->validate([
+
+            'type' => 'required|in:multiple_choice,text',
+
+            'game_type' => 'required|in:quiz,guess_image',
+
+            'prompt' => 'required|string',
+
+            'option' => 'nullable|array',
+
+            'correct_answer' => 'required|string',
+
+            'image_url' => 'nullable|image|max:2048'
+
         ]);
 
-        $quest = Quest::create([
-            'game_id' => $validator['game_id'],
-            'type' => $validator['type'],
-            'game_type' => $validator['game_type'],
-            'prompt' => $validator['prompt'],
-            'option' => $validator['option'],
-            'answer' => $validator['answer'],
-            'image_url' => $validator['image_url'] ?? null,
-            'is_active' => $validator['is_active'] ?? false,
-        ]);
+        $this->questService->create($request->all());
 
         return response()->json([
-            'data' => new QuestResource($quest),
-            'message' => 'Quest berhasil ditambahkan.',
+            'message' => 'Soal berhasil ditambahkan.'
         ], 201);
     }
 
@@ -53,40 +56,35 @@ class QuestController extends Controller
         return new QuestResource($quest);
     }
 
-    public function edit($id)
-    {
-        //
-    }
-
     public function update(Request $request, $id)
     {
-        $validator = $request->validate([
-            'game_id' => 'sometimes|required|exists:games,id',
-            'type' => 'sometimes|required|string|max:255',
-            'game_type' => 'sometimes|required|string',
-            'prompt' => 'sometimes|required|json',
-            'option' => 'sometimes|required|json',
-            'answer' => 'sometimes|required|json',
-            'image_url' => 'sometimes|url|max:255',
-            'is_active' => 'sometimes|boolean',
+        $quest = Quest::findOrFail($id);
+
+        $validated = $request->validate([
+            'type' => 'sometimes|in:multiple_choice,text',
+            'game_type' => 'sometimes|in:quiz,guess_image',
+            'prompt' => 'sometimes|string',
+            'option' => 'nullable|array',
+            'correct_answer' => 'sometimes|string',
+            'image_url' => 'nullable|image|max:2048',
+            'is_active' => 'sometimes|boolean'
         ]);
 
-        $quest = Quest::findOrFail($id);
-        $quest->update($validator);
+        $this->questService->update($quest, $request->all());
 
         return response()->json([
-            'data' => new QuestResource($quest),
-            'message' => 'Quest berhasil diperbarui.',
+            'message' => 'Soal berhasil diperbarui'
         ]);
     }
 
     public function destroy($id)
     {
         $quest = Quest::findOrFail($id);
+
         $quest->delete();
 
         return response()->json([
-            'message' => 'Quest berhasil dihapus.',
+            'message' => 'Soal berhasil dihapus'
         ]);
     }
 }

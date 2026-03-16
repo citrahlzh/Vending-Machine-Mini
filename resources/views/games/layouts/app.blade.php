@@ -20,9 +20,12 @@
 
     @stack('style')
 </head>
-<body class="min-h-screen flex flex-col">
-    <main class="flex-1">
-        @yield('content')
+<body class="flex flex-col">
+    <main class="flex-1 relative">
+        @stack('overlay')
+        <div class="min-h-[calc(100vh-64px)] flex px-6 py-12 sm:px-10 lg:px-[72px] lg:py-16 bg-cover items-center justify-center" style="background-image: url({{ asset('assets/images/landing/image.png') }})">
+            @yield('content')
+        </div>
     </main>
 
     <footer>

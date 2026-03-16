@@ -21,7 +21,7 @@
                 'icon' => 'reward.svg',
             ],
             [
-                'label' => 'Respon Permainan',
+                'label' => 'Riwayat Permainan',
                 'route' => 'dashboard.game-management.game-history.index',
                 'icon' => 'play.svg',
             ],

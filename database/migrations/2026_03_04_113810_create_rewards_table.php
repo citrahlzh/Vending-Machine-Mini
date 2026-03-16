@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('type', ['product', 'none']);
             $table->foreignId('product_display_id')->nullable()->constrained()->onDelete('set null');
-            $table->integer('stock')->default(0);
+            $table->integer('stock')->default(0)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();

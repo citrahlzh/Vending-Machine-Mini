@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reward;
+use App\Models\ProductDisplay;
 use App\Http\Resources\RewardResource;
 
 class RewardController extends Controller
@@ -21,20 +22,40 @@ class RewardController extends Controller
         $validator = $request->validate([
             'code' => 'required|string|max:255|unique:rewards,code',
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'type' => 'required|string|max:255',
-            'product_display_id' => 'sometimes|integer',
-            'stock' => 'sometimes|integer',
+            'product_display_id' => 'nullable|integer',
+            'stock' => 'nullable|integer',
             'is_active' => 'sometimes|boolean',
         ]);
+
+        if (($validator['type'] ?? null) === 'product') {
+            $displayId = $validator['product_display_id'] ?? null;
+            $display = $displayId ? ProductDisplay::with('cell')->find($displayId) : null;
+
+            if (!$display || !$display->cell) {
+                return response()->json([
+                    'message' => 'Product display tidak valid.',
+                ], 422);
+            }
+
+            if (array_key_exists('stock', $validator) && $validator['stock'] !== null) {
+                $available = (int) $display->cell->qty_current;
+                if ((int) $validator['stock'] > $available) {
+                    return response()->json([
+                        'message' => 'Stok reward tidak boleh melebihi stok display produk.',
+                    ], 422);
+                }
+            }
+        }
 
         $reward = Reward::create([
             'code' => $validator['code'],
             'name' => $validator['name'],
             'description' => $validator['description'],
             'type' => $validator['type'],
-            'product_display_id' => $validator['product_display_id'],
-            'stock' => $validator['stock'],
+            'product_display_id' => $validator['product_display_id'] ?? null,
+            'stock' => $validator['stock'] ?? null,
             'is_active' => $validator['is_active'] ?? false,
         ]);
 
@@ -61,7 +82,7 @@ class RewardController extends Controller
     {
         $validator = $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'description' => 'sometimes|required|string',
+            'description' => 'nullable|string',
             'type' => 'sometimes|required|string|max:255',
             'product_display_id' => 'sometimes|required|integer|min:0',
             'stock' => 'sometimes|required|integer|min:0',
@@ -69,11 +90,42 @@ class RewardController extends Controller
         ]);
 
         $reward = Reward::findOrFail($id);
+
+        $type = $validator['type'] ?? $reward->type;
+        if ($type === 'product') {
+            $displayId = $validator['product_display_id'] ?? $reward->product_display_id;
+            $display = $displayId ? ProductDisplay::with('cell')->find($displayId) : null;
+
+            if (!$display || !$display->cell) {
+                return response()->json([
+                    'message' => 'Product display tidak valid.',
+                ], 422);
+            }
+
+            if (array_key_exists('stock', $validator) && $validator['stock'] !== null) {
+                $available = (int) $display->cell->qty_current;
+                if ((int) $validator['stock'] > $available) {
+                    return response()->json([
+                        'message' => 'Stok reward tidak boleh melebihi stok display produk.',
+                    ], 422);
+                }
+            }
+        }
+
         $reward->update($validator);
 
         return response()->json([
             'data' => new RewardResource($reward),
             'message' => 'Reward berhasil diperbarui.',
         ], 200);
+    }
+
+    public function destroy($id) {
+        $reward = Reward::findOrFail($id);
+        $reward->delete();
+
+        return response()->json([
+            'message' => 'Hadiah berhasil dihapus.',
+        ]);
     }
 }

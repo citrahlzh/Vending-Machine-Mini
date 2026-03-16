@@ -30,4 +30,9 @@ class Reward extends Model
     {
         return $this->hasMany(IssuedReward::class);
     }
+
+    public function productDisplay()
+    {
+        return $this->belongsTo(ProductDisplay::class);
+    }
 }

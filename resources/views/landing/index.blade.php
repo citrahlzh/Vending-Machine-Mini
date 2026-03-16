@@ -173,16 +173,19 @@
                         class="rounded-[15px] border border-[#ebe0fb] bg-white/80 p-[18px] shadow-[0_10px_24px_rgba(92,42,148,0.12)] mt-auto">
                         <div class="text-[16px] font-semibold text-[#2a1a42]">Call Center</div>
                         <div class="mt-[4px] text-[12px] text-[#5d4c7b]">Butuh bantuan? Hubungi tim kami.</div>
-                        <div class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
+                        <div
+                            class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
                             <div>
                                 <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Telepon</div>
-                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ setting('call_center_number') }}</div>
+                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ setting('call_center_number') }}
+                                </div>
                             </div>
                             <div class="flex items-center">
                                 <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="h-[25px]">
                             </div>
                         </div>
-                        <div class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
+                        <div
+                            class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
                             <div>
                                 <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Whatsapp</div>
                                 <div class="text-[14px] font-semibold text-[#2b1a43]">{{ setting('whatsapp_number') }}</div>
@@ -197,6 +200,17 @@
                             <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt=""
                                 class="relative z-[1] h-[15px] brightness-0 invert">
                         </button>
+                    </div>
+
+                    <div class="w-full px-3 g:px-[72px] pb-[20px] pt-5">
+                        <div class="flex justify-center">
+                            <a href="{{ route('games.index') }}"
+                                class="guide-priority-btn w-full inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-[14px] font-semibold transition duration-200">
+                                <p>Main Permainan</p>
+                                <img src="{{ asset('assets/icons/landing/games.svg') }}" alt=""
+                                class="relative z-[1] h-[15px] brightness-0 invert">
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

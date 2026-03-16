@@ -5,21 +5,20 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Play;
-use App\Models\Game;
-use App\Models\PlayResponse;
-use App\Models\IssuedReward;
 
 class GameHistoryController extends Controller
 {
     public function index()
     {
-        $plays = Play::with('game', 'playResponse', 'issuedReward')->get();
-        return view('dashboard.game-management.history.index', compact('plays'));
+        $plays = Play::with(['game', 'responses', 'issuedRewards.reward'])->get();
+
+        return view('dashboard.game-management.game-histories.index', compact('plays'));
     }
 
     public function show($id)
     {
-        $play = Play::with('game', 'playResponse', 'issuedReward')->findOrFail($id);
-        return view('dashboard.game-management.history.show', compact('play'));
+        $play = Play::with(['game', 'responses', 'issuedRewards.reward'])->findOrFail($id);
+        
+        return view('dashboard.game-management.game-histories.show', compact('play'));
     }
 }

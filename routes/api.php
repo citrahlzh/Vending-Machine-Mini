@@ -20,12 +20,13 @@ use App\Http\Controllers\API\SpinSegmentController;
 use App\Http\Controllers\API\SiteSettingController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PlayHistoryController;
+use App\Http\Controllers\API\GamePlayController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::post('/login', [AuthController::class,'login']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function () {
     Route::group(['prefix' => 'user'], function () {
@@ -142,7 +143,7 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
 
     Route::group(['prefix' => 'quest'], function () {
         Route::get('/list', [QuestController::class, 'index']);
-               Route::post('/store', [QuestController::class, 'store']);
+        Route::post('/store', [QuestController::class, 'store']);
         Route::get('/show/{id}', [QuestController::class, 'show']);
         Route::get('/edit/{id}', [QuestController::class, 'edit']);
         Route::post('/update/{id}', [QuestController::class, 'update']);
@@ -177,7 +178,7 @@ Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function 
     });
 });
 
-Route::group(['prefix'=>'transaction'], function () {
+Route::group(['prefix' => 'transaction'], function () {
     Route::post('/checkout', [TransactionController::class, 'checkout']);
     Route::post('/notify', [TransactionController::class, 'notify']);
     Route::get('/show/{id}', [TransactionController::class, 'show']);
@@ -185,6 +186,10 @@ Route::group(['prefix'=>'transaction'], function () {
     Route::post('/cancel/{id}', [TransactionController::class, 'cancel']);
 });
 
-//Route game nanti disini
+Route::prefix('game')->middleware('throttle:30,1')->group(function () {
+    Route::post('/start/{game}', [GamePlayController::class, 'start']);
+    Route::post('/answer', [GamePlayController::class, 'answer']);
+    Route::post('/finish', [GamePlayController::class, 'finish']);
+});
 
 Route::post('/webhooks/midtrans', [TransactionController::class, 'webhook']);

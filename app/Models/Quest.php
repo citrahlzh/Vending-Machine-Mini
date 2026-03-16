@@ -11,7 +11,6 @@ class Quest extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'game_id',
         'type',
         'game_type',
         'prompt',
@@ -22,7 +21,6 @@ class Quest extends Model
     ];
 
     protected $casts = [
-        'prompt' => 'array',
         'option' => 'array',
         'answer' => 'array',
         'is_active' => 'boolean',
@@ -30,7 +28,10 @@ class Quest extends Model
 
     public function game()
     {
-        return $this->belongsTo(Game::class);
+        return $this->belongsToMany(Game::class, 'game_quests')
+            ->using(GameQuest::class)
+            ->withPivot('order')
+            ->withTimestamps();
     }
 
     public function playResponses()

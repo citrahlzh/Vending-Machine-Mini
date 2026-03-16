@@ -5,34 +5,60 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Game;
-use APP\Models\Quest;
+use App\Models\Quest;
 use App\Models\Reward;
-use App\Models\SpinSegment;
 
 class GameController extends Controller
 {
     public function index()
     {
-        $games = Game::with('quests', 'rewards', 'spinSegments')->get();
-        return view('dashboard.game-management.index', compact('games'));
+        $games = Game::withCount(['quests', 'spinSegments'])->latest()->get();
+
+        return view('dashboard.game-management.games.index', compact('games'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $rewards = Reward::all();
-        return view('dashboard.game-management.create', compact('rewards'));
-    }
+        $type = $request->query('type');
 
-    public function edit($id)
-    {
-        $game = Game::with('quests', 'rewards', 'spinSegments')->findOrFail($id);
-        $rewards = Reward::all();
-        return view('dashboard.game-management.edit', compact('game', 'rewards'));
+        $quests = [];
+        $rewards = [];
+
+        if ($type === 'quiz' || $type === 'guess_image') {
+            $quests = Quest::where('game_type', $type)
+                ->where('is_active', true)
+                ->get();
+        }
+
+        if (in_array($type, ['quiz', 'guess_image', 'spin'])) {
+            $rewards = Reward::where('is_active', true)->get();
+        }
+
+        return view('dashboard.game-management.games.create', [
+            'type' => $type,
+            'quests' => $quests,
+            'rewards' => $rewards
+        ]);
     }
 
     public function show($id)
     {
-        $game = Game::with('quests', 'rewards', 'spinSegments')->findOrFail($id);
-        return view('dashboard.game-management.show', compact('game'));
+        $game = Game::with(['quests', 'spinSegments.reward'])->findOrFail($id);
+
+        return view('dashboard.game-management.games.show', compact('game'));
+    }
+
+    public function edit($id)
+    {
+        $game = Game::findOrFail($id);
+
+        $quests = Quest::where('game_type', $game->type)->get();
+        $rewards = Reward::where('is_active', true)->get();
+
+        return view('dashboard.game-management.games.edit', compact(
+            'game',
+            'quests',
+            'rewards'
+        ));
     }
 }

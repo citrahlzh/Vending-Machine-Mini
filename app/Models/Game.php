@@ -33,7 +33,10 @@ class Game extends Model
 
     public function quests()
     {
-        return $this->hasMany(Quest::class);
+        return $this->belongsToMany(Quest::class, 'game_quests')
+            ->using(GameQuest::class)
+            ->withPivot('order')
+            ->withTimestamps();
     }
 
     public function spinSegments()

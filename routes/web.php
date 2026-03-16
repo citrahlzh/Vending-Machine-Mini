@@ -21,15 +21,3 @@ Route::get('/image/{path}', function ($path) {
 
     return response()->file($path);
 })->where('path', '.*');
-
-Route::get('/quiz', function () {
-    return view('games.quiz');
-});
-
-Route::get('/spin-wheel', function () {
-    return view('games.spin-wheel');
-});
-
-Route::get('/guess-image', function () {
-    return view('games.guess-image');
-});

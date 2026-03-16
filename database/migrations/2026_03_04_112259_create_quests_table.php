@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('quests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['multiple_choice', 'text']);
             $table->enum('game_type', ['quiz', 'guess_image']);
-            $table->json('prompt');
+            $table->text('prompt');
             $table->json('option')->nullable();
             $table->json('answer')->nullable();
             $table->string('image_url')->nullable();
