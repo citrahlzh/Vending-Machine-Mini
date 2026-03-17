@@ -54,10 +54,10 @@
                 @endif
             </div>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <div class="flex sm:flex-row items-center justify-center gap-3">
                 @if (($game?->type ?? null) === 'spin' && $maxSpin > 1 && ($spinRemaining === null || $spinRemaining > 0))
                     <a href="{{ route('games.spin-wheel', $game->id) }}"
-                        class="inline-flex items-center justify-center rounded-full bg-white px-12 py-4 text-lg font-semibold text-[#5A2F7E] border-2 border-[#5A2F7E] shadow-[6px_6px_0px_#5A2F7E] transition hover:-translate-y-0.5">
+                        class="inline-flex items-center justify-center rounded-full bg-[#5A2F7E] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
                         Ulang Spin
                     </a>
                 @endif

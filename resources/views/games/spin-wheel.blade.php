@@ -5,7 +5,7 @@
 @section('content')
     <div class="flex flex-col items-center">
 
-        <h1 class="text-4xl font-bold text-purple-800 mb-[100px]">
+        <h1 class="text-4xl font-bold text-purple-800 mb-[100px] text-center">
             Putar dan dapatkan hadiahnya!
         </h1>
 
