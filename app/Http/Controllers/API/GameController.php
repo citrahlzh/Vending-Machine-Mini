@@ -199,8 +199,9 @@ class GameController extends Controller
             if ($game->type === 'spin') {
                 SpinSegment::where('game_id', $game->id)->delete();
 
-                if (!empty($validated['segments'])) {
-                    foreach ($validated['segments'] as $index => $segment) {
+                $segmentsPayload = $request->input('segments', []);
+                if (!empty($segmentsPayload)) {
+                    foreach ($segmentsPayload as $index => $segment) {
                         $imagePath = null;
                         $image = $request->file("segments.$index.image");
 

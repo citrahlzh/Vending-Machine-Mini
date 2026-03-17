@@ -28,7 +28,7 @@
 
         <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
 
-            <form id="updateGameForm" class="space-y-4">
+            <form id="updateGameForm" class="space-y-4" enctype="multipart/form-data">
 
                 <div>
 

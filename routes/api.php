@@ -137,7 +137,7 @@ Route::middleware(['web'])->group(function () {
         Route::post('/store', [GameController::class, 'store']);
         Route::get('/show/{id}', [GameController::class, 'show']);
         Route::get('/edit/{id}', [GameController::class, 'edit']);
-        Route::post('/update/{id}', [GameController::class, 'update']);
+        Route::post('/update/{game}', [GameController::class, 'update']);
         Route::delete('/delete/{id}', [GameController::class, 'destroy']);
     });
 
