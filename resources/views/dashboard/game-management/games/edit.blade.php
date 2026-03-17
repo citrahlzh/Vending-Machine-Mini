@@ -169,7 +169,7 @@
                 {{-- CONFIG SPIN --}}
                 <div id="spinConfig" class="hidden space-y-4">
 
-                    <div>
+                    {{-- <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">
                             Durasi Spin (detik)
                         </label>
@@ -177,7 +177,7 @@
                         <input type="number" name="config[spin_duration]"
                             value="{{ $game->config_json['spin_duration'] ?? '' }}"
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
-                    </div>
+                    </div> --}}
 
 
                     <div>
