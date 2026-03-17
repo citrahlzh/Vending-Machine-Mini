@@ -102,7 +102,7 @@ function renderWheel() {
                 "http://www.w3.org/2000/svg",
                 "image",
             );
-            const imageSize = Math.max(30, Math.min(52, radius * 0.25));
+            const imageSize = Math.max(44, Math.min(72, radius * 0.35));
             image.setAttribute("x", String(textX - imageSize / 2));
             image.setAttribute("y", String(textY - imageSize / 2));
             image.setAttribute("width", String(imageSize));

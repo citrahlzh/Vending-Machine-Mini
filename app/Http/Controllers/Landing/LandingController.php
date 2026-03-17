@@ -11,8 +11,8 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $callCenterPhone = (string) config('app.call_center_phone', '0812-0000-0000');
-        $callCenterWhatsapp = (string) config('app.call_center_whatsapp', $callCenterPhone);
+        $callCenterPhone = (string) setting('call_center_number', '0812-0000-0000');
+        $callCenterWhatsapp = (string) setting('whatsapp_number', $callCenterPhone);
 
         $ads = Ad::query()
             ->where('status', 'active')
