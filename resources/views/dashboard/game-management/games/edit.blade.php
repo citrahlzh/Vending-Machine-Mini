@@ -404,7 +404,7 @@
 
                 var formData = new FormData(this)
 
-                fetch('/api/games/{{ $game->id }}', {
+                fetch('/api/game/update/{{ $game->id }}', {
                     method: 'POST',
                     body: formData
                 }).then(function(res) {
