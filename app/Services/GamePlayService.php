@@ -121,7 +121,7 @@ class GamePlayService
         if ($segment && $segment->reward && $segment->reward->type !== 'none') {
 
             $reward = $this->rewardService
-                ->issueReward($play, $segment->reward);
+                ->issueReward($play, $segment->reward, false);
 
         }
 

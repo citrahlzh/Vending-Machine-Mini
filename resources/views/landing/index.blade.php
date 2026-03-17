@@ -138,81 +138,6 @@
                         $callWaDigits = '62' . substr($callWaDigits, 1);
                     }
                 @endphp
-
-                <div class="lg:sticky lg:top-[24px] w-[250px] shrink-0 space-y-[14px]">
-                    <div
-                        class="bg-white rounded-[15px] border border-[#eee5f9] shadow-[0_12px_30px_rgba(60,34,97,0.12)] p-[24px]">
-                        <div class="text-[18px] font-semibold text-[#2a1a42] text-center">Detail Pesanan</div>
-                        <div class="mt-[16px] border-t border-[#efe6ff] pt-[16px]">
-                            <div
-                                class="grid grid-cols-[1fr_40px_80px] text-[12px] font-semibold text-[#5b4a7a] pb-[10px] border-b border-[#f1ecff]">
-                                <div>Produk</div>
-                                <div class="text-center">Qty</div>
-                                <div class="text-right">Harga</div>
-                            </div>
-                            <div id="cart-lines" class="mt-[10px] space-y-[8px] text-[12px] text-[#2b1a43]"></div>
-                            <div
-                                class="mt-[16px] pt-[12px] border-t border-[#f1ecff] flex items-center justify-between text-[13px] font-semibold text-[#2b1a43]">
-                                <div>Total</div>
-                                <div id="cart-total">Rp 0</div>
-                            </div>
-                        </div>
-                        <div class="mt-[24px] flex items-center gap-[8px]">
-                            <button id="btn-pay"
-                                class="text-[12px] w-full h-[38px] rounded-full bg-[#5c2a94] text-white font-semibold">
-                                Bayar Sekarang
-                            </button>
-                            <button id="btn-clear-cart" type="button"
-                                class="hidden h-[38px] min-w-[38px] rounded-full border border-[#cfc5e7] px-[10px] text-[11px] font-semibold transition hover:bg-[#e7dffb]">
-                                <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="">
-                            </button>
-                        </div>
-                    </div>
-
-                    <div
-                        class="rounded-[15px] border border-[#ebe0fb] bg-white/80 p-[18px] shadow-[0_10px_24px_rgba(92,42,148,0.12)] mt-auto">
-                        <div class="text-[16px] font-semibold text-[#2a1a42]">Call Center</div>
-                        <div class="mt-[4px] text-[12px] text-[#5d4c7b]">Butuh bantuan? Hubungi tim kami.</div>
-                        <div
-                            class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
-                            <div>
-                                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Telepon</div>
-                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ setting('call_center_number') }}
-                                </div>
-                            </div>
-                            <div class="flex items-center">
-                                <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="h-[25px]">
-                            </div>
-                        </div>
-                        <div
-                            class="mt-[10px] rounded-[10px] bg-gradient-to-br from-[#fbf8ff] to-[#f2eaff] px-[12px] py-[10px] flex justify-between align-middle">
-                            <div>
-                                <div class="text-[11px] font-semibold uppercase tracking-wide text-[#7e69a3]">Whatsapp</div>
-                                <div class="text-[14px] font-semibold text-[#2b1a43]">{{ setting('whatsapp_number') }}</div>
-                            </div>
-                            <div class="flex items-center">
-                                <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="h-[25px]">
-                            </div>
-                        </div>
-                        <button id="btn-open-guide"
-                            class="guide-priority-btn flex mt-[12px] w-full h-[38px] rounded-full text-[12px] font-semibold transition duration-200 justify-center items-center gap-2">
-                            <p class="relative z-[1]">Panduan Pembelian</p>
-                            <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt=""
-                                class="relative z-[1] h-[15px] brightness-0 invert">
-                        </button>
-                    </div>
-
-                    <div class="w-full px-3 g:px-[72px] pb-[20px] pt-5">
-                        <div class="flex justify-center">
-                            <a href="{{ route('games.index') }}"
-                                class="guide-priority-btn w-full inline-flex items-center justify-center gap-2 rounded-full px-8 py-3 text-[14px] font-semibold transition duration-200">
-                                <p>Main Permainan</p>
-                                <img src="{{ asset('assets/icons/landing/games.svg') }}" alt=""
-                                class="relative z-[1] h-[15px] brightness-0 invert">
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -265,6 +190,11 @@
         class="fixed bottom-20 right-5 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
         <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[18px] brightness-0 invert">
     </button>
+
+    <a href="{{ route('games.index') }}" aria-label="Buka halaman games"
+        class="fixed bottom-[132px] right-5 inline-flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#5A2F7E] text-white shadow-[0_10px_24px_rgba(90,47,126,0.35)] hover:-translate-y-0.5 transition">
+        <img src="{{ asset('assets/icons/landing/games.svg') }}" alt="" class="h-[18px] brightness-0 invert">
+    </a>
 
     <div id="modal-guide" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/40 p-3 pb-[80px]">
         <div class="bg-white w-full max-w-[560px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">

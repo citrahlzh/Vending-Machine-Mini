@@ -200,11 +200,21 @@ class GameController extends Controller
                 SpinSegment::where('game_id', $game->id)->delete();
 
                 if (!empty($validated['segments'])) {
-                    foreach ($validated['segments'] as $segment) {
+                    foreach ($validated['segments'] as $index => $segment) {
+                        $imagePath = null;
+                        $image = $request->file("segments.$index.image");
+
+                        if ($image) {
+                            $imagePath = $image->store('spin_segments', 'public');
+                        } elseif (!empty($segment['image_url'])) {
+                            $imagePath = $segment['image_url'];
+                        }
+
                         SpinSegment::create([
                             'game_id' => $game->id,
                             'label' => $segment['label'],
                             'reward_id' => $segment['reward_id'],
+                            'image_url' => $imagePath,
                             'weight' => $segment['weight'],
                             'is_active' => true
                         ]);

@@ -211,7 +211,7 @@
                     <div id="segmentContainer" class="space-y-3">
 
                         @foreach ($game->spinSegments as $i => $segment)
-                            <div class="grid grid-cols-1 gap-3 md:grid-cols-4 border border-[#e4d9f6] p-3 rounded-lg">
+                            <div class="grid grid-cols-1 gap-3 md:grid-cols-5 border border-[#e4d9f6] p-3 rounded-lg">
 
                                 <input type="text" name="segments[{{ $i }}][label]"
                                     value="{{ $segment->label }}" placeholder="Label"
@@ -232,6 +232,13 @@
                                 <input type="number" name="segments[{{ $i }}][weight]"
                                     value="{{ $segment->weight }}" placeholder="Weight"
                                     class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+
+                                <div class="space-y-2">
+                                    <input type="hidden" name="segments[{{ $i }}][image_url]"
+                                        value="{{ $segment->image_url }}">
+                                    <input type="file" name="segments[{{ $i }}][image]"
+                                        class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />
+                                </div>
 
                                 <button type="button" onclick="removeSegment(this)"
                                     class="h-10 rounded-lg bg-red-500 px-3 text-[14px] font-semibold text-white">
@@ -443,7 +450,7 @@
             })
 
             var html = '' +
-                '<div class="grid grid-cols-1 gap-3 md:grid-cols-4 border border-[#e4d9f6] p-3 rounded-lg">' +
+                '<div class="grid grid-cols-1 gap-3 md:grid-cols-5 border border-[#e4d9f6] p-3 rounded-lg">' +
                 '<input type="text" name="segments[' + segmentIndex + '][label]" placeholder="Label" ' +
                 'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
                 '<select name="segments[' + segmentIndex + '][reward_id]" ' +
@@ -452,6 +459,8 @@
                 '</select>' +
                 '<input type="number" name="segments[' + segmentIndex + '][weight]" placeholder="Weight" ' +
                 'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
+                '<input type="file" name="segments[' + segmentIndex + '][image]" ' +
+                'class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />' +
                 '<button type="button" onclick="removeSegment(this)" ' +
                 'class="h-10 rounded-lg bg-red-500 px-3 text-[14px] font-semibold text-white">' +
                 'Hapus' +

@@ -28,7 +28,7 @@ use App\Http\Controllers\API\GamePlayController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:sanctum', 'can:access-dashboard-api'])->group(function () {
+Route::middleware(['web'])->group(function () {
     Route::group(['prefix' => 'user'], function () {
         Route::get('/list', [UserController::class, 'index']);
         Route::post('/store', [UserController::class, 'store']);

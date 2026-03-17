@@ -22,6 +22,10 @@ Route::prefix('games')->name('games.')->group(function () {
         ->middleware('signed')
         ->name('result.success');
 
+    Route::post('/result/dispense/{issuedReward}', [GameResultController::class, 'dispense'])
+        ->middleware('signed')
+        ->name('result.dispense');
+
     Route::get('/result/fail', [GameResultController::class, 'fail'])
         ->name('result.fail');
 });

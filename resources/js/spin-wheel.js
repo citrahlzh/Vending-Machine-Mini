@@ -25,6 +25,18 @@ if (spinAudio) {
 
 renderWheel();
 
+function resolveSegmentImageUrl(imageUrl) {
+    if (!imageUrl) return "";
+    if (typeof imageUrl !== "string") return "";
+    if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+        return imageUrl;
+    }
+    if (imageUrl.startsWith("/")) {
+        return imageUrl;
+    }
+    return `/storage/${imageUrl}`;
+}
+
 function renderWheel() {
     if (!wheel) return;
 
@@ -83,25 +95,48 @@ function renderWheel() {
         const textX = center + radius * 0.6 * Math.cos(textAngle);
         const textY = center + radius * 0.6 * Math.sin(textAngle);
 
-        const text = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text",
-        );
+        const segmentImageUrl = resolveSegmentImageUrl(segment.image_url);
 
-        text.setAttribute("x", textX);
-        text.setAttribute("y", textY);
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("alignment-baseline", "middle");
-        const label = String(segment.label || "");
-        const fontSize = label.length > 12 ? 12 : label.length > 8 ? 14 : 16;
+        if (segmentImageUrl) {
+            const image = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "image",
+            );
+            const imageSize = Math.max(30, Math.min(52, radius * 0.25));
+            image.setAttribute("x", String(textX - imageSize / 2));
+            image.setAttribute("y", String(textY - imageSize / 2));
+            image.setAttribute("width", String(imageSize));
+            image.setAttribute("height", String(imageSize));
+            image.setAttribute("preserveAspectRatio", "xMidYMid meet");
+            image.setAttribute("href", segmentImageUrl);
+            image.setAttributeNS(
+                "http://www.w3.org/1999/xlink",
+                "href",
+                segmentImageUrl,
+            );
+            image.setAttribute("pointer-events", "none");
+            wheel.appendChild(image);
+        } else {
+            const text = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text",
+            );
 
-        text.setAttribute("fill", "#572F75");
-        text.setAttribute("font-size", String(fontSize));
-        text.setAttribute("pointer-events", "none");
+            text.setAttribute("x", textX);
+            text.setAttribute("y", textY);
+            text.setAttribute("text-anchor", "middle");
+            text.setAttribute("alignment-baseline", "middle");
+            const label = String(segment.label || "");
+            const fontSize = label.length > 12 ? 12 : label.length > 8 ? 14 : 16;
 
-        text.textContent = label;
+            text.setAttribute("fill", "#572F75");
+            text.setAttribute("font-size", String(fontSize));
+            text.setAttribute("pointer-events", "none");
 
-        wheel.appendChild(text);
+            text.textContent = label;
+
+            wheel.appendChild(text);
+        }
     });
 
     const border = document.createElementNS(

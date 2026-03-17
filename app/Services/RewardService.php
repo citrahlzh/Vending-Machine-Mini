@@ -18,7 +18,7 @@ class RewardService
         $this->dispenseService = $dispenseService;
     }
 
-    public function issueReward(Play $play, Reward $reward): ?IssuedReward
+    public function issueReward(Play $play, Reward $reward, bool $dispenseNow = true): ?IssuedReward
     {
 
         $issued = DB::transaction(function () use ($play, $reward) {
@@ -69,7 +69,7 @@ class RewardService
             return null;
         }
 
-        if ($reward->type === 'product' && $reward->productDisplay) {
+        if ($dispenseNow && $reward->type === 'product' && $reward->productDisplay) {
 
             $cellCode = $reward->productDisplay->cell?->code;
 
@@ -90,6 +90,43 @@ class RewardService
         }
 
         return $issued;
+    }
+
+    public function dispenseIssuedReward(IssuedReward $issuedReward): bool
+    {
+        $issued = DB::transaction(function () use ($issuedReward) {
+            $lockedIssued = IssuedReward::lockForUpdate()->find($issuedReward->id);
+
+            if (!$lockedIssued || $lockedIssued->status === 'redeemed') {
+                return $lockedIssued;
+            }
+
+            $lockedIssued->loadMissing(['reward.productDisplay.cell']);
+
+            $reward = $lockedIssued->reward;
+            if (!$reward || $reward->type !== 'product') {
+                return $lockedIssued;
+            }
+
+            $cellCode = $reward->productDisplay?->cell?->code;
+            if (!$cellCode) {
+                return $lockedIssued;
+            }
+
+            $this->dispenseService->dispense(
+                $lockedIssued->code,
+                $cellCode
+            );
+
+            $lockedIssued->update([
+                'status' => 'redeemed',
+                'redeemed_at' => now(),
+            ]);
+
+            return $lockedIssued->refresh();
+        });
+
+        return (bool) ($issued && $issued->status === 'redeemed');
     }
 
 }
