@@ -47,6 +47,11 @@
             </div>
         @endif
 
+        <a href="{{ route('landing.index') }}"
+            class="fixed bottom-24 left-6 sm:left-10 lg:left-[72px] inline-flex items-center gap-2 rounded-full bg-[#5A2F7E] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+            Kembali
+        </a>
+
     </div>
 @endsection
 

@@ -207,9 +207,9 @@
                         Spin Segments
                     </h2>
 
-                    <div id="segmentsContainer" class="space-y-4">
+                    <div id="segmentsContainer" class="space-y-4 overflow-x-auto">
 
-                        <div class="grid grid-cols-1 gap-3 md:grid-cols-4 segment-row">
+                        <div class="grid grid-cols-5 gap-3 min-w-[860px] segment-row">
 
                             <input name="segments[0][label]" placeholder="Label"
                                 class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
@@ -285,7 +285,7 @@
 
                 var row = document.createElement('div')
 
-                row.className = 'grid grid-cols-1 gap-3 md:grid-cols-4'
+                row.className = 'grid grid-cols-5 gap-3 min-w-[860px]'
 
                 row.innerHTML =
                     '<input name="segments[' + segmentIndex + '][label]" placeholder="Label" ' +

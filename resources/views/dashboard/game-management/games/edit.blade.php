@@ -208,10 +208,10 @@
 
                     <h3 class="text-[18px] font-semibold text-[#3C1C5E]">Spin Segments</h3>
 
-                    <div id="segmentContainer" class="space-y-3">
+                    <div id="segmentContainer" class="space-y-3 overflow-x-auto">
 
                         @foreach ($game->spinSegments as $i => $segment)
-                            <div class="grid grid-cols-1 gap-3 md:grid-cols-5 border border-[#e4d9f6] p-3 rounded-lg">
+                            <div class="grid grid-cols-5 gap-3 min-w-[860px] border border-[#e4d9f6] p-3 rounded-lg">
 
                                 <input type="text" name="segments[{{ $i }}][label]"
                                     value="{{ $segment->label }}" placeholder="Label"
@@ -236,6 +236,10 @@
                                 <div class="space-y-2">
                                     <input type="hidden" name="segments[{{ $i }}][image_url]"
                                         value="{{ $segment->image_url }}">
+                                    @if ($segment->image_url)
+                                        <img src="{{ asset('storage/' . $segment->image_url) }}" alt="Segment image"
+                                            class="h-12 w-12 rounded-md object-cover border border-[#e4d9f6]">
+                                    @endif
                                     <input type="file" name="segments[{{ $i }}][image]"
                                         class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />
                                 </div>
@@ -450,7 +454,7 @@
             })
 
             var html = '' +
-                '<div class="grid grid-cols-1 gap-3 md:grid-cols-5 border border-[#e4d9f6] p-3 rounded-lg">' +
+                '<div class="grid grid-cols-5 gap-3 min-w-[860px] border border-[#e4d9f6] p-3 rounded-lg">' +
                 '<input type="text" name="segments[' + segmentIndex + '][label]" placeholder="Label" ' +
                 'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
                 '<select name="segments[' + segmentIndex + '][reward_id]" ' +
