@@ -21,6 +21,7 @@ use App\Http\Controllers\API\SiteSettingController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PlayHistoryController;
 use App\Http\Controllers\API\GamePlayController;
+use App\Http\Controllers\API\RoleController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -36,6 +37,13 @@ Route::middleware(['web'])->group(function () {
         Route::get('/edit/{id}', [UserController::class, 'edit']);
         Route::post('/update/{id}', [UserController::class, 'update']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'role', 'middleware' => ['auth', 'role:admin']], function () {
+        Route::get('/list', [RoleController::class, 'index']);
+        Route::post('/store', [RoleController::class, 'store']);
+        Route::post('/update/{id}', [RoleController::class, 'update']);
+        Route::delete('/delete/{id}', [RoleController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'category'], function () {

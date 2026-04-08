@@ -11,6 +11,11 @@
                 'icon' => 'users.svg',
             ],
             [
+                'label' => 'Role Pengguna',
+                'route' => 'dashboard.master-data.roles.index',
+                'icon' => 'username.svg',
+            ],
+            [
                 'label' => 'Merek',
                 'route' => 'dashboard.master-data.brands.index',
                 'icon' => 'brand.svg',

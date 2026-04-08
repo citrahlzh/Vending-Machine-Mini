@@ -40,6 +40,18 @@
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="role_id">Role</label>
+                        <select id="role_id" name="role_id" required
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            <option value="">Pilih role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                                    {{ $role->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="phone_number">Nomor
                             Telepon</label>
                         <input id="phone_number" name="phone_number" type="text" required
@@ -106,6 +118,7 @@
                 const payload = {
                     name: document.getElementById('name').value.trim(),
                     is_active: document.getElementById('is_active').value === '1',
+                    role_id: document.getElementById('role_id').value,
                     phone_number: document.getElementById('phone_number').value.trim(),
                     whatsapp_number: document.getElementById('whatsapp_number').value.trim() || null,
                     username: document.getElementById('username').value.trim(),

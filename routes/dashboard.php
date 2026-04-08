@@ -20,8 +20,9 @@ use App\Http\Controllers\Dashboard\GameController;
 use App\Http\Controllers\Dashboard\QuestController;
 use App\Http\Controllers\Dashboard\RewardController;
 use App\Http\Controllers\Dashboard\GameHistoryController;
+use App\Http\Controllers\Dashboard\RoleController;
 
-Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'role:admin,staff'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::prefix('notifications')->name('notifications.')->group(function () {
@@ -92,7 +93,7 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
         });
     });
 
-    Route::prefix('master-data')->name('master-data.')->group(function () {
+    Route::prefix('master-data')->middleware('role:admin')->name('master-data.')->group(function () {
         Route::get('/', [DashboardController::class, 'masterIndex'])->name('index');
 
         Route::prefix('users')->name('users.')->group(function () {
@@ -100,6 +101,10 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
             Route::get('/create', [UserController::class, 'create'])->name('create');
             Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit');
             Route::get('/{id}', [UserController::class, 'show'])->name('show');
+        });
+
+        Route::prefix('roles')->name('roles.')->group(function () {
+            Route::get('/', [RoleController::class, 'index'])->name('index');
         });
 
         Route::prefix('brands')->name('brands.')->group(function () {
@@ -129,4 +134,3 @@ Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(functi
 
     Route::get('/setelan-situs', [SiteSettingController::class, 'index'])->name('site-setting.index');
 });
-

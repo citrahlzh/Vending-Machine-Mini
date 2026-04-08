@@ -21,7 +21,7 @@
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-[220px,1fr]">
                 <div
                     class="flex h-[200px] w-[200px] items-center justify-center rounded-2xl border border-[#ccc3db] bg-white">
-                    <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->product_name }}"
+                    <img src="{{ asset('/image/' . $product->image_url) }}" alt="{{ $product->product_name }}"
                         class="max-h-[150px] max-w-[150px] object-contain">
                 </div>
 

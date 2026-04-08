@@ -44,9 +44,22 @@ class GamePlayService
 
     public function getQuestions(Game $game)
     {
-        $count = $game->config['question_count'] ?? 5;
+        $config = $game->config_json ?? [];
+        $count = (int) ($config['question_count'] ?? 5);
+        if ($count <= 0) {
+            $count = 5;
+        }
+
+        $gameQuestQuery = $game->quests()->where('is_active', true);
+        if ($gameQuestQuery->exists()) {
+            return $gameQuestQuery
+                ->inRandomOrder()
+                ->limit($count)
+                ->get();
+        }
 
         return Quest::where('game_type', $game->type)
+            ->where('is_active', true)
             ->inRandomOrder()
             ->limit($count)
             ->get();
@@ -64,19 +77,27 @@ class GamePlayService
         $correct = false;
 
         if ($quest->answer) {
-
             $correctAnswer = $quest->answer['correct_answer'] ?? null;
 
-            $correct = $answer == $correctAnswer;
-
+            if ($quest->type === 'text') {
+                $normalized = trim((string) $answer);
+                $normalizedAnswer = trim((string) $correctAnswer);
+                $correct = mb_strtolower($normalized) === mb_strtolower($normalizedAnswer);
+            } else {
+                $correct = (string) $answer === (string) $correctAnswer;
+            }
         }
 
-        return PlayResponse::create([
-            'play_id' => $play->id,
-            'quest_id' => $quest->id,
-            'answer' => $answer,
-            'is_correct' => $correct
-        ]);
+        return PlayResponse::updateOrCreate(
+            [
+                'play_id' => $play->id,
+                'quest_id' => $quest->id,
+            ],
+            [
+                'user_answer' => $answer,
+                'is_correct' => $correct,
+            ]
+        );
     }
 
 
@@ -88,14 +109,56 @@ class GamePlayService
 
     public function finish(Play $play)
     {
+        $correctCount = PlayResponse::where('play_id', $play->id)
+            ->where('is_correct', true)
+            ->count();
+
         $play->update([
             'status' => 'finished',
+            'score' => $correctCount,
             'finished_at' => now()
         ]);
 
-        return PlayResponse::where('play_id', $play->id)
-            ->where('is_correct', true)
-            ->count();
+        return $correctCount;
+    }
+
+    public function issueRewardForScore(Game $game, Play $play, int $score)
+    {
+        $config = $game->config_json ?? [];
+        $distribution = $config['reward_distribution'] ?? [];
+
+        if (!is_array($distribution) || empty($distribution)) {
+            return null;
+        }
+
+        $candidates = collect($distribution)
+            ->filter(function ($row) {
+                return isset($row['score'], $row['reward_id']) && $row['reward_id'];
+            })
+            ->map(function ($row) {
+                $row['score'] = (int) $row['score'];
+                return $row;
+            })
+            ->sortByDesc('score')
+            ->values();
+
+        $selected = $candidates->first(function ($row) use ($score) {
+            return $score >= (int) $row['score'];
+        });
+
+        if (!$selected) {
+            return null;
+        }
+
+        $reward = \App\Models\Reward::where('id', $selected['reward_id'])
+            ->where('is_active', true)
+            ->first();
+
+        if (!$reward) {
+            return null;
+        }
+
+        return $this->rewardService->issueReward($play, $reward, false);
     }
 
     public function spin(Game $game, Play $play)

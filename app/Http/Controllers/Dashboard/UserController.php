@@ -5,31 +5,36 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->get();
+        $users = User::with('role')->latest()->get();
 
         return view('dashboard.master-data.users.index', compact('users'));
     }
 
     public function create()
     {
-        return view('dashboard.master-data.users.create');
+        $roles = Role::where('is_active', true)->orderBy('name')->get();
+
+        return view('dashboard.master-data.users.create', compact('roles'));
     }
 
     public function edit($id)
     {
         $user = User::findOrFail($id);
 
-        return view('dashboard.master-data.users.edit', compact('user'));
+        $roles = Role::where('is_active', true)->orderBy('name')->get();
+
+        return view('dashboard.master-data.users.edit', compact('user', 'roles'));
     }
 
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('role')->findOrFail($id);
 
         return view('dashboard.master-data.users.show', compact('user'));
     }

@@ -17,6 +17,7 @@ Route::prefix('games')->name('games.')->group(function () {
     Route::get('/spin-wheel/{game}', [GameController::class, 'spinWheel'])->name('spin-wheel');
     Route::post('/spin/{game}', [GamePlayController::class, 'spin'])->middleware('throttle:20,1');
     Route::get('/play/{game}', [GameController::class, 'play'])->name('play');
+    Route::get('/play-type/{type}', [GameController::class, 'playByType'])->name('play-type');
 
     Route::get('/result/success/{issuedReward}', [GameResultController::class, 'success'])
         ->middleware('signed')

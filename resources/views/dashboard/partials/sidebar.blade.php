@@ -55,6 +55,7 @@
             'patterns' => ['dashboard.master-data.*'],
             'icon' => 'master-data.svg',
             'active_icon' => 'master-data-active.svg',
+            'roles' => ['admin'],
         ],
         [
             'label' => 'Setelan Situs',
@@ -79,11 +80,20 @@
             class="mt-5 w-[70px]" />
     </div>
 
+    @php
+        $currentRole = auth()->user()?->role?->slug;
+    @endphp
+
     <ul class="mt-10 space-y-1">
         @foreach ($topMenus as $menu)
             @php
                 $isActive = request()->routeIs(...$menu['patterns']);
+                $allowedRoles = $menu['roles'] ?? null;
+                $isAllowed = !$allowedRoles || ($currentRole && in_array($currentRole, $allowedRoles, true));
             @endphp
+            @if (!$isAllowed)
+                @continue
+            @endif
             <li>
                 <a href="{{ route($menu['route']) }}"
                     class="{{ $isActive ? 'text-[#3C1C5E] font-semibold' : 'text-[#3C1C5E] font-regular hover:text-[#2f1548]' }} relative flex items-center gap-4 rounded-xl px-4 py-3 text-base leading-none transition">

@@ -237,7 +237,7 @@
                                     <input type="hidden" name="segments[{{ $i }}][image_url]"
                                         value="{{ $segment->image_url }}">
                                     @if ($segment->image_url)
-                                        <img src="{{ asset('storage/' . $segment->image_url) }}" alt="Segment image"
+                                        <img src="{{ asset('/image/' . $segment->image_url) }}" alt="Segment image"
                                             class="h-12 w-12 rounded-md object-cover border border-[#e4d9f6]">
                                     @endif
                                     <input type="file" name="segments[{{ $i }}][image]"

@@ -49,7 +49,7 @@
                                 <td class="whitespace-nowrap">
                                     <div class="flex items-center gap-2">
                                         @if ($productDisplay->product?->image_url)
-                                            <img src="{{ asset('storage/' . $productDisplay->product->image_url) }}"
+                                            <img src="{{ asset('/image/' . $productDisplay->product->image_url) }}"
                                                 alt="{{ $productDisplay->product->product_name }}"
                                                 class="h-8 w-8 rounded-md object-cover">
                                         @endif

@@ -55,7 +55,7 @@
 
                         @if ($quest->image_url)
                             <div class="mt-3 overflow-hidden rounded-2xl border border-[#d8ccee] bg-[#f7f3ff] p-4">
-                                <img src="{{ asset('storage/' . $quest->image_url) }}"
+                                <img src="{{ asset('/image/' . $quest->image_url) }}"
                                     class="h-[260px] w-full object-contain">
                             </div>
                         @else

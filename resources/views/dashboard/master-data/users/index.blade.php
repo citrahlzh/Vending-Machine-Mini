@@ -32,6 +32,7 @@
                             <th class="text-center">No</th>
                             <th>Nama</th>
                             <th>Nama Pengguna</th>
+                            <th>Role</th>
                             <th>Nomor Telepon</th>
                             <th>Nomor Whatsapp</th>
                             <th class="text-center">Status</th>
@@ -44,6 +45,7 @@
                                 <td class="text-center font-semibold">{{ $loop->iteration }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->username }}</td>
+                                <td>{{ $user->role?->name ?? '-' }}</td>
                                 <td>{{ $user->phone_number }}</td>
                                 <td>{{ $user->whatsapp_number ?: '-' }}</td>
                                 <td class="text-center">

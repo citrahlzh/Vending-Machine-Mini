@@ -28,6 +28,10 @@
                     <p class="mt-1 text-[18px] font-medium text-[#3C1C5E]">{{ $user->username }}</p>
                 </div>
                 <div>
+                    <p class="text-[13px] font-semibold text-[#7a6798]">Role</p>
+                    <p class="mt-1 text-[18px] font-medium text-[#3C1C5E]">{{ $user->role?->name ?? '-' }}</p>
+                </div>
+                <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Nomor Telepon</p>
                     <p class="mt-1 text-[18px] font-medium text-[#3C1C5E]">{{ $user->phone_number }}</p>
                 </div>

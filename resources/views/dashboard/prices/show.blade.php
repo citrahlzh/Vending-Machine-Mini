@@ -22,7 +22,7 @@
                 <div
                     class="flex h-[200px] w-[200px] items-center justify-center rounded-2xl border border-[#ccc3db] bg-white">
                     @if ($price->product?->image_url)
-                        <img src="{{ asset('storage/' . $price->product->image_url) }}" alt="{{ $price->product?->product_name }}"
+                        <img src="{{ asset('/image/' . $price->product->image_url) }}" alt="{{ $price->product?->product_name }}"
                             class="max-h-[150px] max-w-[150px] object-contain">
                     @endif
                 </div>

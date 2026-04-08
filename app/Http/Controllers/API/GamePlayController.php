@@ -25,7 +25,7 @@ class GamePlayController extends Controller
 
     public function start($gameId)
     {
-        $game = Game::findOrFail($gameId);
+        $game = Game::activeNow()->findOrFail($gameId);
 
         $play = $this->service->start($game);
 
@@ -60,16 +60,33 @@ class GamePlayController extends Controller
 
         $correct = $this->service->finish($play);
 
-        $reward = $this->service->issueReward($play);
+        $play->loadMissing('game');
+        $game = $play->game;
+        $reward = $game ? $this->service->issueRewardForScore($game, $play, $correct) : null;
+
+        $successUrl = null;
+        if ($reward) {
+            $successUrl = URL::signedRoute('games.result.success', [
+                'issuedReward' => $reward->id,
+            ]);
+        }
 
         return response()->json([
             'correct_answer' => $correct,
-            'reward' => $reward
+            'reward' => $reward,
+            'success_url' => $successUrl,
+            'fail_url' => route('games.result.fail'),
         ]);
     }
 
     public function spin(Request $request, Game $game)
     {
+        if (!Game::activeNow()->where('id', $game->id)->exists()) {
+            return response()->json([
+                'message' => 'Permainan tidak tersedia.',
+            ], 404);
+        }
+
         $config = $game->config_json ?? [];
         $maxSpinPerUser = (int) ($config['max_spin_per_user'] ?? 0);
         $cooldownMinutes = (int) ($config['cooldown_minutes'] ?? 0);

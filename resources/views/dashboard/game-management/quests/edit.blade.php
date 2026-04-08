@@ -119,7 +119,7 @@
                             class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer">
 
                         @if ($quest->image_url)
-                            <img src="{{ asset('storage/' . $quest->image_url) }}" class="mt-2 h-[120px]">
+                            <img src="{{ asset('/image/' . $quest->image_url) }}" class="mt-2 h-[120px]">
                         @endif
 
                     </div>

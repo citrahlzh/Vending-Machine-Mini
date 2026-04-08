@@ -63,24 +63,30 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="packaging_type_id">Jenis
                             Kemasan</label>
-                        <select id="packaging_type_id" name="packaging_type_id" required
+                        <select id="packaging_type_id" name="packaging_type_id"
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih jenis kemasan</option>
                             @foreach ($packagingTypes as $type)
                                 <option value="{{ $type->id }}">{{ $type->packaging_type }}</option>
                             @endforeach
                         </select>
+                        <input id="packaging_type_new" name="packaging_type_new" type="text"
+                            class="mt-2 h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            placeholder="Atau tambah jenis kemasan baru">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="packaging_size_id">Ukuran
                             Kemasan</label>
-                        <select id="packaging_size_id" name="packaging_size_id" required
+                        <select id="packaging_size_id" name="packaging_size_id"
                             class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih ukuran kemasan</option>
                             @foreach ($packagingSizes as $size)
                                 <option value="{{ $size->id }}">{{ $size->size }}</option>
                             @endforeach
                         </select>
+                        <input id="packaging_size_new" name="packaging_size_new" type="text"
+                            class="mt-2 h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            placeholder="Atau tambah ukuran kemasan baru">
                     </div>
                 </div>
 
@@ -104,7 +110,39 @@
         (() => {
             const form = document.getElementById('createProductForm');
             const submitButton = document.getElementById('submitCreateProduct');
+            const packagingTypeSelect = document.getElementById('packaging_type_id');
+            const packagingTypeInput = document.getElementById('packaging_type_new');
+            const packagingSizeSelect = document.getElementById('packaging_size_id');
+            const packagingSizeInput = document.getElementById('packaging_size_new');
             if (!form || !submitButton) return;
+
+            if (packagingTypeInput && packagingTypeSelect) {
+                packagingTypeInput.addEventListener('input', () => {
+                    if (packagingTypeInput.value.trim().length > 0) {
+                        packagingTypeSelect.value = '';
+                    }
+                });
+
+                packagingTypeSelect.addEventListener('change', () => {
+                    if (packagingTypeSelect.value) {
+                        packagingTypeInput.value = '';
+                    }
+                });
+            }
+
+            if (packagingSizeInput && packagingSizeSelect) {
+                packagingSizeInput.addEventListener('input', () => {
+                    if (packagingSizeInput.value.trim().length > 0) {
+                        packagingSizeSelect.value = '';
+                    }
+                });
+
+                packagingSizeSelect.addEventListener('change', () => {
+                    if (packagingSizeSelect.value) {
+                        packagingSizeInput.value = '';
+                    }
+                });
+            }
 
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();

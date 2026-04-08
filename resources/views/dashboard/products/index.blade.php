@@ -39,7 +39,7 @@
                                 <td class="text-center font-semibold whitespace-nowrap">{{ $loop->iteration }}</td>
                                 <td class="min-w-[240px]">
                                     <div class="flex items-center gap-2">
-                                        <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->product_name }}"
+                                        <img src="{{ asset('/image/' . $product->image_url) }}" alt="{{ $product->product_name }}"
                                             class="h-8 w-8 rounded-md object-cover">
                                         <span>{{ $product->product_name }}</span>
                                     </div>

@@ -68,11 +68,6 @@ class GameController extends Controller
                 'config_json' => $request->config ?? []
             ]);
 
-            if ($isActive) {
-                Game::where('type', $type)
-                    ->where('id', '!=', $game->id)
-                    ->update(['is_active' => false]);
-            }
             /*
             =========================
             QUIZ / GUESS IMAGE
@@ -176,11 +171,6 @@ class GameController extends Controller
                 'config_json' => $request->config ?? []
             ]);
 
-            if ($game->is_active) {
-                Game::where('type', $game->type)
-                    ->where('id', '!=', $game->id)
-                    ->update(['is_active' => false]);
-            }
 
             if (in_array($game->type, ['quiz', 'guess_image'])) {
                 GameQuest::where('game_id', $game->id)->delete();

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Product;
+use App\Models\PackagingType;
+use App\Models\PackagingSize;
 use App\Http\Resources\ProductResource;
 use App\Services\SystemNotificationService;
 
@@ -34,11 +36,34 @@ class ProductController extends Controller
                 'required',
                 Rule::exists('brands', 'id')->where(fn ($query) => $query->where('is_active', true)),
             ],
-            'packaging_type_id' => 'required|exists:packaging_types,id',
-            'packaging_size_id' => 'required|exists:packaging_sizes,id',
+            'packaging_type_id' => 'required_without:packaging_type_new|nullable|exists:packaging_types,id',
+            'packaging_type_new' => 'nullable|string|max:255',
+            'packaging_size_id' => 'required_without:packaging_size_new|nullable|exists:packaging_sizes,id',
+            'packaging_size_new' => 'nullable|string|max:255',
             'product_name' => 'required|string|max:255',
             'image_url' => 'required|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $packagingTypeId = $validator['packaging_type_id'] ?? null;
+        $packagingSizeId = $validator['packaging_size_id'] ?? null;
+
+        $packagingTypeNew = isset($validator['packaging_type_new']) ? trim($validator['packaging_type_new']) : '';
+        if ($packagingTypeNew !== '') {
+            $packagingType = PackagingType::firstOrCreate(
+                ['packaging_type' => $packagingTypeNew],
+                ['user_id' => $request->user()->id]
+            );
+            $packagingTypeId = $packagingType->id;
+        }
+
+        $packagingSizeNew = isset($validator['packaging_size_new']) ? trim($validator['packaging_size_new']) : '';
+        if ($packagingSizeNew !== '') {
+            $packagingSize = PackagingSize::firstOrCreate(
+                ['size' => $packagingSizeNew],
+                ['user_id' => $request->user()->id]
+            );
+            $packagingSizeId = $packagingSize->id;
+        }
 
         $image_url = null;
         if ($request->hasFile('image_url')) {
@@ -49,8 +74,8 @@ class ProductController extends Controller
             'user_id' => $request->user()->id,
             'category_id' => $validator['category_id'],
             'brand_id' => $validator['brand_id'],
-            'packaging_type_id' => $validator['packaging_type_id'],
-            'packaging_size_id' => $validator['packaging_size_id'],
+            'packaging_type_id' => $packagingTypeId,
+            'packaging_size_id' => $packagingSizeId,
             'product_name' => $validator['product_name'],
             'image_url' => $image_url,
         ]);
@@ -97,13 +122,35 @@ class ProductController extends Controller
                 'required',
                 Rule::exists('brands', 'id')->where(fn ($query) => $query->where('is_active', true)),
             ],
-            'packaging_type_id' => 'sometimes|required|exists:packaging_types,id',
-            'packaging_size_id' => 'sometimes|required|exists:packaging_sizes,id',
+            'packaging_type_id' => 'sometimes|nullable|exists:packaging_types,id',
+            'packaging_type_new' => 'nullable|string|max:255',
+            'packaging_size_id' => 'sometimes|nullable|exists:packaging_sizes,id',
+            'packaging_size_new' => 'nullable|string|max:255',
             'product_name' => 'sometimes|required|string|max:255',
             'image_url' => 'sometimes|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $product = Product::findOrFail($id);
+
+        $packagingTypeNew = isset($validated['packaging_type_new']) ? trim($validated['packaging_type_new']) : '';
+        if ($packagingTypeNew !== '') {
+            $packagingType = PackagingType::firstOrCreate(
+                ['packaging_type' => $packagingTypeNew],
+                ['user_id' => $request->user()->id]
+            );
+            $validated['packaging_type_id'] = $packagingType->id;
+        }
+
+        $packagingSizeNew = isset($validated['packaging_size_new']) ? trim($validated['packaging_size_new']) : '';
+        if ($packagingSizeNew !== '') {
+            $packagingSize = PackagingSize::firstOrCreate(
+                ['size' => $packagingSizeNew],
+                ['user_id' => $request->user()->id]
+            );
+            $validated['packaging_size_id'] = $packagingSize->id;
+        }
+
+        unset($validated['packaging_type_new'], $validated['packaging_size_new']);
 
         if ($request->hasFile('image_url')) {
             $image_url = $request->file('image_url')->store('products', 'public');

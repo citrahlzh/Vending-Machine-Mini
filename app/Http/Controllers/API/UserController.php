@@ -23,6 +23,7 @@ class UserController extends Controller
             'phone_number' => 'required|string|max:20',
             'whatsapp_number' => 'nullable|string|max:20',
             'is_active' => 'required|boolean',
+            'role_id' => 'required|exists:roles,id',
             'username' => 'required|string|max:50|unique:users,username',
             'password' => 'required|string',
         ]);
@@ -32,6 +33,7 @@ class UserController extends Controller
             'phone_number' => $validator['phone_number'],
             'whatsapp_number' => $validator['whatsapp_number'] ?? null,
             'is_active' => $validator['is_active'],
+            'role_id' => $validator['role_id'],
             'username' => $validator['username'],
             'password' => bcrypt($validator['password']),
         ]);
@@ -61,6 +63,7 @@ class UserController extends Controller
             'phone_number' => 'sometimes|required|string|max:20',
             'whatsapp_number' => 'sometimes|nullable|string|max:20',
             'is_active' => 'sometimes|required|boolean',
+            'role_id' => 'sometimes|required|exists:roles,id',
             'username' => 'sometimes|required|string|max:50|unique:users,username,' . $id,
             'password' => 'sometimes|required|string',
         ]);

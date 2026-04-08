@@ -14,7 +14,7 @@
             } elseif (\Illuminate\Support\Str::startsWith($productImage, ['/','assets/','storage/'])) {
                 $imageSrc = $productImage[0] === '/' ? $productImage : asset($productImage);
             } else {
-                $imageSrc = asset('storage/' . $productImage);
+                $imageSrc = asset('/image/' . $productImage);
             }
         }
     @endphp

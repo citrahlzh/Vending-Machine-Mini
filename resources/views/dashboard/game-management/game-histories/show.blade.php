@@ -109,7 +109,7 @@
                                 </td>
 
                                 <td class="pr-6">
-                                    {{ $response->answer }}
+                                    {{ $response->user_answer }}
                                 </td>
 
                                 <td>

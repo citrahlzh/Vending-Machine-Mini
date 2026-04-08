@@ -11,8 +11,8 @@
 
         <div class="grid grid-cols-2 gap-10 max-w-xl">
 
-            @if (isset($games['quiz']))
-                <a href="{{ route('games.play', $games['quiz']->id) }}"
+            @if ($activeTypes->contains('quiz'))
+                <a href="{{ route('games.play-type', 'quiz') }}"
                     class="bg-white rounded-2xl px-16 py-10 text-2xl font-semibold
                border-2 border-[#5A2F7E]
                shadow-[8px_8px_0px_#5A2F7E]
@@ -25,8 +25,8 @@
             @endif
 
 
-            @if (isset($games['guess_image']))
-                <a href="{{ route('games.play', $games['guess_image']->id) }}"
+            @if ($activeTypes->contains('guess_image'))
+                <a href="{{ route('games.play-type', 'guess_image') }}"
                     class="bg-white rounded-2xl px-16 py-10 text-2xl font-semibold
                border-2 border-[#5A2F7E]
                shadow-[8px_8px_0px_#5A2F7E]
@@ -38,9 +38,9 @@
 
         </div>
 
-        @if (isset($games['spin']))
+        @if ($activeTypes->contains('spin'))
             <div class="mt-10">
-                <a href="{{ route('games.play', $games['spin']->id) }}"
+                <a href="{{ route('games.play-type', 'spin') }}"
                     class="bg-white rounded-2xl px-20 py-10 text-2xl font-semibold border-2 border-[#5A2F7E] shadow-[8px_8px_0px_#5A2F7E] hover:translate-y-1 hover:shadow-[6px_6px_0px_#5A2F7E] transition duration-200">
                     Roda Putar Berhadiah
                 </a>
