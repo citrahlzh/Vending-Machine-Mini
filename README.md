@@ -190,3 +190,4 @@ Penting:
   - cek `VENDING_DISPENSE_URL` di `.env`.
 - Hardware tidak gerak:
   - cek `SERIAL_PORT`, baudrate, kabel, dan izin akses serial.
+# Vending-Machine-Games
