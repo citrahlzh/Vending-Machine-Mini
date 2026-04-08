@@ -228,28 +228,41 @@
             const renderOptions = (question) => {
                 optionsEl.innerHTML = '';
                 const options = Array.isArray(question.option) ? question.option : [];
+
                 options.forEach((opt) => {
                     const button = document.createElement('button');
                     button.type = 'button';
                     button.dataset.key = opt.key;
+
                     button.className =
-                        'flex items-center gap-4 rounded-[20px] border-2 border-[#5A2F7E] bg-[#f7f1ff] px-4 py-4 text-left shadow-[6px_6px_0px_#5A2F7E] transition hover:-translate-y-1 hover:shadow-[4px_4px_0px_#5A2F7E]';
+                        'option-btn flex items-center gap-4 rounded-[20px] border-2 border-[#5A2F7E] bg-[#f7f1ff] px-4 py-4 text-left shadow-[6px_6px_0px_#5A2F7E] transition';
+
                     button.innerHTML = `
-                        <span class="flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#5A2F7E] border-2 border-[#5A2F7E]">
-                            ${opt.key}
-                        </span>
-                        <span class="text-[20px] font-semibold text-[#1e132b]">
-                            ${opt.text}
-                        </span>
-                    `;
+            <span class="option-key flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#5A2F7E] border-2 border-[#5A2F7E] transition">
+                ${opt.key}
+            </span>
+            <span class="text-[20px] font-semibold text-[#1e132b]">
+                ${opt.text}
+            </span>
+        `;
+
                     button.addEventListener('click', () => {
                         state.answers[question.id] = opt.key;
-                        optionsEl.querySelectorAll('button').forEach((btn) => {
-                            btn.classList.remove('ring-4', 'ring-[#5A2F7E]');
+
+                        // reset semua key
+                        optionsEl.querySelectorAll('.option-key').forEach((el) => {
+                            el.classList.remove('bg-[#5A2F7E]', 'text-white');
+                            el.classList.add('bg-[#f7f1ff]', 'text-[#5A2F7E]');
                         });
-                        button.classList.add('ring-4', 'ring-[#5A2F7E]');
+
+                        // aktifkan yang dipilih
+                        const keyEl = button.querySelector('.option-key');
+                        keyEl.classList.remove('bg-[#f7f1ff]', 'text-[#5A2F7E]');
+                        keyEl.classList.add('bg-[#5A2F7E]', 'text-white');
+
                         setNextDisabled(false);
                     });
+
                     optionsEl.appendChild(button);
                 });
             };

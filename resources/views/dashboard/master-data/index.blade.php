@@ -13,7 +13,7 @@
             [
                 'label' => 'Role Pengguna',
                 'route' => 'dashboard.master-data.roles.index',
-                'icon' => 'username.svg',
+                'icon' => 'users.svg',
             ],
             [
                 'label' => 'Merek',
