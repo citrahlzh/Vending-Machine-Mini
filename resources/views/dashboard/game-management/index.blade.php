@@ -30,7 +30,7 @@
 
     <section class="space-y-8 p-2">
         <div>
-            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Manajemen Permainan</h1>
+            <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Manajemen Permainan</h1>
             <p class="mt-2 text-[18px] text-[#4F3970]">Halaman ini untuk menampilkan data yang diperlukan untuk
                 permainan.</p>
         </div>

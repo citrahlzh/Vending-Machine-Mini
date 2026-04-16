@@ -9,7 +9,7 @@
 
     <section class="space-y-6 p-2">
         <div>
-            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Laporan</h1>
+            <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Laporan</h1>
             <p class="mt-3 text-[18px] text-[#4F3970]">
                 Ringkasan statistik transaksi, omzet, penjualan produk, dan performa vending machine.
             </p>
@@ -24,12 +24,12 @@
                         <div class="min-w-0">
                             <label for="start_date" class="block text-[12px] font-semibold text-[#7a6798]">Dari</label>
                             <input id="start_date" name="start_date" type="date" value="{{ request('start_date') }}"
-                                class="h-10 w-full rounded-md border border-[#ddd2ef] bg-white px-3 text-[14px] text-[#3C1C5E] focus:border-[#5A2F7E] focus:outline-none" />
+                                class="h-10 w-full rounded-md border border-[#ddd2ef] bg-white px-3 text-[14px] text-[#5E1C3D] focus:border-[#5A2F7E] focus:outline-none" />
                         </div>
                         <div class="min-w-0">
                             <label for="end_date" class="block text-[12px] font-semibold text-[#7a6798]">Sampai</label>
                             <input id="end_date" name="end_date" type="date" value="{{ request('end_date') }}"
-                                class="h-10 w-full rounded-md border border-[#ddd2ef] bg-white px-3 text-[14px] text-[#3C1C5E] focus:border-[#5A2F7E] focus:outline-none" />
+                                class="h-10 w-full rounded-md border border-[#ddd2ef] bg-white px-3 text-[14px] text-[#5E1C3D] focus:border-[#5A2F7E] focus:outline-none" />
                         </div>
                         <button type="submit"
                             class="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#5A2F7E] px-4 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74] lg:w-auto">
@@ -52,21 +52,21 @@
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-5 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
                 <p class="text-[13px] font-semibold text-[#7a6798]">Keseluruhan Transaksi</p>
-                <p class="mt-2 text-[34px] font-semibold leading-none text-[#3C1C5E]">{{ $report['total_transactions'] }}</p>
+                <p class="mt-2 text-[34px] font-semibold leading-none text-[#5E1C3D]">{{ $report['total_transactions'] }}</p>
             </article>
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-5 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
                 <p class="text-[13px] font-semibold text-[#7a6798]">Produk Terjual</p>
-                <p class="mt-2 text-[34px] font-semibold leading-none text-[#3C1C5E]">{{ $report['total_products_sold'] }}</p>
+                <p class="mt-2 text-[34px] font-semibold leading-none text-[#5E1C3D]">{{ $report['total_products_sold'] }}</p>
             </article>
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-5 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
                 <p class="text-[13px] font-semibold text-[#7a6798]">Omzet Keseluruhan</p>
-                <p class="mt-2 text-[34px] font-semibold leading-none text-[#3C1C5E]">
+                <p class="mt-2 text-[34px] font-semibold leading-none text-[#5E1C3D]">
                     Rp{{ number_format((int) $report['total_omzet'], 0, ',', '.') }}
                 </p>
             </article>
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-5 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
                 <p class="text-[13px] font-semibold text-[#7a6798]">Omzet Pada Periode</p>
-                <p class="mt-2 text-[34px] font-semibold leading-none text-[#3C1C5E]">
+                <p class="mt-2 text-[34px] font-semibold leading-none text-[#5E1C3D]">
                     Rp{{ number_format((int) $report['period_omzet'], 0, ',', '.') }}
                 </p>
             </article>
@@ -75,7 +75,7 @@
         <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
             <article
                 class="xl:col-span-2 rounded-2xl border border-[#ddd2ef] bg-white p-6 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-                <h2 class="text-[22px] font-semibold text-[#3C1C5E]">Statistik Penjualan Harian</h2>
+                <h2 class="text-[22px] font-semibold text-[#5E1C3D]">Statistik Penjualan Harian</h2>
                 <p class="mt-1 text-[14px] text-[#7a6798]">Jumlah transaksi harian dan kontribusi omzet.</p>
 
                 <div class="mt-6 grid grid-cols-1 gap-3">
@@ -99,7 +99,7 @@
             </article>
 
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-6 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-                <h2 class="text-[22px] font-semibold text-[#3C1C5E]">Statistik Transaksi</h2>
+                <h2 class="text-[22px] font-semibold text-[#5E1C3D]">Statistik Transaksi</h2>
                 <p class="mt-1 text-[14px] text-[#7a6798]">Distribusi status transaksi.</p>
 
                 <div class="mt-5 space-y-4">
@@ -137,7 +137,7 @@
 
                 <div class="mt-6 rounded-xl bg-[#f8f4ff] p-4">
                     <p class="text-[13px] font-semibold text-[#7a6798]">Rata-rata Nilai Transaksi Sukses</p>
-                    <p class="mt-1 text-[24px] font-semibold leading-none text-[#3C1C5E]">
+                    <p class="mt-1 text-[24px] font-semibold leading-none text-[#5E1C3D]">
                         Rp{{ number_format((int) $report['average_transaction'], 0, ',', '.') }}
                     </p>
                 </div>
@@ -146,7 +146,7 @@
 
         <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-6 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-                <h2 class="text-[22px] font-semibold text-[#3C1C5E]">Produk Terlaris</h2>
+                <h2 class="text-[22px] font-semibold text-[#5E1C3D]">Produk Terlaris</h2>
                 <p class="mt-1 text-[14px] text-[#7a6798]">Berdasarkan kuantitas produk terjual.</p>
 
                 <div class="mt-5 overflow-x-auto">
@@ -161,13 +161,13 @@
                         <tbody>
                             @forelse ($report['top_products'] as $product)
                                 <tr>
-                                    <td class="border-t border-[#efe7fb] py-2 text-[14px] font-semibold text-[#3C1C5E]">
+                                    <td class="border-t border-[#efe7fb] py-2 text-[14px] font-semibold text-[#5E1C3D]">
                                         {{ $product->product_name }}
                                     </td>
-                                    <td class="border-t border-[#efe7fb] py-2 text-right text-[14px] font-semibold text-[#3C1C5E]">
+                                    <td class="border-t border-[#efe7fb] py-2 text-right text-[14px] font-semibold text-[#5E1C3D]">
                                         {{ (int) $product->sold_qty }}
                                     </td>
-                                    <td class="border-t border-[#efe7fb] py-2 text-right text-[14px] font-semibold text-[#3C1C5E]">
+                                    <td class="border-t border-[#efe7fb] py-2 text-right text-[14px] font-semibold text-[#5E1C3D]">
                                         Rp{{ number_format((int) $product->omzet, 0, ',', '.') }}
                                     </td>
                                 </tr>
@@ -184,7 +184,7 @@
             </article>
 
             <article class="rounded-2xl border border-[#ddd2ef] bg-white p-6 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-                <h2 class="text-[22px] font-semibold text-[#3C1C5E]">Transaksi Terbaru</h2>
+                <h2 class="text-[22px] font-semibold text-[#5E1C3D]">Transaksi Terbaru</h2>
                 <p class="mt-1 text-[14px] text-[#7a6798]">Monitoring transaksi terakhir pada vending machine.</p>
 
                 <div class="mt-5 space-y-2">
@@ -198,14 +198,14 @@
                         @endphp
                         <div class="rounded-xl border border-[#efe7fb] bg-[#fcfaff] p-3">
                             <div class="flex items-center justify-between gap-3">
-                                <p class="truncate text-[14px] font-semibold text-[#3C1C5E]">{{ $transaction->idempotency_key }}</p>
+                                <p class="truncate text-[14px] font-semibold text-[#5E1C3D]">{{ $transaction->idempotency_key }}</p>
                                 <span class="inline-flex rounded-full px-3 py-0.5 text-[11px] font-semibold {{ $badgeClass }}">
                                     {{ strtoupper($transaction->status) }}
                                 </span>
                             </div>
                             <div class="mt-1 flex items-center justify-between text-[12px] text-[#7a6798]">
                                 <span>{{ optional($transaction->transaction_date)->format('d/m/Y H:i') }}</span>
-                                <span class="font-semibold text-[#3C1C5E]">
+                                <span class="font-semibold text-[#5E1C3D]">
                                     Rp{{ number_format((int) $transaction->total_amount, 0, ',', '.') }}
                                 </span>
                             </div>

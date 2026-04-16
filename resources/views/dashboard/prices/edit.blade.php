@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.prices.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Ubah Data Harga</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Ubah Data Harga</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -23,9 +23,9 @@
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="product_id">Produk</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="product_id">Produk</label>
                         <select id="product_id" name="product_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih produk</option>
                             @foreach ($products as $product)
                                 <option value="{{ $product->id }}" {{ $price->product_id == $product->id ? 'selected' : '' }}>
@@ -35,36 +35,36 @@
                         </select>
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="price">Harga</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="price">Harga</label>
                         <input id="price" name="price" type="text" inputmode="numeric" required
                             value="{{ 'Rp' . number_format((int) $price->price, 0, ',', '.') . ',00' }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Rp0,00">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="start_date">Tanggal
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="start_date">Tanggal
                             Mulai</label>
                         <input id="start_date" name="start_date" type="date" required
                             value="{{ optional($price->start_date)->format('Y-m-d') }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="end_date">Tanggal
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="end_date">Tanggal
                             Selesai</label>
                         <input id="end_date" name="end_date" type="date" required
                             value="{{ optional($price->end_date)->format('Y-m-d') }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="is_active">Status</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="is_active">Status</label>
                         <select id="is_active" name="is_active" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="1" {{ $price->is_active ? 'selected' : '' }}>Aktif</option>
                             <option value="0" {{ !$price->is_active ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>

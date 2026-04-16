@@ -27,15 +27,15 @@
 
                 <div class="mt-5 grid grid-cols-1 gap-4">
                     <button id="btn-success"
-                        class="h-[42px] rounded-full bg-[#5c2a94] text-[13px] font-semibold text-white">
+                        class="h-[42px] rounded-full bg-[#802A76] text-[13px] font-semibold text-white">
                         Saya Sudah Bayar
                     </button>
                     <button id="btn-cancel"
-                        class="h-[42px] rounded-full border border-[#d6c7ee] text-[13px] font-semibold text-[#5c2a94]">
+                        class="h-[42px] rounded-full border border-[#d6c7ee] text-[13px] font-semibold text-[#802A76]">
                         Batalkan Pembayaran
                     </button>
                     <a id="btn-back-home" href="{{ route('landing.index') }}"
-                        class="hidden h-[42px] items-center justify-center rounded-full bg-[#5c2a94] text-[13px] font-semibold text-white">
+                        class="hidden h-[42px] items-center justify-center rounded-full bg-[#802A76] text-[13px] font-semibold text-white">
                         Kembali ke Beranda
                     </a>
                 </div>
@@ -54,7 +54,7 @@
             <div id="final-title" class="mt-3 text-[20px] font-semibold text-[#2b1a43]">Pembayaran Berhasil</div>
             <div id="final-message" class="mt-2 text-[13px] text-[#6b5a84]">Silakan ambil produk Anda.</div>
             <a href="{{ route('landing.index') }}"
-                class="mt-5 inline-flex h-[42px] w-full items-center justify-center rounded-full bg-[#5c2a94] text-[13px] font-semibold text-white">
+                class="mt-5 inline-flex h-[42px] w-full items-center justify-center rounded-full bg-[#802A76] text-[13px] font-semibold text-white">
                 Kembali ke Beranda
             </a>
         </div>
@@ -123,7 +123,7 @@
             if (toastTimer) clearTimeout(toastTimer);
             paymentToast.textContent = message;
             paymentToast.className =
-                `pointer-events-none fixed bottom-8 left-1/2 z-[60] w-[calc(100%-24px)] max-w-[520px] -translate-x-1/2 rounded-[14px] border bg-white px-5 py-3 text-center text-[13px] font-semibold shadow-[0_4px_12px_rgba(0,0,0,0.08)] ${tone === 'error' ? 'border-[#f1b6b6] text-[#b23a3a]' : 'border-[#d8c8f2] text-[#5c2a94]'}`;
+                `pointer-events-none fixed bottom-8 left-1/2 z-[60] w-[calc(100%-24px)] max-w-[520px] -translate-x-1/2 rounded-[14px] border bg-white px-5 py-3 text-center text-[13px] font-semibold shadow-[0_4px_12px_rgba(0,0,0,0.08)] ${tone === 'error' ? 'border-[#f1b6b6] text-[#b23a3a]' : 'border-[#d8c8f2] text-[#802A76]'}`;
             paymentToast.classList.remove('hidden');
             toastTimer = setTimeout(() => {
                 paymentToast.classList.add('hidden');

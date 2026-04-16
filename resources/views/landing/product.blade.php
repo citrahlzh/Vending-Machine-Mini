@@ -6,7 +6,7 @@
     <div class="min-h-screen bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] px-4 py-4 sm:px-5 sm:py-5">
         <div class="mx-auto w-full max-w-[560px]">
             <a href="{{ route('landing.index') }}" aria-label="Kembali ke beranda"
-                class="inline-flex h-10 items-center gap-2 rounded-full border border-[#dbcdf2] bg-white px-4 text-[13px] font-semibold text-[#5c2a94] shadow-[0_4px_12px_rgba(60,34,97,0.08)]">
+                class="inline-flex h-10 items-center gap-2 rounded-full border border-[#dbcdf2] bg-white px-4 text-[13px] font-semibold text-[#802A76] shadow-[0_4px_12px_rgba(60,34,97,0.08)]">
                 <img src="{{ asset('assets/icons/landing/back.svg') }}" alt="" class="h-[15px]">
                 <span>Kembali</span>
             </a>
@@ -25,11 +25,11 @@
                     <div class="flex items-start justify-between gap-3">
                         <h1 class="text-[22px] font-semibold leading-tight text-[#2b1a43]">{{ $product['name'] }}</h1>
                         <div
-                            class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-[12px] font-semibold {{ $product['stock'] > 0 ? 'bg-[#f4efff] text-[#5c2a94]' : 'bg-[#fdecea] text-[#c0392b]' }}">
+                            class="shrink-0 inline-flex items-center rounded-full px-3 py-1 text-[12px] font-semibold {{ $product['stock'] > 0 ? 'bg-[#f4efff] text-[#802A76]' : 'bg-[#fdecea] text-[#c0392b]' }}">
                             Sisa stok: {{ $product['stock'] > 0 ? $product['stock'] : 'Habis' }}
                         </div>
                     </div>
-                    <div class="mt-2 text-[24px] font-bold text-[#5c2a94]">Rp
+                    <div class="mt-2 text-[24px] font-bold text-[#802A76]">Rp
                         {{ number_format($product['price'], 0, ',', '.') }}</div>
                     <p class="mt-4 rounded-[12px] bg-[#f8f4ff] px-4 py-3 text-[14px] leading-relaxed text-[#5f4c7f]">
                         {{ $product['description'] ?: 'Produk siap dibeli.' }}
@@ -41,18 +41,18 @@
                         <div class="text-[13px] font-medium text-[#6b5a84]">Jumlah</div>
                         <div class="flex items-center gap-3">
                             <button id="btn-min" type="button"
-                                class="h-10 w-10 rounded-full border border-[#ceb9ee] text-[20px] leading-none text-[#5c2a94] disabled:cursor-not-allowed disabled:opacity-40">-</button>
+                                class="h-10 w-10 rounded-full border border-[#ceb9ee] text-[20px] leading-none text-[#802A76] disabled:cursor-not-allowed disabled:opacity-40">-</button>
                             <div id="qty-display"
                                 class="flex h-10 min-w-[56px] items-center justify-center rounded-[10px] border border-[#e1d7f0] bg-white text-[16px] font-semibold text-[#2b1a43]">
                                 1
                             </div>
                             <button id="btn-plus" type="button"
-                                class="h-10 w-10 rounded-full bg-[#5c2a94] text-[20px] leading-none text-white disabled:cursor-not-allowed disabled:bg-[#b9a3db] disabled:opacity-60">+</button>
+                                class="h-10 w-10 rounded-full bg-[#802A76] text-[20px] leading-none text-white disabled:cursor-not-allowed disabled:bg-[#b9a3db] disabled:opacity-60">+</button>
                         </div>
                     </div>
                     <div id="qty-note" class="mt-3 text-[12px] text-[#6b5a84]"></div>
                     <button id="btn-buy-now" type="button"
-                        class="mt-4 h-12 w-full rounded-full bg-[#5c2a94] text-[16px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                        class="mt-4 h-12 w-full rounded-full bg-[#802A76] text-[16px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                         Beli Sekarang
                     </button>
                 </div>

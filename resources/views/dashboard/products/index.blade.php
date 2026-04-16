@@ -5,7 +5,7 @@
 @section('content')
     <section class="space-y-6 p-2">
         <div>
-            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Produk</h1>
+            <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Produk</h1>
             <p class="mt-3 text-[18px] text-[#4F3970]">
                 Halaman ini untuk menampilkan daftar produk yang akan dijual di Vending Machine.
             </p>

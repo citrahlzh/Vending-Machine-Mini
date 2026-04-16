@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.game-management.rewards.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Tambah Data Hadiah</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Tambah Data Hadiah</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -23,34 +23,34 @@
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Kode Hadiah</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Kode Hadiah</label>
                         <input name="code" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan kode hadiah">
                     </div>
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Nama Hadiah</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Nama Hadiah</label>
                         <input name="name" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan nama hadiah">
                     </div>
 
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Deskripsi</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Deskripsi</label>
                     <textarea name="description"
-                        class="w-full rounded-lg border border-[#B596D8] px-3 py-2 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="w-full rounded-lg border border-[#B596D8] px-3 py-2 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan deskripsi hadiah (opsional)"></textarea>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Tipe Hadiah</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Tipe Hadiah</label>
                         <select id="typeForm" name="type" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih tipe hadiah</option>
                             <option value="product">Produk</option>
                             <option value="none">Zonk / Tidak ada hadiah</option>
@@ -58,9 +58,9 @@
                     </div>
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Status</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Status</label>
                         <select name="is_active"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="1">Aktif</option>
                             <option value="0">Nonaktif</option>
                         </select>
@@ -71,9 +71,9 @@
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Produk</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Produk</label>
                         <select id="productDisplayForm" name="product_display_id" disabled
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93] disabled:opacity-50 disabled:bg-gray-200 disabled:cursor-not-allowed">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93] disabled:opacity-50 disabled:bg-gray-200 disabled:cursor-not-allowed">
                             <option value="">Pilih produk</option>
                             @foreach ($products as $product)
                                 <option value="{{ $product->id }}">
@@ -84,9 +84,9 @@
                     </div>
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Stok</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Stok</label>
                         <input id="stockForm" name="stock" type="number" disabled
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93] disabled:opacity-50 disabled:bg-gray-200 disabled:cursor-not-allowed"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93] disabled:opacity-50 disabled:bg-gray-200 disabled:cursor-not-allowed"
                             placeholder="Masukkan jumlah stok">
                     </div>
 

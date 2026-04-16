@@ -5,7 +5,7 @@
 @section('content')
     <section class="space-y-6">
         <div>
-            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Dashboard</h1>
+            <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Dashboard</h1>
             <p class="mt-2 text-[18px] text-[#4F3970]">Halaman ini untuk menampilkan ringkasan data yang diperlukan.</p>
         </div>
 
@@ -57,7 +57,7 @@
                 </div>
 
                 <article class="rounded-3xl border border-[#ddd2ef] bg-white px-10 py-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-                    <h2 class="text-center text-[18px] font-semibold text-[#3C1C5E]">Transaksi Hari ini</h2>
+                    <h2 class="text-center text-[18px] font-semibold text-[#5E1C3D]">Transaksi Hari ini</h2>
 
                     <div class="mt-7 rounded-xl border border-transparent bg-white p-4">
                         <div class="h-[180px] w-full">
@@ -68,8 +68,8 @@
             </div>
 
             <aside class="rounded-3xl border border-[#ddd2ef] bg-white px-10 py-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
-                <h2 class="text-center text-[20px] font-semibold text-[#3C1C5E]">Aksi Cepat</h2>
-                <ul class="mt-8 space-y-5 text-[15px] font-semibold text-[#3C1C5E]">
+                <h2 class="text-center text-[20px] font-semibold text-[#5E1C3D]">Aksi Cepat</h2>
+                <ul class="mt-8 space-y-5 text-[15px] font-semibold text-[#5E1C3D]">
                     <li>
                         <a href="{{ route('dashboard.transactions.index') }}" class="inline-flex items-center gap-3 hover:text-[#2d1248]">
                             Lihat Daftar Transaksi
@@ -125,7 +125,7 @@
                             display: false
                         },
                         tooltip: {
-                            backgroundColor: '#3C1C5E',
+                            backgroundColor: '#5E1C3D',
                             titleFont: {
                                 family: 'Poppins'
                             },

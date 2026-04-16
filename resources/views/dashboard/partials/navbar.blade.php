@@ -26,7 +26,7 @@
                 <div id="notificationPanel"
                     class="absolute right-0 top-[46px] z-30 hidden w-[360px] rounded-lg border border-[#e8e2f3] bg-white p-3 shadow-[0_10px_20px_rgba(60,28,94,0.12)]">
                     <div class="mb-2 flex items-center justify-between">
-                        <p class="text-[15px] font-semibold text-[#3C1C5E]">Notifikasi</p>
+                        <p class="text-[15px] font-semibold text-[#5E1C3D]">Notifikasi</p>
                         <button id="markAllNotificationsRead" type="button"
                             class="text-[12px] font-medium text-[#5A2F7E] hover:underline">
                             Tandai semua dibaca
@@ -143,7 +143,7 @@
                     <div class="mb-1 flex items-center justify-between gap-2">
                         <div class="flex min-w-0 items-center gap-2">
                             <span class="h-2 w-2 shrink-0 rounded-full ${typeDotColor}"></span>
-                            <p class="truncate text-[13px] font-semibold text-[#3C1C5E]">${escapeHtml(item.title)}</p>
+                            <p class="truncate text-[13px] font-semibold text-[#5E1C3D]">${escapeHtml(item.title)}</p>
                         </div>
                         <p class="shrink-0 text-[10px] text-[#7f6f99]">${escapeHtml(item.created_at_human ?? '-')}</p>
                     </div>

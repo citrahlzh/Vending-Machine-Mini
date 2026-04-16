@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.master-data.users.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Tambah Data Pengguna</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Tambah Data Pengguna</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -21,15 +21,15 @@
             <form id="createUserForm" class="space-y-4">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="name">Nama Lengkap</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="name">Nama Lengkap</label>
                         <input id="name" name="name" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan nama lengkap Anda disini">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="is_active">Status</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="is_active">Status</label>
                         <select id="is_active" name="is_active" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih status pengguna</option>
                             <option value="1">Aktif</option>
                             <option value="0">Tidak Aktif</option>
@@ -39,9 +39,9 @@
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="role_id">Role</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="role_id">Role</label>
                         <select id="role_id" name="role_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih role</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -49,34 +49,34 @@
                         </select>
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="phone_number">Nomor
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="phone_number">Nomor
                             Telepon</label>
                         <input id="phone_number" name="phone_number" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan nomor telepon Anda (081234567890)">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="whatsapp_number">Nomor
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="whatsapp_number">Nomor
                             Whatsapp</label>
                         <input id="whatsapp_number" name="whatsapp_number" type="text"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan nomor Whatsapp Anda (621234567890)">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="username">Nama
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="username">Nama
                             Pengguna</label>
                         <input id="username" name="username" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan nama pengguna Anda disini">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="password">Kata
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="password">Kata
                             Sandi</label>
                         <input id="password" name="password" type="password" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan kata sandi untuk akun Anda">
                     </div>
                 </div>

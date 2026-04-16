@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.master-data.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Kategori Produk</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Kategori Produk</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -82,22 +82,22 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Tambah Kategori</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Kategori</h2>
 
             <form id="createCategoryForm" class="mt-6 space-y-4">
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="categoryName">Kategori</label>
                     <input id="categoryName" name="category_name" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Kategori">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="categoryStatus">Status</label>
                     <select id="categoryStatus" name="is_active" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         <option value="">Pilih Status Data</option>
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
@@ -122,24 +122,24 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Ubah Kategori</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Kategori</h2>
 
             <form id="editCategoryForm" class="mt-6 space-y-4">
                 <input id="editCategoryId" type="hidden">
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editCategoryName">Kategori</label>
                     <input id="editCategoryName" name="category_name" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Kategori">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editCategoryStatus">Status</label>
                     <select id="editCategoryStatus" name="is_active" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
                     </select>

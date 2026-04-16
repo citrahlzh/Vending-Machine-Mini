@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.master-data.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Iklan</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Iklan</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -45,7 +45,7 @@
                                 <td>{{ $ad->title }}</td>
                                 <td class="text-center">
                                     <button type="button"
-                                        class="open-show-ad-modal inline-flex items-center justify-center rounded-md border border-[#d8c9eb] px-3 py-1 text-[13px] text-[#3C1C5E] hover:bg-[#f5f0fb]">
+                                        class="open-show-ad-modal inline-flex items-center justify-center rounded-md border border-[#d8c9eb] px-3 py-1 text-[13px] text-[#5E1C3D] hover:bg-[#f5f0fb]">
                                         Lihat Gambar
                                     </button>
                                 </td>
@@ -86,20 +86,20 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Tambah Data Iklan</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Data Iklan</h2>
 
             <form id="createAdForm" class="mt-6 space-y-3.5" enctype="multipart/form-data">
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="adTitle">Judul</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="adTitle">Judul</label>
                     <input id="adTitle" name="title" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Judul Iklan">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="adStatus">Status</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="adStatus">Status</label>
                     <select id="adStatus" name="status" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         <option value="">Pilih Status</option>
                         <option value="active">Aktif</option>
                         <option value="inactive">Nonaktif</option>
@@ -107,7 +107,7 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="adImage">Foto Spanduk</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="adImage">Foto Spanduk</label>
                     <label id="adDropzone" for="adImage"
                         class="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border border-[#B596D8] px-6 text-center transition">
                         <img id="adDropzoneIcon" src="{{ asset('assets/icons/dashboard/image-upload.svg') }}" alt=""
@@ -115,7 +115,7 @@
                         <p id="adDropzonePrompt" class="mt-3 text-[15px] text-[#6B4E90]">Klik untuk mengunggah atau seret dan lepas</p>
                         <p id="adDropzoneHint" class="mt-2 text-[13px] text-[#6B4E90]">SVG, PNG, JPG atau GIF (MAX. 2MB)</p>
                         <p id="adImageName"
-                            class="mt-4 hidden block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-2 text-[20px] font-medium leading-none text-[#3C1C5E]">
+                            class="mt-4 hidden block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-2 text-[20px] font-medium leading-none text-[#5E1C3D]">
                         </p>
                     </label>
                     <input id="adImage" name="image_url" type="file" accept=".svg,.png,.jpg,.jpeg,.gif" class="hidden"
@@ -140,10 +140,10 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Detail Iklan</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Detail Iklan</h2>
 
             <div class="mt-6 rounded-xl border border-[#ddd2ef] bg-[#f8f4ff] p-6">
-                <p id="showAdTitle" class="text-center text-[20px] font-semibold text-[#3C1C5E]"></p>
+                <p id="showAdTitle" class="text-center text-[20px] font-semibold text-[#5E1C3D]"></p>
                 <img id="showAdImage" src="" alt="Foto Spanduk"
                     class="mt-4 h-[140px] w-full rounded-lg border border-[#d8c9eb] object-cover">
             </div>
@@ -161,28 +161,28 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Ubah Data Iklan</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Data Iklan</h2>
 
             <form id="editAdForm" class="mt-6 space-y-3.5" enctype="multipart/form-data">
                 <input id="editAdId" type="hidden">
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editAdTitle">Judul</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editAdTitle">Judul</label>
                     <input id="editAdTitle" name="title" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]">
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editAdStatus">Status</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editAdStatus">Status</label>
                     <select id="editAdStatus" name="status" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         <option value="active">Aktif</option>
                         <option value="inactive">Nonaktif</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editAdImage">Foto Spanduk</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editAdImage">Foto Spanduk</label>
                     <label id="editAdDropzone" for="editAdImage"
                         class="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border border-[#B596D8] px-6 text-center transition">
                         <img id="editAdDropzoneIcon" src="{{ asset('assets/icons/dashboard/image-upload.svg') }}" alt=""
@@ -190,7 +190,7 @@
                         <p id="editAdDropzonePrompt" class="mt-3 text-[15px] text-[#6B4E90]">Klik untuk mengunggah atau seret dan lepas</p>
                         <p id="editAdDropzoneHint" class="mt-2 text-[13px] text-[#6B4E90]">SVG, PNG, JPG atau GIF (MAX. 2MB)</p>
                         <p id="editAdImageName"
-                            class="mt-4 hidden block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-2 text-[20px] font-medium leading-none text-[#3C1C5E]">
+                            class="mt-4 hidden block w-full max-w-full overflow-hidden text-ellipsis whitespace-nowrap px-2 text-[20px] font-medium leading-none text-[#5E1C3D]">
                         </p>
                     </label>
                     <input id="editAdImage" name="image_url" type="file" accept=".svg,.png,.jpg,.jpeg,.gif" class="hidden">

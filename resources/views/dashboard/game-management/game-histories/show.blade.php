@@ -14,7 +14,7 @@
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}">
                 </a>
 
-                <h1 class="text-[28px] font-semibold text-[#3C1C5E]">
+                <h1 class="text-[28px] font-semibold text-[#5E1C3D]">
                     Detail Riwayat Permainan
                 </h1>
 
@@ -30,7 +30,7 @@
         {{-- PLAY INFORMATION --}}
         <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-8">
 
-            <h2 class="text-[20px] font-semibold text-[#3C1C5E] mb-6">
+            <h2 class="text-[20px] font-semibold text-[#5E1C3D] mb-6">
                 Informasi Permainan
             </h2>
 
@@ -38,35 +38,35 @@
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Game</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $play->game?->name ?? '-' }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">ID Permainan</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $play->idempotency_key }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Status</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ ucfirst($play->status) }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Mulai</p>
-                    <p class="mt-1 text-[16px] text-[#3C1C5E]">
+                    <p class="mt-1 text-[16px] text-[#5E1C3D]">
                         {{ $play->started_at }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Selesai</p>
-                    <p class="mt-1 text-[16px] text-[#3C1C5E]">
+                    <p class="mt-1 text-[16px] text-[#5E1C3D]">
                         {{ $play->finished_at ?? '-' }}
                     </p>
                 </div>
@@ -79,7 +79,7 @@
         {{-- PLAYER RESPONSES --}}
         <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-8">
 
-            <h2 class="text-[20px] font-semibold text-[#3C1C5E] mb-6">
+            <h2 class="text-[20px] font-semibold text-[#5E1C3D] mb-6">
                 Jawaban Pemain
             </h2>
 
@@ -104,7 +104,7 @@
                         @forelse($play->responses as $response)
                             <tr class="border-b">
 
-                                <td class="py-4 pr-6 text-[#3C1C5E]">
+                                <td class="py-4 pr-6 text-[#5E1C3D]">
                                     {{ $response->quest?->prompt ?? '-' }}
                                 </td>
 
@@ -151,7 +151,7 @@
         {{-- REWARD --}}
         <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-8">
 
-            <h2 class="text-[20px] font-semibold text-[#3C1C5E] mb-6">
+            <h2 class="text-[20px] font-semibold text-[#5E1C3D] mb-6">
                 Reward Diberikan
             </h2>
 
@@ -168,7 +168,7 @@
                             Kode Reward
                         </p>
 
-                        <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                             {{ $issuedReward->code }}
                         </p>
 
@@ -180,7 +180,7 @@
                             Nama Reward
                         </p>
 
-                        <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                             {{ $issuedReward->reward?->name ?? '-' }}
                         </p>
 
@@ -192,7 +192,7 @@
                             Status
                         </p>
 
-                        <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                             {{ ucfirst($issuedReward->status) }}
                         </p>
 

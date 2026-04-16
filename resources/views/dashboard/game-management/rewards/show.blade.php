@@ -11,7 +11,7 @@
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}">
                 </a>
 
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">
                     Detail Hadiah
                 </h1>
             </div>
@@ -28,35 +28,35 @@
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Kode Hadiah</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $reward->code }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Nama Hadiah</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $reward->name }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Tipe Hadiah</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $reward->type }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Produk Display</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $reward->productDisplay?->product_name ?? '-' }}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Stok</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $reward->stock ?? '-' }}
                     </p>
                 </div>
@@ -78,7 +78,7 @@
 
                 <div class="md:col-span-2">
                     <p class="text-[13px] font-semibold text-[#7a6798]">Deskripsi</p>
-                    <p class="mt-1 text-[16px] text-[#3C1C5E]">
+                    <p class="mt-1 text-[16px] text-[#5E1C3D]">
                         {{ $reward->description ?? '-' }}
                     </p>
                 </div>

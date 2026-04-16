@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.master-data.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Sel Produk</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Sel Produk</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -70,37 +70,37 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Tambah Sel Produk</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Sel Produk</h2>
 
             <form id="createCellForm" class="mt-6 space-y-4">
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="cellCode">Kode Sel</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="cellCode">Kode Sel</label>
                     <input id="cellCode" name="code" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Kode Sel">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="cellRow">Baris ke-</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="cellRow">Baris ke-</label>
                         <input id="cellRow" name="row" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan Baris">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                             for="cellColumn">Kolom ke-</label>
                         <input id="cellColumn" name="column" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan Kolom">
                     </div>
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="cellCapacity">Kapasitas
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="cellCapacity">Kapasitas
                         Sel</label>
                     <input id="cellCapacity" name="capacity" type="number" min="1" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Kapasitas Sel">
                 </div>
 
@@ -122,42 +122,42 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Ubah Sel Produk</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Sel Produk</h2>
 
             <form id="editCellForm" class="mt-6 space-y-4">
                 <input id="editCellId" type="hidden">
                 <input id="editCellQtyCurrent" type="hidden">
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editCellCode">Kode
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellCode">Kode
                         Sel</label>
                     <input id="editCellCode" name="code" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Kode Sel">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editCellRow">Baris
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellRow">Baris
                             ke-</label>
                         <input id="editCellRow" name="row" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan Baris">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editCellColumn">Kolom
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellColumn">Kolom
                             ke-</label>
                         <input id="editCellColumn" name="column" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan Kolom">
                     </div>
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="editCellCapacity">Kapasitas
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellCapacity">Kapasitas
                         Sel</label>
                     <input id="editCellCapacity" name="capacity" type="number" min="1" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="Masukkan Kapasitas Sel">
                 </div>
 

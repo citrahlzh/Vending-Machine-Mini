@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.prices.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Detail Harga</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Detail Harga</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -30,19 +30,19 @@
                 <div class="grid grid-cols-1 gap-x-16 gap-y-6 md:grid-cols-2">
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Nama Produk</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">
                             {{ $price->product?->product_name ?? '-' }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Harga</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">
                             Rp{{ number_format((int) $price->price, 0, ',', '.') }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Masa Berlaku</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">
                             {{ optional($price->start_date)->format('d/m/Y') }} -
                             {{ optional($price->end_date)->format('d/m/Y') }}
                         </p>

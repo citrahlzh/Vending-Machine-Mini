@@ -12,7 +12,7 @@
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
 
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">
                     Tambah Permainan {{ ucfirst(str_replace('_', ' ', $type)) }}
                 </h1>
             </div>
@@ -33,19 +33,19 @@
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Nama Game</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Nama Game</label>
 
                         <input name="name" type="text"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="Masukkan nama permainan">
                     </div>
 
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Status</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Status</label>
 
                         <select name="is_active"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                             <option value="1">Aktif</option>
                             <option value="0">Non Aktif</option>
@@ -55,18 +55,18 @@
 
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Tanggal Mulai</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Tanggal Mulai</label>
 
                         <input type="date" name="start_date"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                     </div>
 
 
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Tanggal Selesai</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Tanggal Selesai</label>
 
                         <input type="date" name="end_date"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                     </div>
 
                 </div>
@@ -75,37 +75,37 @@
                 @if ($type === 'quiz' || $type === 'guess_image')
                     <hr class="my-6">
 
-                    <h2 class="text-[18px] font-semibold text-[#3C1C5E]">
+                    <h2 class="text-[18px] font-semibold text-[#5E1C3D]">
                         Konfigurasi Permainan
                     </h2>
 
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                         <div>
-                            <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Time Limit
+                            <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Time Limit
                                 (detik)</label>
                             <input type="number" name="config[time_limit]"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         </div>
 
                         <div>
-                            <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Cooldown
+                            <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Cooldown
                                 (detik)</label>
                             <input type="number" name="config[cooldown]"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         </div>
 
                         <div>
-                            <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Jumlah Soal</label>
+                            <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Jumlah Soal</label>
                             <input type="number" name="config[question_count]"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         </div>
 
                     </div>
 
                     <hr class="my-6">
 
-                    <h2 class="text-[18px] font-semibold text-[#3C1C5E]">
+                    <h2 class="text-[18px] font-semibold text-[#5E1C3D]">
                         Distribusi Reward
                     </h2>
 
@@ -114,10 +114,10 @@
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-3">
 
                             <input placeholder="Minimal Skor" name="config[reward_distribution][0][score]"
-                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                             <select name="config[reward_distribution][0][reward_id]"
-                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                                 <option value="">Pilih Reward</option>
 
@@ -141,7 +141,7 @@
 
                     <hr class="my-6">
 
-                    <h2 class="text-[18px] font-semibold text-[#3C1C5E]">
+                    <h2 class="text-[18px] font-semibold text-[#5E1C3D]">
                         Pilih Soal
                     </h2>
 
@@ -186,24 +186,24 @@
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
                         <div>
-                            <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Maksimal Spin per
+                            <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Maksimal Spin per
                                 User</label>
 
                             <input type="number" name="config[max_spin_per_user]" value="1"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         </div>
 
                         <div>
-                            <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Cooldown Spin
+                            <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Cooldown Spin
                                 (Menit)</label>
 
                             <input type="number" name="config[cooldown_minutes]" value="0"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         </div>
 
                     </div>
 
-                    <h2 class="text-[18px] font-semibold text-[#3C1C5E]">
+                    <h2 class="text-[18px] font-semibold text-[#5E1C3D]">
                         Spin Segments
                     </h2>
 
@@ -212,7 +212,7 @@
                         <div class="grid grid-cols-5 gap-3 min-w-[860px] segment-row">
 
                             <input name="segments[0][label]" placeholder="Label"
-                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                             <select name="segments[0][reward_id]" class="h-10 border border-[#B596D8] rounded-lg px-3">
 
@@ -227,10 +227,10 @@
                             </select>
 
                             <input type="number" name="segments[0][weight]" placeholder="Weight"
-                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                                class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                             <input type="file" name="segments[0][image]"
-                                class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />
+                                class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />
 
                         </div>
 
@@ -289,15 +289,15 @@
 
                 row.innerHTML =
                     '<input name="segments[' + segmentIndex + '][label]" placeholder="Label" ' +
-                    'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
+                    'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
                     '<select name="segments[' + segmentIndex + '][reward_id]" ' +
-                    'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
+                    'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
                     rewardOptions +
                     '</select>' +
                     '<input type="number" name="segments[' + segmentIndex + '][weight]" placeholder="Weight" ' +
-                    'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
+                    'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
                     '<input type="file" name="segments[' + segmentIndex + '][image]" ' +
-                    'class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />'
+                    'class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />'
 
                 container.appendChild(row)
 
@@ -319,9 +319,9 @@
             row.className = 'grid grid-cols-1 gap-3 md:grid-cols-3'
             row.innerHTML =
                 '<input placeholder="Minimal Skor" name="config[reward_distribution][' + rewardDistributionIndex + '][score]" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
                 '<select name="config[reward_distribution][' + rewardDistributionIndex + '][reward_id]" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
                 rewardOptions +
                 '</select>' +
                 '<button type="button" ' +

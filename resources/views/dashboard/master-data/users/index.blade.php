@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.master-data.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Data Pengguna</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Data Pengguna</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">

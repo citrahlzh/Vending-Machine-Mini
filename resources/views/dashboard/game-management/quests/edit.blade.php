@@ -13,7 +13,7 @@
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}">
                 </a>
 
-                <h1 class="text-[28px] font-semibold text-[#3C1C5E]">
+                <h1 class="text-[28px] font-semibold text-[#5E1C3D]">
                     Edit Soal
                 </h1>
 
@@ -32,10 +32,10 @@
 
                 <div>
 
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Tipe Game</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Tipe Game</label>
 
                     <select name="game_type"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                         <option value="quiz" {{ $quest->game_type == 'quiz' ? 'selected' : '' }}>
                             Quiz
@@ -52,10 +52,10 @@
 
                 <div>
 
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Tipe Soal</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Tipe Soal</label>
 
                     <select name="type"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                         <option value="multiple_choice" {{ $quest->type == 'multiple_choice' ? 'selected' : '' }}>
                             Pilihan Ganda
@@ -72,10 +72,10 @@
 
                 <div>
 
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Pertanyaan</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Pertanyaan</label>
 
                     <textarea name="prompt"
-                        class="w-full rounded-lg border border-[#B596D8] px-3 py-2 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]"
+                        class="w-full rounded-lg border border-[#B596D8] px-3 py-2 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]"
                         rows="3">{{ $quest->prompt }}</textarea>
 
                 </div>
@@ -83,7 +83,7 @@
 
                 <div id="optionWrapper" class="space-y-3">
 
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">
                         Pilihan Jawaban
                     </label>
 
@@ -101,11 +101,11 @@
 
                 <div id="textAnswerWrapper">
 
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Jawaban Benar</label>
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Jawaban Benar</label>
 
                     <input type="text" id="textAnswerInput" name="correct_answer"
                         value="{{ $quest->answer['correct_answer'] }}"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
 
                 </div>
 
@@ -113,10 +113,10 @@
                 @if ($quest->game_type === 'guess_image')
                     <div>
 
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">Gambar</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Gambar</label>
 
                         <input type="file" name="image_url"
-                            class="block w-full text-sm text-[#3C1C5E] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer">
+                            class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer">
 
                         @if ($quest->image_url)
                             <img src="{{ asset('/image/' . $quest->image_url) }}" class="mt-2 h-[120px]">
@@ -180,8 +180,8 @@
                 const isCorrect = key === correctKey
                 button.textContent = isCorrect ? 'Benar' : 'Salah'
                 button.className = isCorrect ?
-                    'h-10 w-[92px] rounded-lg bg-[#3C1C5E] text-[14px] font-semibold text-white transition' :
-                    'h-10 w-[92px] rounded-lg border border-[#B596D8] bg-white text-[14px] font-semibold text-[#3C1C5E] transition hover:bg-[#f8f4ff]'
+                    'h-10 w-[92px] rounded-lg bg-[#5E1C3D] text-[14px] font-semibold text-white transition' :
+                    'h-10 w-[92px] rounded-lg border border-[#B596D8] bg-white text-[14px] font-semibold text-[#5E1C3D] transition hover:bg-[#f8f4ff]'
             })
         }
 
@@ -195,12 +195,12 @@
             row.setAttribute('data-option-row', key)
 
             row.innerHTML = `
-                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3C1C5E] text-[14px] font-semibold text-white">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#5E1C3D] text-[14px] font-semibold text-white">
                     ${key}.
                 </div>
                 <input type="text" name="option[${key}]" value="${text.replace(/"/g, '&quot;')}"
                     placeholder="Jawaban pilihan ${key}"
-                    class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                    class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                 <button type="button" data-correct-button data-key="${key}">Salah</button>
                 <button type="button" data-remove-button data-key="${key}"
                     class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#EAE3F5] text-[16px] font-semibold text-[#6B3E93] transition hover:bg-[#e0d7ee]">

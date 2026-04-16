@@ -13,7 +13,7 @@
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}">
                 </a>
 
-                <h1 class="text-[28px] font-semibold text-[#3C1C5E]">
+                <h1 class="text-[28px] font-semibold text-[#5E1C3D]">
                     Detail Game
                 </h1>
 
@@ -35,7 +35,7 @@
                         Nama Game
                     </p>
 
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $game->name }}
                     </p>
                 </div>
@@ -46,7 +46,7 @@
                         Tipe Game
                     </p>
 
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ ucfirst($game->type) }}
                     </p>
                 </div>
@@ -98,7 +98,7 @@
                         @if (!empty($distribution))
                             <div class="mt-3 space-y-2">
                                 @foreach ($distribution as $item)
-                                    <div class="flex items-center justify-between rounded-lg border border-[#e2d8f3] bg-[#fbf9ff] px-4 py-2 text-[14px] text-[#3C1C5E]">
+                                    <div class="flex items-center justify-between rounded-lg border border-[#e2d8f3] bg-[#fbf9ff] px-4 py-2 text-[14px] text-[#5E1C3D]">
                                         <span>Minimal Skor: {{ $item['score'] ?? '-' }}</span>
                                         <span>Reward ID: {{ $item['reward_id'] ?? '-' }}</span>
                                     </div>
@@ -117,7 +117,7 @@
                         @if ($game->quests->count())
                             <div class="mt-3 space-y-2">
                                 @foreach ($game->quests as $quest)
-                                    <div class="rounded-lg border border-[#e2d8f3] bg-[#fbf9ff] px-4 py-2 text-[14px] text-[#3C1C5E]">
+                                    <div class="rounded-lg border border-[#e2d8f3] bg-[#fbf9ff] px-4 py-2 text-[14px] text-[#5E1C3D]">
                                         {{ $quest->prompt }}
                                     </div>
                                 @endforeach
@@ -137,7 +137,7 @@
                         @if ($game->spinSegments->count())
                             <div class="mt-3 space-y-2">
                                 @foreach ($game->spinSegments as $segment)
-                                    <div class="flex items-center justify-between rounded-lg border border-[#e2d8f3] bg-[#fbf9ff] px-4 py-2 text-[14px] text-[#3C1C5E]">
+                                    <div class="flex items-center justify-between rounded-lg border border-[#e2d8f3] bg-[#fbf9ff] px-4 py-2 text-[14px] text-[#5E1C3D]">
                                         <span>{{ $segment->label }}</span>
                                         <span>{{ $segment->reward?->name ?? 'Tanpa reward' }}</span>
                                         <span>Bobot: {{ $segment->weight }}</span>

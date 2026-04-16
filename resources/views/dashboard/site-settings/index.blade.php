@@ -6,7 +6,7 @@
     <section class="space-y-6 p-2">
 
         <div>
-            <h1 class="text-[28px] font-semibold text-[#3C1C5E]">Setelan Situs</h1>
+            <h1 class="text-[28px] font-semibold text-[#5E1C3D]">Setelan Situs</h1>
             <p class="mt-3 text-[18px] text-[#4F3970]">
                 Halaman ini untuk mengatur data pada situs.
             </p>
@@ -19,7 +19,7 @@
                 <div id="settingsContainer" class="space-y-8"></div>
                 <div class="grid grid-cols-1 gap-4 pt-8 md:grid-cols-2">
                     <button id="cancelBtn" type="button" disabled
-                        class="mt-6 h-10 rounded-lg border border-[#B596D8] px-6 text-[#3C1C5E] disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="mt-6 h-10 rounded-lg border border-[#B596D8] px-6 text-[#5E1C3D] disabled:opacity-50 disabled:cursor-not-allowed">
                         Batal
                     </button>
                     <button id="saveBtn" type="submit" disabled
@@ -50,7 +50,7 @@
             Object.keys(data).forEach(group => {
                 let groupHTML = `
             <div>
-                <h2 class="text-lg font-semibold text-[#3C1C5E] mb-4 capitalize">
+                <h2 class="text-lg font-semibold text-[#5E1C3D] mb-4 capitalize">
                     ${group}
                 </h2>
             <div class="space-y-4">
@@ -68,7 +68,7 @@
 
                         groupHTML += `
     <div>
-        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">
+        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">
             ${setting.label}
         </label>
 
@@ -106,7 +106,7 @@
                     } else {
                         groupHTML += `
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]">
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">
                         ${setting.label}
                     </label>
                     <input
@@ -114,7 +114,7 @@
                         name="settings[${setting.key}]"
                         value="${setting.value ?? ''}"
                         class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px]
-                        text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca]
+                        text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca]
                         focus:border-[#6B3E93]"
                     >
                 </div>

@@ -9,7 +9,7 @@
                 <a href="{{ route('dashboard.products.index') }}">
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}" alt="Kembali">
                 </a>
-                <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Detail Produk</h1>
+                <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Detail Produk</h1>
             </div>
 
             <p class="mt-3 text-[18px] text-[#4F3970]">
@@ -28,31 +28,31 @@
                 <div class="grid grid-cols-1 gap-x-16 gap-y-6 md:grid-cols-2">
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Nama Produk</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">{{ $product->product_name }}</p>
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">{{ $product->product_name }}</p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Dibuat Oleh</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">{{ $product->user?->name ?? '-' }}</p>
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">{{ $product->user?->name ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Merek</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">{{ $product->brand?->brand_name ?? '-' }}</p>
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">{{ $product->brand?->brand_name ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Kategori</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">
                             {{ $product->category?->category_name ?? '-' }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Jenis Kemasan</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">
                             {{ $product->packagingType?->packaging_type ?? '-' }}
                         </p>
                     </div>
                     <div>
                         <p class="text-[13px] font-semibold text-[#7a6798]">Ukuran Kemasan</p>
-                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#3C1C5E]">
+                        <p class="mt-1 text-[18px] font-semibold leading-none text-[#5E1C3D]">
                             {{ $product->packagingSize?->size ?? '-' }}
                         </p>
                     </div>

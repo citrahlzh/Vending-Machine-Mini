@@ -12,7 +12,7 @@
                     <img src="{{ asset('assets/icons/dashboard/back.svg') }}">
                 </a>
 
-                <h1 class="text-[28px] font-semibold text-[#3C1C5E]">
+                <h1 class="text-[28px] font-semibold text-[#5E1C3D]">
                     Detail Soal
                 </h1>
 
@@ -30,21 +30,21 @@
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Tipe Game</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $quest->game_type === 'quiz' ? 'Kuis' : 'Tebak Gambar'}}
                     </p>
                 </div>
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Tipe Soal</p>
-                    <p class="mt-1 text-[18px] font-semibold text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] font-semibold text-[#5E1C3D]">
                         {{ $quest->type === 'text' ? 'Jawaban Singkat' : 'Pilihan Ganda'}}
                     </p>
                 </div>
 
                 <div class="md:col-span-2">
                     <p class="text-[13px] font-semibold text-[#7a6798]">Pertanyaan</p>
-                    <p class="mt-1 text-[18px] text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] text-[#5E1C3D]">
                         {{ $quest->prompt }}
                     </p>
                 </div>
@@ -83,14 +83,14 @@
                                 <div
                                     class="flex items-center gap-3 rounded-2xl border {{ $isCorrect ? 'border-[#7ac39a] bg-[#e9f7f0]' : 'border-[#e2d8f3] bg-[#fbf9ff]' }} p-3">
                                     <div
-                                        class="flex h-10 w-10 items-center justify-center rounded-lg {{ $isCorrect ? 'bg-[#17914f]' : 'bg-[#3C1C5E]' }} text-[14px] font-semibold text-white">
+                                        class="flex h-10 w-10 items-center justify-center rounded-lg {{ $isCorrect ? 'bg-[#17914f]' : 'bg-[#5E1C3D]' }} text-[14px] font-semibold text-white">
                                         {{ $opt['key'] }}.
                                     </div>
-                                    <div class="flex-1 text-[15px] text-[#3C1C5E]">
+                                    <div class="flex-1 text-[15px] text-[#5E1C3D]">
                                         {{ $opt['text'] ?: '-' }}
                                     </div>
                                     <span
-                                        class="inline-flex h-9 items-center rounded-lg {{ $isCorrect ? 'bg-[#17914f] text-white' : 'border border-[#d8ccee] bg-white text-[#3C1C5E]' }} px-4 text-[12px] font-semibold">
+                                        class="inline-flex h-9 items-center rounded-lg {{ $isCorrect ? 'bg-[#17914f] text-white' : 'border border-[#d8ccee] bg-white text-[#5E1C3D]' }} px-4 text-[12px] font-semibold">
                                         {{ $isCorrect ? 'Benar' : 'Salah' }}
                                     </span>
                                 </div>
@@ -103,7 +103,7 @@
 
                 <div>
                     <p class="text-[13px] font-semibold text-[#7a6798]">Jawaban Benar</p>
-                    <p class="mt-1 text-[18px] text-[#3C1C5E]">
+                    <p class="mt-1 text-[18px] text-[#5E1C3D]">
                         {{ $quest->answer['correct_answer'] }}
                     </p>
                 </div>

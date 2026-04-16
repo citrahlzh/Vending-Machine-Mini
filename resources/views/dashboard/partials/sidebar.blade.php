@@ -96,7 +96,7 @@
             @endif
             <li>
                 <a href="{{ route($menu['route']) }}"
-                    class="{{ $isActive ? 'text-[#3C1C5E] font-semibold' : 'text-[#3C1C5E] font-regular hover:text-[#2f1548]' }} relative flex items-center gap-4 rounded-xl px-4 py-3 text-base leading-none transition">
+                    class="{{ $isActive ? 'text-[#5E1C3D] font-semibold' : 'text-[#5E1C3D] font-regular hover:text-[#2f1548]' }} relative flex items-center gap-4 rounded-xl px-4 py-3 text-base leading-none transition">
                     @if ($isActive)
                         <span class="absolute -left-8 h-10 w-3 rounded-r-full bg-[#4B1F74]"></span>
                     @endif
@@ -115,7 +115,7 @@
             @endphp
             <li>
                 <a href="{{ route($menu['route']) }}"
-                    class="{{ $isActive ? 'text-[#3C1C5E] font-semibold' : 'text-[#3C1C5E] font-reguler hover:text-[#2f1548]' }} relative flex items-center gap-4 rounded-xl px-4 py-3 text-base leading-none transition">
+                    class="{{ $isActive ? 'text-[#5E1C3D] font-semibold' : 'text-[#5E1C3D] font-reguler hover:text-[#2f1548]' }} relative flex items-center gap-4 rounded-xl px-4 py-3 text-base leading-none transition">
                     @if ($isActive)
                         <span class="absolute -left-8 h-10 w-3 rounded-r-full bg-[#4B1F74]"></span>
                     @endif

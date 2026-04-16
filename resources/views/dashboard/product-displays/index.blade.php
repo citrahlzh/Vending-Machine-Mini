@@ -5,7 +5,7 @@
 @section('content')
     <section class="space-y-6 p-2">
         <div>
-            <h1 class="text-[28px] font-semibold leading-none text-[#3C1C5E]">Etalase Produk (Penataan Produk)</h1>
+            <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Etalase Produk (Penataan Produk)</h1>
             <p class="mt-3 text-[18px] text-[#4F3970]">
                 Halaman ini untuk menampilkan daftar produk yang ditampilkan di Vending Machine.
             </p>
@@ -118,14 +118,14 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 860px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Tambah Data Etalase Produk</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Data Etalase Produk</h2>
 
             <form id="createProductDisplayForm" class="mt-6 space-y-4">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="createProductId">Produk</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createProductId">Produk</label>
                         <select id="createProductId" name="product_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih produk</option>
                             @foreach ($products as $product)
                                 <option value="{{ $product->id }}">{{ $product->product_name }}</option>
@@ -133,9 +133,9 @@
                         </select>
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="createPriceId">Daftar Harga</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createPriceId">Daftar Harga</label>
                         <select id="createPriceId" name="price_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih harga</option>
                             @foreach ($prices as $price)
                                 <option value="{{ $price->id }}" data-product-id="{{ $price->product_id }}" hidden>
@@ -149,9 +149,9 @@
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="createCellId">Sel</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createCellId">Sel</label>
                         <select id="createCellId" name="cell_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="">Pilih sel</option>
                             @foreach ($cells as $cell)
                                 <option value="{{ $cell->id }}" data-qty-current="{{ (int) $cell->qty_current }}"
@@ -162,16 +162,16 @@
                         </select>
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                             for="createQtyAdd">Stok yang Ingin Ditambahkan</label>
                         <input id="createQtyAdd" name="qty_add" type="number" min="0" value="0"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                             placeholder="10">
                     </div>
                     <div>
-                        <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="createStatus">Status</label>
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createStatus">Status</label>
                         <select id="createStatus" name="status" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                             <option value="active">Aktif</option>
                             <option value="inactive">Tidak Aktif</option>
                             <option value="discontinued">Dihentikan</option>
@@ -198,14 +198,14 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Restock Produk</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Restock Produk</h2>
 
             <form id="restockProductDisplayForm" class="mt-6 space-y-4">
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="restockProductDisplayId">Produk</label>
                     <select id="restockProductDisplayId" name="product_display_id" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         <option value="">Pilih produk</option>
                         @foreach ($productDisplays as $productDisplay)
                             <option value="{{ $productDisplay->id }}"
@@ -218,10 +218,10 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="restockQtyAdd">Jumlah yang
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="restockQtyAdd">Jumlah yang
                         Ingin Ditambahkan</label>
                     <input id="restockQtyAdd" name="qty_add" type="number" min="1" required value="10"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="10">
                 </div>
 
@@ -244,14 +244,14 @@
         style="background-color: rgba(31, 17, 48, 0.48);">
         <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
-            <h2 class="text-center text-[24px] font-semibold text-[#3C1C5E]">Stock Out Produk</h2>
+            <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Stock Out Produk</h2>
 
             <form id="stockOutProductDisplayForm" class="mt-6 space-y-4">
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]"
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="stockOutProductDisplayId">Produk</label>
                     <select id="stockOutProductDisplayId" name="product_display_id" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
                         <option value="">Pilih produk</option>
                         @foreach ($productDisplays as $productDisplay)
                             <option value="{{ $productDisplay->id }}">
@@ -262,10 +262,10 @@
                 </div>
 
                 <div>
-                    <label class="mb-1.5 block text-[15px] font-semibold text-[#3C1C5E]" for="stockOutQty">Jumlah yang
+                    <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="stockOutQty">Jumlah yang
                         Ingin Dikeluarkan</label>
                     <input id="stockOutQty" name="qty_out" type="number" min="1" required value="1"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#3C1C5E] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
                         placeholder="1">
                 </div>
 

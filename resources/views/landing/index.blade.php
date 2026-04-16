@@ -39,7 +39,7 @@
         }
 
         .animated-gradient {
-            background: linear-gradient(270deg, #5c2a94, #a76ade, #5c2a94, #a76ade);
+            background: linear-gradient(270deg, #802A76, #D354C5, #802A76, #D354C5);
             background-size: 100% 100%;
             animation: gradientAnimation 5s ease infinite;
         }
@@ -61,10 +61,10 @@
         .guide-priority-btn {
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #5c2a94, #7d3bc5);
+            background: linear-gradient(135deg, #802A76, #D354C5);
             color: #ffffff;
             border: 0;
-            box-shadow: 0 10px 24px rgba(92, 42, 148, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
+            box-shadow: 0 10px 24px rgba(148, 42, 139, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
             animation: guidePulse 1.8s ease-in-out infinite;
         }
 
@@ -81,23 +81,23 @@
 
         .guide-priority-btn:hover {
             transform: translateY(-1px) scale(1.01);
-            box-shadow: 0 14px 28px rgba(92, 42, 148, 0.40), 0 0 0 2px rgba(255, 255, 255, 0.60) inset;
+            box-shadow: 0 14px 28px rgba(148, 42, 139, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.60) inset;
         }
 
         .guide-priority-btn:focus-visible {
             outline: 0;
-            box-shadow: 0 0 0 4px rgba(125, 59, 197, 0.25), 0 12px 28px rgba(92, 42, 148, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.6) inset;
+            box-shadow: 0 0 0 4px rgba(197, 59, 165, 0.25), 0 12px 28px rgba(148, 42, 136, 0.34), 0 0 0 2px rgba(255, 255, 255, 0.6) inset;
         }
 
         @keyframes guidePulse {
 
             0%,
             100% {
-                box-shadow: 0 10px 24px rgba(92, 42, 148, 0.34), 0 0 0 0 rgba(125, 59, 197, 0.32), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
+                box-shadow: 0 10px 24px rgba(148, 42, 120, 0.34), 0 0 0 0 rgba(197, 59, 179, 0.32), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
             }
 
             50% {
-                box-shadow: 0 12px 28px rgba(92, 42, 148, 0.40), 0 0 0 7px rgba(125, 59, 197, 0.1), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
+                box-shadow: 0 12px 28px rgba(148, 42, 139, 0.34), 0 0 0 7px rgba(197, 59, 179, 0.1), 0 0 0 2px rgba(255, 255, 255, 0.55) inset;
             }
         }
     </style>
@@ -153,15 +153,15 @@
             </div>
             <div class="flex items-center gap-2">
                 <button id="btn-clear-cart-floating" type="button" aria-label="Kosongkan keranjang"
-                    class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[10px] justify-center items-center">
+                    class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#802A76] px-[10px] justify-center items-center">
                     <img src="{{ asset('assets/icons/landing/delete.svg') }}" alt="" class="h-[16px]">
                 </button>
                 <button id="btn-pay-floating"
-                    class="h-[38px] min-w-[150px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                    class="h-[38px] min-w-[150px] rounded-full bg-[#802A76] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                     Bayar Sekarang
                 </button>
                 <button id="btn-minimize-checkout-floating" type="button" aria-label="Minimalkan panel checkout"
-                    class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[8px] justify-center items-center">
+                    class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#802A76] px-[8px] justify-center items-center">
                     <img src="{{ asset('assets/icons/landing/down.svg') }}" alt="" class="h-[20px]">
                 </button>
             </div>
@@ -176,23 +176,23 @@
                 </div>
             </div>
             <button id="btn-pay-minimized"
-                class="h-[38px] min-w-[88px] rounded-full bg-[#5c2a94] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                class="h-[38px] min-w-[88px] rounded-full bg-[#802A76] px-4 text-[12px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50">
                 Bayar
             </button>
             <button id="btn-expand-checkout-floating" type="button" aria-label="Perbesar panel checkout"
-                class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#5c2a94] px-[8px] justify-center items-center">
+                class="h-[38px] min-w-[38px] rounded-full border border-[#d8c9f0] bg-white text-[#802A76] px-[8px] justify-center items-center">
                 <img src="{{ asset('assets/icons/landing/up.svg') }}" alt="" class="h-[20px]">
             </button>
         </div>
     </div>
 
     <button id="btn-open-guide-floating" type="button" aria-label="Buka panduan pembelian"
-        class="fixed bottom-20 right-5 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#5c2a94] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
+        class="fixed bottom-20 right-5 inline-flex h-[42px] w-[42px] items-center justify-center gap-2 rounded-full bg-[#802A76] text-[12px] font-semibold text-white shadow-[0_10px_24px_rgba(92,42,148,0.35)]">
         <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[18px] brightness-0 invert">
     </button>
 
     <a href="{{ route('games.index') }}" aria-label="Buka halaman games"
-        class="fixed bottom-[132px] right-5 inline-flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#5A2F7E] text-white shadow-[0_10px_24px_rgba(90,47,126,0.35)] hover:-translate-y-0.5 transition">
+        class="fixed bottom-[132px] right-5 inline-flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[#802A76] text-white shadow-[0_10px_24px_rgba(90,47,126,0.35)] hover:-translate-y-0.5 transition">
         <img src="{{ asset('assets/icons/landing/games.svg') }}" alt="" class="h-[18px] brightness-0 invert">
     </a>
 
@@ -201,7 +201,7 @@
             <div class="flex items-center justify-between gap-3">
                 <div class="text-[18px] font-semibold text-[#2b1a43]">Panduan Pembelian</div>
                 <button id="btn-close-guide" type="button" aria-label="Tutup panduan pembelian"
-                    class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#5c2a94] items-center justify-center">
+                    class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#802A76] items-center justify-center">
                     <img src="{{ asset('assets/icons/landing/close.svg') }}" alt="">
                 </button>
             </div>
@@ -213,14 +213,14 @@
                 <li>Jika gagal atau butuh bantuan, hubungi Call Center.</li>
             </ol>
             <div class="mt-[14px] rounded-[12px] bg-[#f8f3ff] p-3 text-[13px] text-[#4a3a66]">
-                <div class="font-semibold text-[#3C1C5E]">Call Center</div>
+                <div class="font-semibold text-[#5E1C3D]">Call Center</div>
                 <div class="flex mt-2 items-center gap-2">
                     <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="">
-                    <p class="font-semibold text-[#5c2a94] items-center">{{ $callPhoneDisplay }}</p>
+                    <p class="font-semibold text-[#802A76] items-center">{{ $callPhoneDisplay }}</p>
                 </div>
                 <div class="flex mt-2 items-center gap-2">
                     <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="">
-                    <p class="font-semibold text-[#5c2a94] items-center">{{ $callWaDisplay }}</p>
+                    <p class="font-semibold text-[#802A76] items-center">{{ $callWaDisplay }}</p>
                 </div>
             </div>
         </div>
@@ -235,14 +235,14 @@
             <div class="mt-[12px] text-[18px] font-semibold text-[#2b1a43]">Pembayaran Gagal</div>
             <div id="fail-message" class="mt-[6px] text-[12px] text-[#6b5a84]">Coba ulangi pemesanan.</div>
             <button id="btn-close-fail"
-                class="mt-[18px] w-full h-[40px] rounded-full bg-[#5c2a94] text-white font-semibold">Tutup</button>
+                class="mt-[18px] w-full h-[40px] rounded-full bg-[#802A76] text-white font-semibold">Tutup</button>
         </div>
     </div>
 
     <div id="modal-loading" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 p-[24px]">
         <div
             class="bg-white w-full max-w-[360px] rounded-[18px] p-[20px] text-center shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
-            <div class="mx-auto h-[48px] w-[48px] rounded-full border-4 border-[#e9dcf9] border-t-[#5c2a94] animate-spin">
+            <div class="mx-auto h-[48px] w-[48px] rounded-full border-4 border-[#e9dcf9] border-t-[#802A76] animate-spin">
             </div>
             <div class="mt-[12px] text-[14px] font-semibold text-[#2b1a43]">Memproses pembayaran...</div>
             <div class="mt-[4px] text-[12px] text-[#6b5a84]">Mohon tunggu sebentar.</div>
@@ -319,7 +319,7 @@
                     const card = document.createElement('div');
                     card.className =
                         `bg-white rounded-[16px] p-[10px] w-[170px] my-2 transition duration-200 ${
-                        isSelected ? 'border-2 border-[#5c2a94] shadow-[0_10px_24px_rgba(92,42,148,0.18)]' : 'border border-[#e1d7f0] shadow-[0_6px_18px_rgba(60,34,97,0.08)]'
+                        isSelected ? 'border-2 border-[#802A76] shadow-[0_10px_24px_rgba(92,42,148,0.18)]' : 'border border-[#e1d7f0] shadow-[0_6px_18px_rgba(60,34,97,0.08)]'
                     } ${isOutOfStock ? 'opacity-70 grayscale' : 'hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(92,42,148,0.16)]'}`;
                     card.innerHTML = `
                     <div class="bg-cover h-[150px] w-full rounded-[14px] bg-gradient-to-b from-[#f4efff] via-[#f9f6ff] to-white border border-[#ece4f7] flex items-center justify-center relative overflow-hidden"
@@ -333,14 +333,14 @@
                             ${isOutOfStock ? 'Stok habis' : `Stok ${product.stock}`}
                         </div> --}}
                         <div class="mt-auto w-full">
-                            <a href="${product.detail_url}" class="btn-buy flex h-[35px] w-full items-center justify-center rounded-full bg-[#5c2a94] text-[14px] font-semibold text-white">
+                            <a href="${product.detail_url}" class="btn-buy flex h-[35px] w-full items-center justify-center rounded-full bg-[#802A76] text-[14px] font-semibold text-white">
                                 Beli
                             </a>
                         </div>
                         {{-- <div class="mt-[10px] flex items-center justify-between" data-product="${product.id}">
-                            <button class="btn-min h-[28px] w-[28px] rounded-full border border-[#ceb9ee] text-[#5c2a94]">-</button>
+                            <button class="btn-min h-[28px] w-[28px] rounded-full border border-[#ceb9ee] text-[#802A76]">-</button>
                             <div class="qty text-[12px] font-semibold text-[#2b1a43]">${qty}</div>
-                                <button class="btn-plus h-[28px] w-[28px] rounded-full bg-[#5c2a94] text-white ${(isOutOfStock || isMaxed) ? 'opacity-40 cursor-not-allowed' : ''}" ${(isOutOfStock || isMaxed) ? 'disabled' : ''}>+</button>
+                                <button class="btn-plus h-[28px] w-[28px] rounded-full bg-[#802A76] text-white ${(isOutOfStock || isMaxed) ? 'opacity-40 cursor-not-allowed' : ''}" ${(isOutOfStock || isMaxed) ? 'disabled' : ''}>+</button>
                         </div> --}}
                     </div>
                 `;
