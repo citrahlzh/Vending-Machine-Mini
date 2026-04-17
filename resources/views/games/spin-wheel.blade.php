@@ -46,9 +46,9 @@
 
         <button id="spinButton"
             class="mt-16 bg-white px-10 py-4 rounded-full text-2xl font-semibold
-               border-2 border-[#5A2F7E]
-               shadow-[8px_8px_0px_#5A2F7E]
-               hover:translate-y-1 hover:shadow-[6px_6px_0px_#5A2F7E]
+               border-2 border-[#802A76]
+               shadow-[8px_8px_0px_#802A76]
+               hover:translate-y-1 hover:shadow-[6px_6px_0px_#802A76]
                transition duration-200">
             Putar Sekarang
         </button>

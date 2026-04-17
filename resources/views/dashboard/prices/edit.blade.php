@@ -12,12 +12,12 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Ubah Data Harga</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk mengubah produk.
             </p>
         </div>
 
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <form id="editPriceForm" class="space-y-4">
                 <input id="priceId" type="hidden" value="{{ $price->id }}">
 
@@ -25,7 +25,7 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="product_id">Produk</label>
                         <select id="product_id" name="product_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="">Pilih produk</option>
                             @foreach ($products as $product)
                                 <option value="{{ $product->id }}" {{ $price->product_id == $product->id ? 'selected' : '' }}>
@@ -38,7 +38,7 @@
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="price">Harga</label>
                         <input id="price" name="price" type="text" inputmode="numeric" required
                             value="{{ 'Rp' . number_format((int) $price->price, 0, ',', '.') . ',00' }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Rp0,00">
                     </div>
                 </div>
@@ -49,14 +49,14 @@
                             Mulai</label>
                         <input id="start_date" name="start_date" type="date" required
                             value="{{ optional($price->start_date)->format('Y-m-d') }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="end_date">Tanggal
                             Selesai</label>
                         <input id="end_date" name="end_date" type="date" required
                             value="{{ optional($price->end_date)->format('Y-m-d') }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="is_active">Status</label>
                         <select id="is_active" name="is_active" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="1" {{ $price->is_active ? 'selected' : '' }}>Aktif</option>
                             <option value="0" {{ !$price->is_active ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
@@ -73,11 +73,11 @@
 
                 <div class="grid grid-cols-1 gap-4 pt-8 md:grid-cols-2">
                     <a href="{{ route('dashboard.prices.index') }}"
-                        class="flex h-10 items-center justify-center rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="flex h-10 items-center justify-center rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </a>
                     <button id="submitEditPrice" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>

@@ -8,42 +8,49 @@
             [
                 'label' => 'Daftar Pengguna',
                 'route' => 'dashboard.master-data.users.index',
-                'icon' => 'users.svg',
+                'icon' => 'bi-people-fill',
+                'roles' => ['admin'],
             ],
-            [
-                'label' => 'Role Pengguna',
-                'route' => 'dashboard.master-data.roles.index',
-                'icon' => 'users.svg',
-            ],
+            // [
+            //     'label' => 'Role Pengguna',
+            //     'route' => 'dashboard.master-data.roles.index',
+            //     'icon' => 'bi-person-badge-fill',
+            // ],
             [
                 'label' => 'Merek',
                 'route' => 'dashboard.master-data.brands.index',
-                'icon' => 'brand.svg',
+                'icon' => 'bi-upc-scan',
+                'roles' => ['admin', 'operator'],
             ],
             [
                 'label' => 'Sel Produk',
                 'route' => 'dashboard.master-data.cells.index',
-                'icon' => 'cells.svg',
+                'icon' => 'bi-inboxes-fill',
+                'roles' => ['admin', 'operator'],
             ],
             [
                 'label' => 'Kategori Produk',
                 'route' => 'dashboard.master-data.categories.index',
-                'icon' => 'categories.svg',
+                'icon' => 'bi-tags-fill',
+                'roles' => ['admin', 'operator'],
             ],
             [
                 'label' => 'Jenis Kemasan',
                 'route' => 'dashboard.master-data.packaging-types.index',
-                'icon' => 'package.svg',
+                'icon' => 'bi-box-seam-fill',
+                'roles' => ['admin', 'operator'],
             ],
             [
                 'label' => 'Ukuran Kemasan',
                 'route' => 'dashboard.master-data.packaging-sizes.index',
-                'icon' => 'sizes.svg',
+                'icon' => 'bi-rulers',
+                'roles' => ['admin', 'operator'],
             ],
             [
                 'label' => 'Iklan',
                 'route' => 'dashboard.master-data.ads.index',
-                'icon' => 'ads.svg',
+                'icon' => 'bi-badge-ad-fill',
+                'roles' => ['admin', 'operator'],
             ],
         ];
     @endphp
@@ -51,21 +58,22 @@
     <section class="space-y-8 p-2">
         <div>
             <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Master Data</h1>
-            <p class="mt-2 text-[18px] text-[#4F3970]">Halaman ini untuk menampilkan data yang diperlukan untuk keperluan pendataan.</p>
+            <p class="mt-2 text-[18px] text-[#703967]">Halaman ini untuk menampilkan data yang diperlukan untuk keperluan pendataan.</p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div class="grid gap-6 md:grid-cols-3 xl:grid-cols-4">
             @foreach ($menus as $menu)
-                <a href="{{ route($menu['route']) }}"
-                    class="group flex min-h-[135px] items-center gap-4 rounded-2xl border border-[#ddd2ef] bg-white px-5 py-4 transition hover:-translate-y-0.5">
-                    <div class="flex h-[95px] w-[95px] shrink-0 items-center justify-center rounded-xl bg-[#D9C9EB]">
-                        <img src="{{ asset('assets/icons/dashboard/' . $menu['icon']) }}" alt="{{ $menu['label'] }}"
-                            class="h-15 w-15 text-[#4B1F74]">
-                    </div>
-                    <span class="text-[23px] font-medium leading-8 text-[#111111]">
-                        {{ $menu['label'] }}
-                    </span>
-                </a>
+                @if (in_array(auth()->user()->role, $menu['roles']))
+                    <a href="{{ route($menu['route']) }}"
+                        class="group flex min-h-[135px] items-center gap-4 rounded-2xl border border-[#efd2ea] bg-[#802A76] px-5 py-4 transition hover:-translate-y-0.5">
+                        <div class="flex h-[95px] w-[95px] shrink-0 items-center justify-center rounded-xl bg-white/20">
+                            <div class="bi {{ $menu['icon'] }} text-[45px] text-white"></div>
+                        </div>
+                        <span class="text-[20px] font-medium leading-8 text-white">
+                            {{ $menu['label'] }}
+                        </span>
+                    </a>
+                @endif
             @endforeach
         </div>
     </section>

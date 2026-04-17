@@ -1,29 +1,29 @@
 @extends('dashboard.layouts.app', [
-    'title' => 'Setelan Situs',
+    'title' => 'Setelan Situs & Mesin',
 ])
 
 @section('content')
     <section class="space-y-6 p-2">
 
         <div>
-            <h1 class="text-[28px] font-semibold text-[#5E1C3D]">Setelan Situs</h1>
-            <p class="mt-3 text-[18px] text-[#4F3970]">
-                Halaman ini untuk mengatur data pada situs.
+            <h1 class="text-[28px] font-semibold text-[#5E1C3D]">Setelan Situs & Mesin</h1>
+            <p class="mt-3 text-[18px] text-[#703967]">
+                Halaman ini untuk mengatur data situs, kontak, dan identitas mesin vending.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
 
             <form id="settingsForm">
 
                 <div id="settingsContainer" class="space-y-8"></div>
                 <div class="grid grid-cols-1 gap-4 pt-8 md:grid-cols-2">
                     <button id="cancelBtn" type="button" disabled
-                        class="mt-6 h-10 rounded-lg border border-[#B596D8] px-6 text-[#5E1C3D] disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="mt-6 h-10 rounded-lg border border-[#d896c4] px-6 text-[#5E1C3D] disabled:opacity-50 disabled:cursor-not-allowed">
                         Batal
                     </button>
                     <button id="saveBtn" type="submit" disabled
-                        class="mt-6 h-10 rounded-lg bg-[#5A2F7E] px-6 text-[15px] font-semibold text-white transition hover:bg-[#4B1F74] disabled:bg-[#BFA7D8] disabled:cursor-not-allowed">
+                        class="mt-6 h-10 rounded-lg bg-[#802A76] px-6 text-[15px] font-semibold text-white transition hover:bg-[#741f58] disabled:bg-[#BFA7D8] disabled:cursor-not-allowed">
                         Simpan
                     </button>
                 </div>
@@ -63,7 +63,7 @@
                             'No file chosen';
 
                         const imageUrl = setting.value ?
-                            `/storage/${setting.value}` :
+                            `/image/${setting.value}` :
                             '';
 
                         groupHTML += `
@@ -76,14 +76,14 @@
 
             <img
     id="preview-${setting.key}"
-    src="${setting.value ? `/storage/${setting.value}` : ''}"
+    src="${setting.value ? `/image/${setting.value}` : ''}"
     class="h-12 w-12 rounded object-cover"
 >
 
-            <div class="flex w-full items-center rounded-lg border border-[#B596D8]">
+            <div class="flex w-full items-center rounded-lg border border-[#d896c4]">
 
                 <label
-                    class="rounded-l-lg cursor-pointer bg-[#efe6fb] px-3 py-2 text-sm text-[#4B1F74]">
+                    class="rounded-l-lg cursor-pointer bg-[#efe6fb] px-3 py-2 text-sm text-[#741f58]">
                     Choose File
                     <input
                         type="file"
@@ -113,9 +113,9 @@
                         type="${setting.type}"
                         name="settings[${setting.key}]"
                         value="${setting.value ?? ''}"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px]
-                        text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca]
-                        focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px]
+                        text-[#5E1C3D] outline-none placeholder:text-[#caa3c0]
+                        focus:border-[#933e77]"
                     >
                 </div>
                 `;
@@ -260,7 +260,7 @@
                     icon: 'error',
                     title: 'Gagal',
                     text: 'Terjadi kesalahan saat menyimpan data.',
-                    confirmButtonColor: '#5A2F7E'
+                    confirmButtonColor: '#802A76'
                 });
 
                 return;
@@ -272,7 +272,7 @@
                 icon: 'success',
                 title: 'Berhasil',
                 text: result.message,
-                confirmButtonColor: '#5A2F7E'
+                confirmButtonColor: '#802A76'
             });
 
             document.getElementById('saveBtn').disabled = true;
@@ -297,7 +297,7 @@
                 text: 'Perubahan yang belum disimpan akan hilang.',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#5A2F7E',
+                confirmButtonColor: '#802A76',
                 cancelButtonText: 'Tidak',
                 confirmButtonText: 'Ya'
             }).then((result) => {

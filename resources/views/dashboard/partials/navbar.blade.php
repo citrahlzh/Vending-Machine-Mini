@@ -1,22 +1,28 @@
-<header class="border-b border-[#ede8f6] bg-white">
+<header class="border-b border-[#f6e8f4] bg-white">
     <div class="flex items-center justify-between pl-8 pr-9 py-4">
         <div class="flex items-center gap-4">
-            <button id="sidebarOpenBtn" type="button"
-                class="rounded-md p-2 text-[#5A2F7E] md:hidden" aria-label="Buka sidebar">
+            <button id="sidebarOpenBtn" type="button" class="rounded-md p-2 text-[#802A76] md:hidden"
+                aria-label="Buka sidebar">
                 <i class='bx bx-menu text-[22px]'></i>
             </button>
             <span class="h-[14px] w-[14px] rounded-full bg-[#50BE41]"></span>
-            <p class="hidden text-[15px] font-regular leading-none text-[#4B2A6A] md:block">
-                Mesin sedang aktif beroperasi
-            </p>
+            <div class="hidden md:block">
+                <p class="text-[15px] font-regular leading-none text-[#6a2a57]">
+                    {{ setting('machine_name', 'Mesin sedang aktif beroperasi') }}
+                </p>
+                <p class="mt-1 text-[12px] leading-none text-[#9e6f91]">
+                    {{ setting('machine_code', 'Kode belum diatur') }} •
+                    {{ setting('machine_location', 'Lokasi belum diatur') }}
+                </p>
+            </div>
         </div>
 
         <div class="flex items-center gap-3">
             <div class="relative">
                 <button id="notificationButton" type="button"
-                    class="relative text-[#5E377E] transition hover:text-[#4B2A6A]" aria-label="Notifikasi"
+                    class="relative text-[#7e376f] transition hover:text-[#6a2a60]" aria-label="Notifikasi"
                     aria-haspopup="true" aria-expanded="false">
-                    <img src="{{ asset('assets/icons/dashboard/notification.svg') }}" alt="Notifikasi" class="h-8 w-8">
+                    <i class='bx bx-bell text-[33px]'></i>
                     <span id="notificationBadge"
                         class="absolute -right-1 -top-1 hidden min-w-[18px] rounded-full bg-[#d12f2f] px-1.5 text-center text-[11px] font-semibold text-white">
                         0
@@ -24,30 +30,34 @@
                 </button>
 
                 <div id="notificationPanel"
-                    class="absolute right-0 top-[46px] z-30 hidden w-[360px] rounded-lg border border-[#e8e2f3] bg-white p-3 shadow-[0_10px_20px_rgba(60,28,94,0.12)]">
+                    class="absolute right-0 top-[46px] z-30 hidden w-[360px] rounded-lg border border-[#f3e2ef] bg-white p-3 shadow-[0_10px_20px_rgba(60,28,94,0.12)]">
                     <div class="mb-2 flex items-center justify-between">
                         <p class="text-[15px] font-semibold text-[#5E1C3D]">Notifikasi</p>
                         <button id="markAllNotificationsRead" type="button"
-                            class="text-[12px] font-medium text-[#5A2F7E] hover:underline">
+                            class="text-[12px] font-medium text-[#802A76] hover:underline">
                             Tandai semua dibaca
                         </button>
                     </div>
 
                     <div id="notificationList" class="max-h-[340px] space-y-2 overflow-y-auto pr-1">
-                        <p class="py-4 text-center text-[13px] text-[#7a6a94]">Memuat notifikasi...</p>
+                        <p class="py-4 text-center text-[13px] text-[#946a87]">Memuat notifikasi...</p>
                     </div>
                 </div>
             </div>
 
             <div class="relative">
                 <button id="profileMenuButton" type="button" aria-haspopup="true" aria-expanded="false"
-                    class="overflow-hidden rounded-full border border-[#d9d3e7]">
+                    class="overflow-hidden rounded-full border border-[#e7d3e3]">
                     <img src="{{ asset('assets/images/dashboard/profile.jpg') }}" alt="Profil"
                         class="h-[38px] w-[38px] rounded-full object-cover">
                 </button>
 
                 <div id="profileMenu"
-                    class="absolute right-0 top-[46px] z-30 hidden w-36 rounded-lg border border-[#e8e2f3] bg-white p-2 shadow-[0_10px_20px_rgba(60,28,94,0.12)]">
+                    class="absolute right-0 top-[46px] z-30 hidden w-36 rounded-lg border border-[#f3e2f1] bg-white p-2 shadow-[0_10px_20px_rgba(60,28,94,0.12)]">
+                    <div class="px-4 py-3 border-b border-[#f3e2f1]">
+                        <p class="text-sm font-semibold text-[#3c1c5e] truncate"> {{ auth()->user()->name }} </p>
+                        <p class="text-xs text-gray-400 truncate"> {{ auth()->user()->role->name }} </p>
+                    </div>
                     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
@@ -127,15 +137,17 @@
             const statusStyle = item.read_at ?
                 'border-[#efe9f9] bg-white' :
                 'border-[#e2d5f5] bg-[#f7f2ff]';
-            const typeDotColor = item.type === 'success' ? 'bg-[#28a745]' : (item.type === 'warning' ? 'bg-[#e3a315]' :
-                'bg-[#5A2F7E]');
+            const typeDotColor = item.type === 'success' ? 'bg-[#28a745]' : (item.type === 'warning' ?
+                'bg-[#e3a315]' :
+                'bg-[#802A76]');
             const actionUrl = typeof item.action_url === 'string' && (item.action_url.startsWith('/') || item
-                .action_url.startsWith('http://') || item.action_url.startsWith('https://')) ? item.action_url : '';
+                    .action_url.startsWith('http://') || item.action_url.startsWith('https://')) ? item
+                .action_url : '';
             const actionButton = item.read_at ?
                 '' :
-                `<button type="button" data-notification-id="${item.id}" class="mark-notification-read text-[11px] font-semibold text-[#5A2F7E] hover:underline">Tandai dibaca</button>`;
+                `<button type="button" data-notification-id="${item.id}" class="mark-notification-read text-[11px] font-semibold text-[#802A76] hover:underline">Tandai dibaca</button>`;
             const actionLink = actionUrl ?
-                `<a href="${escapeHtml(actionUrl)}" class="text-[11px] font-semibold text-[#5A2F7E] hover:underline">Lihat detail</a>` :
+                `<a href="${escapeHtml(actionUrl)}" class="text-[11px] font-semibold text-[#802A76] hover:underline">Lihat detail</a>` :
                 '';
 
             return `
@@ -197,14 +209,16 @@
             event.stopPropagation();
             closeNotificationPanel();
             profileMenu.classList.toggle('hidden');
-            profileButton.setAttribute('aria-expanded', profileMenu.classList.contains('hidden') ? 'false' : 'true');
+            profileButton.setAttribute('aria-expanded', profileMenu.classList.contains('hidden') ? 'false' :
+                'true');
         });
 
         notificationButton.addEventListener('click', async (event) => {
             event.stopPropagation();
             closeProfileMenu();
             notificationPanel.classList.toggle('hidden');
-            notificationButton.setAttribute('aria-expanded', notificationPanel.classList.contains('hidden') ? 'false' :
+            notificationButton.setAttribute('aria-expanded', notificationPanel.classList.contains(
+                    'hidden') ? 'false' :
                 'true');
 
             if (!notificationPanel.classList.contains('hidden')) {
@@ -266,7 +280,7 @@
                     showCancelButton: true,
                     confirmButtonText: 'Ya, logout',
                     cancelButtonText: 'Batal',
-                    confirmButtonColor: '#5A2F7E',
+                    confirmButtonColor: '#802A76',
                     cancelButtonColor: '#9b90b0',
                 });
 

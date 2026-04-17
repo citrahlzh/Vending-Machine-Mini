@@ -16,13 +16,13 @@
 
         <div class="w-full max-w-[520px]">
             <div id="quizPrompt"
-                class="bg-[#f7f1ff] px-10 py-6 rounded-[22px] text-[22px] sm:text-[22px] font-semibold text-[#2d1b40] border-2 border-[#5A2F7E] shadow-[8px_8px_0px_#5A2F7E] min-h-[130px] flex items-center justify-center text-center">
+                class="bg-[#f7f1ff] px-10 py-6 rounded-[22px] text-[22px] sm:text-[22px] font-semibold text-[#2d1b40] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] min-h-[130px] flex items-center justify-center text-center">
             </div>
         </div>
 
         <div id="quizImageWrapper" class="hidden w-full max-w-[420px] items-center justify-center">
             <div
-                class="h-[200px] w-[200px] sm:h-[230px] sm:w-[230px] rounded-[28px] bg-[#e8def5] border-2 border-[#5A2F7E] shadow-[8px_8px_0px_#5A2F7E] flex items-center justify-center">
+                class="h-[200px] w-[200px] sm:h-[230px] sm:w-[230px] rounded-[28px] bg-[#e8def5] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] flex items-center justify-center">
                 <img id="quizImage" alt="Gambar soal" class="max-h-[170px] w-auto object-contain" />
             </div>
         </div>
@@ -31,77 +31,77 @@
 
         <div id="quizTextAnswer" class="hidden w-full max-w-[520px]">
             <input id="quizTextInput" type="text"
-                class="h-12 w-full rounded-[18px] border-2 border-[#5A2F7E] bg-white px-4 text-[18px] text-[#2d1b40] shadow-[6px_6px_0px_#5A2F7E] outline-none focus:border-[#4b1f74]"
+                class="h-12 w-full rounded-[18px] border-2 border-[#802A76] bg-white px-4 text-[18px] text-[#2d1b40] shadow-[6px_6px_0px_#802A76] outline-none focus:border-[#741f58]"
                 placeholder="Masukkan jawabanmu">
         </div>
 
         <div id="quizKeyboard" class="hidden w-full max-w-[520px]">
             <div>
-                {{-- class="mt-3 w-full rounded-[20px] border-2 border-[#5A2F7E] bg-[#f7f1ff] px-4 py-4 shadow-[6px_6px_0px_#5A2F7E]"> --}}
+                {{-- class="mt-3 w-full rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 shadow-[6px_6px_0px_#802A76]"> --}}
                 <div class="flex flex-col gap-2">
                     <div class="flex items-center justify-center gap-2">
                         <button type="button" data-key="Q"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Q</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Q</button>
                         <button type="button" data-key="W"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">W</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">W</button>
                         <button type="button" data-key="E"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">E</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">E</button>
                         <button type="button" data-key="R"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">R</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">R</button>
                         <button type="button" data-key="T"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">T</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">T</button>
                         <button type="button" data-key="Y"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Y</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Y</button>
                         <button type="button" data-key="U"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">U</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">U</button>
                         <button type="button" data-key="I"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">I</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">I</button>
                         <button type="button" data-key="O"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">O</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">O</button>
                         <button type="button" data-key="P"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">P</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">P</button>
                     </div>
                     <div class="flex items-center justify-center gap-2">
                         <button type="button" data-key="A"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">A</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">A</button>
                         <button type="button" data-key="S"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">S</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">S</button>
                         <button type="button" data-key="D"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">D</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">D</button>
                         <button type="button" data-key="F"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">F</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">F</button>
                         <button type="button" data-key="G"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">G</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">G</button>
                         <button type="button" data-key="H"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">H</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">H</button>
                         <button type="button" data-key="J"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">J</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">J</button>
                         <button type="button" data-key="K"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">K</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">K</button>
                         <button type="button" data-key="L"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">L</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">L</button>
                     </div>
                     <div class="flex items-center justify-center gap-2">
                         <button type="button" data-key="Z"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Z</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Z</button>
                         <button type="button" data-key="X"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">X</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">X</button>
                         <button type="button" data-key="C"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">C</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">C</button>
                         <button type="button" data-key="V"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">V</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">V</button>
                         <button type="button" data-key="B"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">B</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">B</button>
                         <button type="button" data-key="N"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">N</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">N</button>
                         <button type="button" data-key="M"
-                            class="h-10 w-10 rounded-[10px] bg-[#5A2F7E] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">M</button>
+                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">M</button>
                         <button type="button" data-action="backspace"
                             class="h-10 px-3 rounded-[10px] bg-[#3f1f60] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#2d1545]">Hapus</button>
                     </div>
                     <div class="flex items-center justify-center gap-2">
                         <button type="button" data-action="space"
-                            class="h-10 flex-1 rounded-[10px] bg-[#5A2F7E] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Spasi</button>
+                            class="h-10 flex-1 rounded-[10px] bg-[#802A76] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Spasi</button>
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
 
         <div class="flex w-full justify-end mt-4">
             <button id="quizNextButton" type="button"
-                class="inline-flex items-center justify-right rounded-full bg-[#5A2F7E] px-7 py-2 text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                class="inline-flex items-center justify-right rounded-full bg-[#802A76] px-7 py-2 text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
                 <span id="quizNextLabel">Lanjut</span>
                 <img src="{{ asset('assets/icons/landing/next.svg') }}" alt="" class="h-[30px] w-auto ml-2">
             </button>
@@ -235,10 +235,10 @@
                     button.dataset.key = opt.key;
 
                     button.className =
-                        'option-btn flex items-center gap-4 rounded-[20px] border-2 border-[#5A2F7E] bg-[#f7f1ff] px-4 py-4 text-left shadow-[6px_6px_0px_#5A2F7E] transition';
+                        'option-btn flex items-center gap-4 rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 text-left shadow-[6px_6px_0px_#802A76] transition';
 
                     button.innerHTML = `
-            <span class="option-key flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#5A2F7E] border-2 border-[#5A2F7E] transition">
+            <span class="option-key flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#802A76] border-2 border-[#802A76] transition">
                 ${opt.key}
             </span>
             <span class="text-[20px] font-semibold text-[#1e132b]">
@@ -251,14 +251,14 @@
 
                         // reset semua key
                         optionsEl.querySelectorAll('.option-key').forEach((el) => {
-                            el.classList.remove('bg-[#5A2F7E]', 'text-white');
-                            el.classList.add('bg-[#f7f1ff]', 'text-[#5A2F7E]');
+                            el.classList.remove('bg-[#802A76]', 'text-white');
+                            el.classList.add('bg-[#f7f1ff]', 'text-[#802A76]');
                         });
 
                         // aktifkan yang dipilih
                         const keyEl = button.querySelector('.option-key');
-                        keyEl.classList.remove('bg-[#f7f1ff]', 'text-[#5A2F7E]');
-                        keyEl.classList.add('bg-[#5A2F7E]', 'text-white');
+                        keyEl.classList.remove('bg-[#f7f1ff]', 'text-[#802A76]');
+                        keyEl.classList.add('bg-[#802A76]', 'text-white');
 
                         setNextDisabled(false);
                     });
@@ -309,7 +309,7 @@
                     if (existing) {
                         optionsEl.querySelectorAll('button').forEach((btn) => {
                             if (btn.dataset.key === String(existing)) {
-                                btn.classList.add('ring-4', 'ring-[#5A2F7E]');
+                                btn.classList.add('ring-4', 'ring-[#802A76]');
                                 setNextDisabled(false);
                             }
                         });

@@ -16,13 +16,13 @@
                 </h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini menampilkan detail hadiah permainan.
             </p>
         </div>
 
 
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
 
             <div class="grid grid-cols-1 gap-x-16 gap-y-6 md:grid-cols-2">
 

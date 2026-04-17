@@ -12,12 +12,12 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Detail Harga</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan data harga.
             </p>
         </div>
 
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-[220px,1fr]">
                 <div
                     class="flex h-[200px] w-[200px] items-center justify-center rounded-2xl border border-[#ccc3db] bg-white">

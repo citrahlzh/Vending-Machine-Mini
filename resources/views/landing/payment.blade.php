@@ -3,21 +3,21 @@
 ])
 
 @section('content')
-    <div id="payment-screen" class="min-h-screen bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] px-8">
+    <div id="payment-screen" class="min-h-screen bg-gradient-to-b from-[#fff3fd] via-white to-[#fff3fd] px-8">
         <div
             class="mx-auto flex min-h-[calc(100vh)] w-full max-w-[560px] items-center justify-center sm:min-h-[calc(100vh-2.5rem)]">
             <div
-                class="w-full rounded-[20px] border border-[#e7dcf8] bg-white py-8 px-5 shadow-[0_12px_30px_rgba(60,34,97,0.1)] sm:p-6">
-                <div class="text-center text-[22px] font-semibold text-[#2b1a43]">Pembayaran QRIS</div>
-                <div id="payment-state" class="mt-1 text-center text-[14px] font-semibold text-[#6d5a88]">Menunggu pembayaran
+                class="w-full rounded-[20px] border border-[#f9dcf3] bg-white py-8 px-5 shadow-[0_12px_30px_rgba(60,34,97,0.1)] sm:p-6">
+                <div class="text-center text-[22px] font-semibold text-[#431a39]">Pembayaran QRIS</div>
+                <div id="payment-state" class="mt-1 text-center text-[14px] font-semibold text-[#885a7c]">Menunggu pembayaran
                 </div>
 
                 <div class="mt-5 flex items-center justify-center">
                     <img id="qris-image" src="{{ asset('assets/images/transaction/QR_code.svg') }}" alt="qr-code"
-                        class="h-[300px] w-[300px] max-w-full rounded-[16px] border border-[#e9dcf9] object-contain p-2 sm:h-[360px] sm:w-[360px]">
+                        class="h-[300px] w-[300px] max-w-full rounded-[16px] border border-[#f9dcf3] object-contain p-2 sm:h-[360px] sm:w-[360px]">
                 </div>
 
-                <div id="payment-status-note" class="mt-3 text-center text-[14px] text-[#6b5a84]">
+                <div id="payment-status-note" class="mt-3 text-center text-[14px] text-[#885a7c]">
                     Scan QRIS lalu tunggu konfirmasi pembayaran.
                 </div>
 
@@ -31,7 +31,7 @@
                         Saya Sudah Bayar
                     </button>
                     <button id="btn-cancel"
-                        class="h-[42px] rounded-full border border-[#d6c7ee] text-[13px] font-semibold text-[#802A76]">
+                        class="h-[42px] rounded-full border border-[#eec7e9] text-[13px] font-semibold text-[#802A76]">
                         Batalkan Pembayaran
                     </button>
                     <a id="btn-back-home" href="{{ route('landing.index') }}"
@@ -44,15 +44,15 @@
     </div>
 
     <div id="final-screen"
-        class="fixed inset-0 z-50 hidden items-center justify-center bg-gradient-to-b from-[#f7f3ff] via-white to-[#f3f0ff] p-4">
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-gradient-to-b from-[#fff3fd] via-white to-[#fff3fd] p-4">
         <div
             class="w-full max-w-[420px] rounded-[20px] border border-[#e7dcf8] bg-white p-6 text-center shadow-[0_10px_28px_rgba(0,0,0,0.12)]">
             <div id="final-icon-wrap" class="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full">
                 <img id="final-icon" src="{{ asset('assets/icons/landing/check-mark.png') }}" class="h-[40px] w-[40px]"
                     alt="status">
             </div>
-            <div id="final-title" class="mt-3 text-[20px] font-semibold text-[#2b1a43]">Pembayaran Berhasil</div>
-            <div id="final-message" class="mt-2 text-[13px] text-[#6b5a84]">Silakan ambil produk Anda.</div>
+            <div id="final-title" class="mt-3 text-[20px] font-semibold text-[#431a39]">Pembayaran Berhasil</div>
+            <div id="final-message" class="mt-2 text-[13px] text-[#885a7c]">Silakan ambil produk Anda.</div>
             <a href="{{ route('landing.index') }}"
                 class="mt-5 inline-flex h-[42px] w-full items-center justify-center rounded-full bg-[#802A76] text-[13px] font-semibold text-white">
                 Kembali ke Beranda

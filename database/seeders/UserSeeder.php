@@ -36,5 +36,15 @@ class UserSeeder extends Seeder
             'password' => 'staffstaff',
             'role_id' => $staffRoleId,
         ]);
+
+        User:: updateOrCreate(['username' => 'operator'], [
+            'name' => 'Operator',
+            'phone_number' => '081234567891',
+            'whatsapp_number' => '6281234567891',
+            'is_active' => true,
+            'username' => 'operator',
+            'password' => 'operatoroperator',
+            'role_id' => Role::where('slug', 'operator')->value('id'),
+        ]);
     }
 }

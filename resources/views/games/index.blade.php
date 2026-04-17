@@ -11,9 +11,9 @@
 
         @php
             $cardClass = "bg-white rounded-2xl px-12 py-10 text-xl font-semibold
-        border-2 border-[#5A2F7E]
-        shadow-[8px_8px_0px_#5A2F7E]
-        hover:translate-y-1 hover:shadow-[6px_6px_0px_#5A2F7E]
+        border-2 border-[#802A76]
+        shadow-[8px_8px_0px_#802A76]
+        hover:translate-y-1 hover:shadow-[6px_6px_0px_#802A76]
         transition duration-200 flex items-center justify-center text-center";
         @endphp
 
@@ -38,9 +38,9 @@
             @endif
 
         </div>
-        
+
         <a href="{{ route('landing.index') }}"
-            class="fixed bottom-24 left-6 sm:left-10 lg:left-[72px] inline-flex items-center gap-2 rounded-full bg-[#5A2F7E] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+            class="fixed bottom-24 left-6 sm:left-10 lg:left-[72px] inline-flex items-center gap-2 rounded-full bg-[#802A76] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
             Kembali
         </a>
 

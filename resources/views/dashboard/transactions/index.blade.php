@@ -6,12 +6,12 @@
     <section class="space-y-6 p-2">
         <div>
             <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Transaksi</h1>
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan daftar transaksi yang telah terjadi pada Vending Machine.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-6 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-6 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div class="overflow-x-auto">
                 <table id="transactionsTable" class="dashboard-datatable display w-full">
                     <thead>
@@ -114,7 +114,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Ya, batalkan',
                 cancelButtonText: 'Batal',
-                confirmButtonColor: '#5A2F7E',
+                confirmButtonColor: '#802A76',
                 cancelButtonColor: '#9b90b0',
             });
 
@@ -141,7 +141,7 @@
                     icon: 'success',
                     title: 'Berhasil',
                     text: data?.message || 'Transaksi berhasil dibatalkan.',
-                    confirmButtonColor: '#5A2F7E',
+                    confirmButtonColor: '#802A76',
                 });
 
                 window.location.reload();
@@ -150,7 +150,7 @@
                     icon: 'error',
                     title: 'Gagal',
                     text: error.message || 'Terjadi kesalahan saat membatalkan transaksi.',
-                    confirmButtonColor: '#5A2F7E',
+                    confirmButtonColor: '#802A76',
                 });
                 cancelButton.disabled = false;
                 cancelButton.classList.remove('opacity-40', 'cursor-not-allowed');

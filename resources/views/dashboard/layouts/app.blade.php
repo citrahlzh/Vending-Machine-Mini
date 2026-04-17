@@ -9,21 +9,28 @@
         @stack("style")
     </head>
 
-    <body>
-        <div class="flex h-screen w-full">
+    <body class="h-screen overflow-hidden">
+        <div class="flex h-screen w-full overflow-hidden">
             <div id="sidebarOverlay" class="fixed inset-0 z-30 hidden bg-black/40 md:hidden"></div>
 
             {{-- Sidebar --}}
             @include("dashboard.partials.sidebar")
 
-            <div class="flex min-w-0 flex-1 flex-col bg-[#F7F3FF]">
+            <div class="flex min-w-0 flex-1 flex-col overflow-hidden bg-[#FAFAFA]">
                 {{-- Navbar --}}
                 @include('dashboard.partials.navbar')
 
-                {{-- Main Content --}}
-                <main class="min-h-0 flex-1 overflow-y-auto p-7 transition duration-500 ease-in-out">
-                    @yield("content")
-                </main>
+                <div class="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
+                    {{-- Main Content --}}
+                    <main class="p-7 transition duration-500 ease-in-out">
+                        @yield("content")
+                    </main>
+
+                    {{-- Footer --}}
+                    <footer class="py-5">
+                        @include('dashboard.partials.footer')
+                    </footer>
+                </div>
             </div>
         </div>
 

@@ -22,7 +22,7 @@ use App\Http\Controllers\Dashboard\RewardController;
 use App\Http\Controllers\Dashboard\GameHistoryController;
 use App\Http\Controllers\Dashboard\RoleController;
 
-Route::middleware(['auth', 'role:admin,staff'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'role:admin,staff,operator'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::prefix('notifications')->name('notifications.')->group(function () {
@@ -32,38 +32,38 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('dashboard')->name('dash
         Route::post('/read/{id}', [NotificationController::class, 'markRead'])->name('read');
     });
 
-    Route::prefix('transactions')->name('transactions.')->group(function () {
+    Route::prefix('transactions')->middleware('role:admin,staff')->name('transactions.')->group(function () {
         Route::get('/', [TransactionController::class, 'index'])->name('index');
         Route::get('/{id}', [TransactionController::class, 'show'])->name('show');
     });
 
-    Route::prefix('product-displays')->name('product-displays.')->group(function () {
+    Route::prefix('product-displays')->middleware('role:admin,staff,operator')->name('product-displays.')->group(function () {
         Route::get('/', [ProductDisplayController::class, 'index'])->name('index');
         Route::get('/create', [ProductDisplayController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [ProductDisplayController::class, 'edit'])->name('edit');
         Route::get('/{id}', [ProductDisplayController::class, 'show'])->name('show');
     });
 
-    Route::prefix('prices')->name('prices.')->group(function () {
+    Route::prefix('prices')->middleware('role:admin,operator')->name('prices.')->group(function () {
         Route::get('/', [PriceController::class, 'index'])->name('index');
         Route::get('/create', [PriceController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [PriceController::class, 'edit'])->name('edit');
         Route::get('/{id}', [PriceController::class, 'show'])->name('show');
     });
 
-    Route::prefix('products')->name('products.')->group(function () {
+    Route::prefix('products')->middleware('role:admin,operator')->name('products.')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/create', [ProductController::class, 'create'])->name('create');
         Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('edit');
         Route::get('/{id}', [ProductController::class, 'show'])->name('show');
     });
 
-    Route::prefix('report')->name('reports.')->group(function () {
+    Route::prefix('report')->middleware('role:admin,staff')->name('reports.')->group(function () {
         Route::get('/', [ReportController::class, 'index'])->name('index');
         Route::get('/export-excel', [ReportController::class, 'exportExcel'])->name('export-excel');
     });
 
-    Route::prefix('game-management')->name('game-management.')->group(function () {
+    Route::prefix('game-management')->middleware('role:admin,staff,operator')->name('game-management.')->group(function () {
         Route::get('/', [DashboardController::class, 'gameManagementIndex'])->name('index');
 
         Route::prefix('games')->name('games.')->group(function () {
@@ -87,13 +87,13 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('dashboard')->name('dash
             Route::get('/{id}', [RewardController::class, 'show'])->name('show');
         });
 
-        Route::prefix('game-history')->name('game-history.')->group(function () {
+        Route::prefix('game-history')->middleware('role:admin,staff')->name('game-history.')->group(function () {
             Route::get('/', [GameHistoryController::class, 'index'])->name('index');
             Route::get('/{id}', [GameHistoryController::class, 'show'])->name('show');
         });
     });
 
-    Route::prefix('master-data')->middleware('role:admin')->name('master-data.')->group(function () {
+    Route::prefix('master-data')->middleware('role:admin, operator')->name('master-data.')->group(function () {
         Route::get('/', [DashboardController::class, 'masterIndex'])->name('index');
 
         Route::prefix('users')->name('users.')->group(function () {
@@ -132,5 +132,5 @@ Route::middleware(['auth', 'role:admin,staff'])->prefix('dashboard')->name('dash
         });
     });
 
-    Route::get('/setelan-situs', [SiteSettingController::class, 'index'])->name('site-setting.index');
+    Route::get('/setelan-situs', [SiteSettingController::class, 'index'])->middleware('role:admin')->name('site-setting.index');
 });

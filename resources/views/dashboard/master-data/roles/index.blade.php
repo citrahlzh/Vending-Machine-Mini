@@ -12,15 +12,15 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Role Pengguna</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan daftar role pengguna.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div id="rolesAddAction" class="hidden">
                 <button id="openCreateRoleModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Tambah Data
                 </button>
             </div>
@@ -82,7 +82,7 @@
     <div id="createRoleModal"
         class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Role</h2>
 
@@ -90,7 +90,7 @@
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="roleName">Nama Role</label>
                     <input id="roleName" name="name" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan nama role">
                 </div>
 
@@ -98,15 +98,15 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="roleSlug">Kode Role</label>
                     <input id="roleSlug" name="slug" type="text"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
-                        placeholder="Contoh: admin, staff">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
+                        placeholder="Contoh: admin, staff, operator">
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="roleDescription">Deskripsi</label>
                     <input id="roleDescription" name="description" type="text"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Tambahkan deskripsi role (opsional)">
                 </div>
 
@@ -114,7 +114,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="roleStatus">Status</label>
                     <select id="roleStatus" name="is_active" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="">Pilih Status</option>
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
@@ -123,11 +123,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelCreateRole" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitCreateRole" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -137,7 +137,7 @@
 
     <div id="editRoleModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Role</h2>
 
@@ -148,7 +148,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editRoleName">Nama Role</label>
                     <input id="editRoleName" name="name" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan nama role">
                 </div>
 
@@ -156,15 +156,15 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editRoleSlug">Kode Role</label>
                     <input id="editRoleSlug" name="slug" type="text"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
-                        placeholder="Contoh: admin, staff">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
+                        placeholder="Contoh: admin, staff, operator">
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editRoleDescription">Deskripsi</label>
                     <input id="editRoleDescription" name="description" type="text"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Tambahkan deskripsi role (opsional)">
                 </div>
 
@@ -172,7 +172,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editRoleStatus">Status</label>
                     <select id="editRoleStatus" name="is_active" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
                     </select>
@@ -180,11 +180,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelEditRole" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitEditRole" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>

@@ -33,7 +33,7 @@
 
             .landing-frame {
                 border-radius: 20px;
-                border: 1px solid #e7dcf8;
+                border: 1px solid #f8dcf2;
                 box-shadow: 0 24px 60px rgba(60, 34, 97, 0.2);
             }
         }
@@ -41,9 +41,9 @@
 
     @stack('style')
 </head>
-<body class="min-h-screen bg-[#f7f3ff]">
+<body class="min-h-screen bg-[#fffbfe]">
     <div class="landing-frame flex flex-col">
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#f7f3ff]">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-[#fffbfe]">
             @yield('content')
         </main>
 

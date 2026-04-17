@@ -12,12 +12,12 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Ubah Data Pengguna</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk mengubah data pengguna.
             </p>
         </div>
 
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <form id="editUserForm" class="space-y-4">
                 <input id="userId" type="hidden" value="{{ $user->id }}">
 
@@ -25,13 +25,13 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="name">Nama Lengkap</label>
                         <input id="name" name="name" type="text" required value="{{ $user->name }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan nama lengkap Anda disini">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="is_active">Status</label>
                         <select id="is_active" name="is_active" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="1" {{ $user->is_active ? 'selected' : '' }}>Aktif</option>
                             <option value="0" {{ !$user->is_active ? 'selected' : '' }}>Tidak Aktif</option>
                         </select>
@@ -42,7 +42,7 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="role_id">Role</label>
                         <select id="role_id" name="role_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="">Pilih role</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
@@ -56,7 +56,7 @@
                             Telepon</label>
                         <input id="phone_number" name="phone_number" type="text" required
                             value="{{ $user->phone_number }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan nomor telepon Anda (081234567890)">
                     </div>
                     <div>
@@ -64,7 +64,7 @@
                             Whatsapp</label>
                         <input id="whatsapp_number" name="whatsapp_number" type="text"
                             value="{{ $user->whatsapp_number }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan nomor Whatsapp Anda (621234567890)">
                     </div>
                 </div>
@@ -74,25 +74,25 @@
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="username">Nama
                             Pengguna</label>
                         <input id="username" name="username" type="text" required value="{{ $user->username }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan nama pengguna Anda disini">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="password">Kata
                             Sandi</label>
                         <input id="password" name="password" type="password"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Kosongkan jika tidak diubah">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 pt-8 md:grid-cols-2">
                     <a href="{{ route('dashboard.master-data.users.index') }}"
-                        class="flex h-10 items-center justify-center rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="flex h-10 items-center justify-center rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </a>
                     <button id="submitEditUser" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>

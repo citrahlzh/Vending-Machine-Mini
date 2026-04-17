@@ -19,14 +19,14 @@
 
             </div>
 
-            <p class="mt-3 text-[#4F3970]">
+            <p class="mt-3 text-[#703967]">
                 Menampilkan detail konfigurasi permainan.
             </p>
 
         </div>
 
 
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-10 shadow">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 

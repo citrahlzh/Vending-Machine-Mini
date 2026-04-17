@@ -25,7 +25,16 @@ class RoleSeeder extends Seeder
             ['slug' => 'staff'],
             [
                 'name' => 'Staff',
-                'description' => 'Akses operasional dashboard',
+                'description' => 'Akses monitoring transaksi dan laporan',
+                'is_active' => true,
+            ]
+        );
+
+        Role::updateOrCreate(
+            ['slug' => 'operator'],
+            [
+                'name' => 'operator',
+                'description' => 'Akses untuk mengelola mesin',
                 'is_active' => true,
             ]
         );

@@ -20,7 +20,7 @@
 
             </div>
 
-            <p class="mt-2 text-[#4F3970]">
+            <p class="mt-2 text-[#703967]">
                 Menampilkan detail sesi permainan pengguna.
             </p>
 
@@ -28,7 +28,7 @@
 
 
         {{-- PLAY INFORMATION --}}
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-8">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-8">
 
             <h2 class="text-[20px] font-semibold text-[#5E1C3D] mb-6">
                 Informasi Permainan
@@ -77,7 +77,7 @@
 
 
         {{-- PLAYER RESPONSES --}}
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-8">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-8">
 
             <h2 class="text-[20px] font-semibold text-[#5E1C3D] mb-6">
                 Jawaban Pemain
@@ -149,7 +149,7 @@
 
 
         {{-- REWARD --}}
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-8">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-8">
 
             <h2 class="text-[20px] font-semibold text-[#5E1C3D] mb-6">
                 Reward Diberikan

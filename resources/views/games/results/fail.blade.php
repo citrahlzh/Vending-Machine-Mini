@@ -30,7 +30,7 @@
             </div>
 
             <a href="/"
-                class="inline-flex items-center justify-center rounded-full bg-[#5A2F7E] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+                class="inline-flex items-center justify-center rounded-full bg-[#802A76] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
                 Kembali
             </a>
         </div>

@@ -12,15 +12,15 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Iklan</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan daftar iklan pada Vending Machine.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div id="adsAddAction" class="hidden">
                 <button id="openCreateAdModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Tambah Data
                 </button>
             </div>
@@ -84,7 +84,7 @@
 
     <div id="createAdModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Data Iklan</h2>
 
@@ -92,14 +92,14 @@
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="adTitle">Judul</label>
                     <input id="adTitle" name="title" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Judul Iklan">
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="adStatus">Status</label>
                     <select id="adStatus" name="status" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="">Pilih Status</option>
                         <option value="active">Aktif</option>
                         <option value="inactive">Nonaktif</option>
@@ -109,7 +109,7 @@
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="adImage">Foto Spanduk</label>
                     <label id="adDropzone" for="adImage"
-                        class="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border border-[#B596D8] px-6 text-center transition">
+                        class="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border border-[#d896c4] px-6 text-center transition">
                         <img id="adDropzoneIcon" src="{{ asset('assets/icons/dashboard/image-upload.svg') }}" alt=""
                             class="h-7 w-7 opacity-70">
                         <p id="adDropzonePrompt" class="mt-3 text-[15px] text-[#6B4E90]">Klik untuk mengunggah atau seret dan lepas</p>
@@ -124,11 +124,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-3">
                     <button id="cancelCreateAd" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitCreateAd" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -138,11 +138,11 @@
 
     <div id="showAdModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Detail Iklan</h2>
 
-            <div class="mt-6 rounded-xl border border-[#ddd2ef] bg-[#f8f4ff] p-6">
+            <div class="mt-6 rounded-xl border border-[#efd2ea] bg-[#f8f4ff] p-6">
                 <p id="showAdTitle" class="text-center text-[20px] font-semibold text-[#5E1C3D]"></p>
                 <img id="showAdImage" src="" alt="Foto Spanduk"
                     class="mt-4 h-[140px] w-full rounded-lg border border-[#d8c9eb] object-cover">
@@ -150,7 +150,7 @@
 
             <div class="mt-5">
                 <button id="closeShowAdModal" type="button"
-                    class="h-10 w-full rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                    class="h-10 w-full rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                     Tutup
                 </button>
             </div>
@@ -159,7 +159,7 @@
 
     <div id="editAdModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-7 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Data Iklan</h2>
 
@@ -169,13 +169,13 @@
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editAdTitle">Judul</label>
                     <input id="editAdTitle" name="title" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]">
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editAdStatus">Status</label>
                     <select id="editAdStatus" name="status" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="active">Aktif</option>
                         <option value="inactive">Nonaktif</option>
                     </select>
@@ -184,7 +184,7 @@
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editAdImage">Foto Spanduk</label>
                     <label id="editAdDropzone" for="editAdImage"
-                        class="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border border-[#B596D8] px-6 text-center transition">
+                        class="flex min-h-[150px] cursor-pointer flex-col items-center justify-center rounded-lg border border-[#d896c4] px-6 text-center transition">
                         <img id="editAdDropzoneIcon" src="{{ asset('assets/icons/dashboard/image-upload.svg') }}" alt=""
                             class="h-7 w-7 opacity-70">
                         <p id="editAdDropzonePrompt" class="mt-3 text-[15px] text-[#6B4E90]">Klik untuk mengunggah atau seret dan lepas</p>
@@ -198,11 +198,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-3">
                     <button id="cancelEditAd" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitEditAd" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -249,8 +249,8 @@
                 dropzonePrompt.classList.toggle('hidden', hasFile);
                 dropzoneHint.classList.toggle('hidden', hasFile);
                 dropzone.classList.toggle('bg-[#f3eefb]', hasFile);
-                dropzone.classList.toggle('border-[#6B3E93]', hasFile);
-                dropzone.classList.toggle('border-[#B596D8]', !hasFile);
+                dropzone.classList.toggle('border-[#933e77]', hasFile);
+                dropzone.classList.toggle('border-[#d896c4]', !hasFile);
                 dropzoneIcon.classList.toggle('h-7', !hasFile);
                 dropzoneIcon.classList.toggle('w-7', !hasFile);
                 dropzoneIcon.classList.toggle('h-12', hasFile);
@@ -325,7 +325,7 @@
                 dropzone.addEventListener(eventName, (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    dropzone.classList.add('border-[#6B3E93]', 'bg-[#f8f4ff]');
+                    dropzone.classList.add('border-[#933e77]', 'bg-[#f8f4ff]');
                 });
             });
 
@@ -333,7 +333,7 @@
                 dropzone.addEventListener(eventName, (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    dropzone.classList.remove('border-[#6B3E93]', 'bg-[#f8f4ff]');
+                    dropzone.classList.remove('border-[#933e77]', 'bg-[#f8f4ff]');
                 });
             });
 
@@ -425,8 +425,8 @@
                 editDropzonePrompt.classList.toggle('hidden', hasFile);
                 editDropzoneHint.classList.toggle('hidden', hasFile);
                 editDropzone.classList.toggle('bg-[#f3eefb]', hasFile);
-                editDropzone.classList.toggle('border-[#6B3E93]', hasFile);
-                editDropzone.classList.toggle('border-[#B596D8]', !hasFile);
+                editDropzone.classList.toggle('border-[#933e77]', hasFile);
+                editDropzone.classList.toggle('border-[#d896c4]', !hasFile);
                 editDropzoneIcon.classList.toggle('h-7', !hasFile);
                 editDropzoneIcon.classList.toggle('w-7', !hasFile);
                 editDropzoneIcon.classList.toggle('h-12', hasFile);
@@ -558,7 +558,7 @@
                 editDropzone.addEventListener(eventName, (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    editDropzone.classList.add('border-[#6B3E93]', 'bg-[#f8f4ff]');
+                    editDropzone.classList.add('border-[#933e77]', 'bg-[#f8f4ff]');
                 });
             });
 
@@ -566,7 +566,7 @@
                 editDropzone.addEventListener(eventName, (event) => {
                     event.preventDefault();
                     event.stopPropagation();
-                    editDropzone.classList.remove('border-[#6B3E93]', 'bg-[#f8f4ff]');
+                    editDropzone.classList.remove('border-[#933e77]', 'bg-[#f8f4ff]');
                 });
             });
 

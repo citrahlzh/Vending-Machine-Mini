@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             SiteSettingSeeder::class,
+            CellSeeder::class,
             GameQuestSeeder::class,
         ]);
     }

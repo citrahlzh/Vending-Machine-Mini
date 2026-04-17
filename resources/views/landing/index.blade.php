@@ -104,7 +104,7 @@
 @endpush
 
 @section('content')
-    <div class="min-h-full bg-[#f7f3ff]">
+    <div class="min-h-full bg-[#fffbfe]">
         <div id="default-carousel" class="relative w-full px-5 sm:px-5 lg:px-6 pt-5 sm:pt-5 pb-5" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative overflow-hidden rounded-base h-[200px] sm:h-[145px]">
@@ -146,10 +146,10 @@
         class="fixed bottom-[73px] left-1/2 z-40 hidden w-[calc(100%-20px)] max-w-[560px] -translate-x-1/2 rounded-[14px] border border-[#e4d7f6] bg-white/95 p-3 shadow-[0_12px_30px_rgba(60,34,97,0.18)] backdrop-blur">
         <div id="checkout-expanded" class="flex items-center gap-3">
             <div class="flex-1">
-                <div class="text-[12px] text-[#6d5a88]">Total Belanja</div>
-                <div id="cart-total-floating" class="text-[16px] font-semibold text-[#2b1a43]">Rp 0</div>
-                <div id="cart-items-count" class="mt-0.5 text-[12px] text-[#6d5a88]">0 item</div>
-                <div id="cart-items-preview" class="cart-preview-clamp mt-1 text-[12px] leading-tight text-[#4d3a6f]"></div>
+                <div class="text-[12px] text-[#885a75]">Total Belanja</div>
+                <div id="cart-total-floating" class="text-[16px] font-semibold text-[#431a39]">Rp 0</div>
+                <div id="cart-items-count" class="mt-0.5 text-[12px] text-[#885a75]">0 item</div>
+                <div id="cart-items-preview" class="cart-preview-clamp mt-1 text-[12px] leading-tight text-[#6f3a69]"></div>
             </div>
             <div class="flex items-center gap-2">
                 <button id="btn-clear-cart-floating" type="button" aria-label="Kosongkan keranjang"
@@ -170,8 +170,8 @@
         <div id="checkout-minimized" class="hidden flex items-center gap-2">
             <div class="flex min-w-0 flex-1 items-center justify-between border-[#d8c9f0] px-3 py-2 text-left">
                 <div class="min-w-0">
-                    <div class="text-[12px] leading-none text-[#6d5a88]">Total Belanja</div>
-                    <div id="cart-total-minimized" class="mt-0.5 truncate text-[16px] font-semibold text-[#2b1a43]">Rp 0
+                    <div class="text-[12px] leading-none text-[#885a75]">Total Belanja</div>
+                    <div id="cart-total-minimized" class="mt-0.5 truncate text-[16px] font-semibold text-[#431a39]">Rp 0
                     </div>
                 </div>
             </div>
@@ -199,7 +199,7 @@
     <div id="modal-guide" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/40 p-3 pb-[80px]">
         <div class="bg-white w-full max-w-[560px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="flex items-center justify-between gap-3">
-                <div class="text-[18px] font-semibold text-[#2b1a43]">Panduan Pembelian</div>
+                <div class="text-[18px] font-semibold text-[#431a39]">Panduan Pembelian</div>
                 <button id="btn-close-guide" type="button" aria-label="Tutup panduan pembelian"
                     class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#802A76] items-center justify-center">
                     <img src="{{ asset('assets/icons/landing/close.svg') }}" alt="">
@@ -232,7 +232,7 @@
             <div class="mx-auto h-[72px] w-[72px] rounded-full bg-[#ffe6e6] flex items-center justify-center">
                 <img src="{{ asset('assets/icons/landing/exclamation-mark.png') }}" alt="fail">
             </div>
-            <div class="mt-[12px] text-[18px] font-semibold text-[#2b1a43]">Pembayaran Gagal</div>
+            <div class="mt-[12px] text-[18px] font-semibold text-[#431a39]">Pembayaran Gagal</div>
             <div id="fail-message" class="mt-[6px] text-[12px] text-[#6b5a84]">Coba ulangi pemesanan.</div>
             <button id="btn-close-fail"
                 class="mt-[18px] w-full h-[40px] rounded-full bg-[#802A76] text-white font-semibold">Tutup</button>
@@ -244,7 +244,7 @@
             class="bg-white w-full max-w-[360px] rounded-[18px] p-[20px] text-center shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="mx-auto h-[48px] w-[48px] rounded-full border-4 border-[#e9dcf9] border-t-[#802A76] animate-spin">
             </div>
-            <div class="mt-[12px] text-[14px] font-semibold text-[#2b1a43]">Memproses pembayaran...</div>
+            <div class="mt-[12px] text-[14px] font-semibold text-[#431a39]">Memproses pembayaran...</div>
             <div class="mt-[4px] text-[12px] text-[#6b5a84]">Mohon tunggu sebentar.</div>
         </div>
     </div>
@@ -327,8 +327,8 @@
                         ${isOutOfStock ? '<div class="absolute inset-0 bg-white/70 flex items-center justify-center text-[12px] font-semibold text-[#c0392b]">HABIS</div>' : ''}
                     </div>
                     <div class="flex flex-col mt-[12px] h-[110px]">
-                        <div class="text-[16px] font-semibold text-[#2b1a43] leading-tight">${product.name}</div>
-                        <div class="mt-3 text-[14px] font-semibold text-[#6d5a88] mt-[2px]">Rp ${rupiah(product.price)}</div>
+                        <div class="text-[16px] font-semibold text-[#431a39] leading-tight">${product.name}</div>
+                        <div class="mt-3 text-[14px] font-semibold text-[#885a75] mt-[2px]">Rp ${rupiah(product.price)}</div>
                         {{-- <div class="text-[14px] ${isOutOfStock ? 'text-[#c0392b]' : 'text-[#6b5a84]'} mt-[2px]">
                             ${isOutOfStock ? 'Stok habis' : `Stok ${product.stock}`}
                         </div> --}}
@@ -339,7 +339,7 @@
                         </div>
                         {{-- <div class="mt-[10px] flex items-center justify-between" data-product="${product.id}">
                             <button class="btn-min h-[28px] w-[28px] rounded-full border border-[#ceb9ee] text-[#802A76]">-</button>
-                            <div class="qty text-[12px] font-semibold text-[#2b1a43]">${qty}</div>
+                            <div class="qty text-[12px] font-semibold text-[#431a39]">${qty}</div>
                                 <button class="btn-plus h-[28px] w-[28px] rounded-full bg-[#802A76] text-white ${(isOutOfStock || isMaxed) ? 'opacity-40 cursor-not-allowed' : ''}" ${(isOutOfStock || isMaxed) ? 'disabled' : ''}>+</button>
                         </div> --}}
                     </div>

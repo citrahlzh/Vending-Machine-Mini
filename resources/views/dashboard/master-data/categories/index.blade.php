@@ -12,15 +12,15 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Kategori Produk</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan daftar kategori produk.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div id="categoriesAddAction" class="hidden">
                 <button id="openCreateCategoryModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Tambah Data
                 </button>
             </div>
@@ -80,7 +80,7 @@
     <div id="createCategoryModal"
         class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Kategori</h2>
 
@@ -89,7 +89,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="categoryName">Kategori</label>
                     <input id="categoryName" name="category_name" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Kategori">
                 </div>
 
@@ -97,7 +97,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="categoryStatus">Status</label>
                     <select id="categoryStatus" name="is_active" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="">Pilih Status Data</option>
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
@@ -106,11 +106,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelCreateCategory" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitCreateCategory" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -120,7 +120,7 @@
 
     <div id="editCategoryModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Kategori</h2>
 
@@ -131,7 +131,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editCategoryName">Kategori</label>
                     <input id="editCategoryName" name="category_name" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Kategori">
                 </div>
 
@@ -139,7 +139,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="editCategoryStatus">Status</label>
                     <select id="editCategoryStatus" name="is_active" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="1">Aktif</option>
                         <option value="0">Tidak Aktif</option>
                     </select>
@@ -147,11 +147,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelEditCategory" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitEditCategory" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -234,7 +234,7 @@
                             showCancelButton: true,
                             confirmButtonText: 'Lanjut edit',
                             cancelButtonText: 'Batal',
-                            confirmButtonColor: '#5A2F7E',
+                            confirmButtonColor: '#802A76',
                         });
 
                         if (!result.isConfirmed) return;

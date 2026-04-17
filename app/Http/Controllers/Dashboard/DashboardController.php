@@ -41,12 +41,21 @@ class DashboardController extends Controller
             $chartValues[] = (int) ($hourlyRows[$hour] ?? 0);
         }
 
+        $machineIdentity = [
+            'name' => setting('machine_name', '-'),
+            'code' => setting('machine_code', '-'),
+            'serial_number' => setting('machine_serial_number', '-'),
+            'location' => setting('machine_location', '-'),
+            'operator_name' => setting('machine_operator_name', '-'),
+        ];
+
         return view('dashboard.index', compact(
             'omzetHariIni',
             'transaksiSukses',
             'transaksiGagal',
             'chartLabels',
-            'chartValues'
+            'chartValues',
+            'machineIdentity'
         ));
     }
 

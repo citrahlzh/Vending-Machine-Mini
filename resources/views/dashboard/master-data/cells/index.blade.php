@@ -12,15 +12,15 @@
                 <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Sel Produk</h1>
             </div>
 
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan daftar sel produk di Vending Machine.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div id="cellsAddAction" class="hidden">
                 <button id="openCreateCellModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Tambah Data
                 </button>
             </div>
@@ -68,7 +68,7 @@
 
     <div id="createCellModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Sel Produk</h2>
 
@@ -76,7 +76,7 @@
                 <div>
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="cellCode">Kode Sel</label>
                     <input id="cellCode" name="code" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Kode Sel">
                 </div>
 
@@ -84,14 +84,14 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="cellRow">Baris ke-</label>
                         <input id="cellRow" name="row" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan Baris">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                             for="cellColumn">Kolom ke-</label>
                         <input id="cellColumn" name="column" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan Kolom">
                     </div>
                 </div>
@@ -100,17 +100,17 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="cellCapacity">Kapasitas
                         Sel</label>
                     <input id="cellCapacity" name="capacity" type="number" min="1" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Kapasitas Sel">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelCreateCell" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitCreateCell" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -120,7 +120,7 @@
 
     <div id="editCellModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Ubah Sel Produk</h2>
 
@@ -132,7 +132,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellCode">Kode
                         Sel</label>
                     <input id="editCellCode" name="code" type="text" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Kode Sel">
                 </div>
 
@@ -141,14 +141,14 @@
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellRow">Baris
                             ke-</label>
                         <input id="editCellRow" name="row" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan Baris">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellColumn">Kolom
                             ke-</label>
                         <input id="editCellColumn" name="column" type="text" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="Masukkan Kolom">
                     </div>
                 </div>
@@ -157,17 +157,17 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="editCellCapacity">Kapasitas
                         Sel</label>
                     <input id="editCellCapacity" name="capacity" type="number" min="1" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="Masukkan Kapasitas Sel">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelEditCell" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitEditCell" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -256,7 +256,7 @@
                             showCancelButton: true,
                             confirmButtonText: 'Lanjut edit',
                             cancelButtonText: 'Batal',
-                            confirmButtonColor: '#5A2F7E',
+                            confirmButtonColor: '#802A76',
                         });
 
                         if (!result.isConfirmed) return;

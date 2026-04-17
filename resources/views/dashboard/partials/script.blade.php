@@ -102,7 +102,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Ya, batalkan',
                 cancelButtonText: 'Tidak',
-                confirmButtonColor: '#5A2F7E',
+                confirmButtonColor: '#802A76',
                 cancelButtonColor: '#9b90b0',
             });
 

@@ -22,7 +22,15 @@ class SiteSettingController extends Controller
 
     public function update(Request $request)
     {
-        foreach ($request->settings as $key => $value) {
+        $inputSettings = $request->input('settings', []);
+        $fileSettings = $request->file('settings', []);
+        $keys = array_unique([
+            ...array_keys($inputSettings),
+            ...array_keys($fileSettings),
+        ]);
+
+        foreach ($keys as $key) {
+            $value = $inputSettings[$key] ?? null;
 
             if ($request->hasFile("settings.$key")) {
 
@@ -41,6 +49,8 @@ class SiteSettingController extends Controller
 
             }
         }
+
+        cache()->forget('site_settings');
 
         return response()->json([
             'message' => 'Setelan situs berhasil diubah.'

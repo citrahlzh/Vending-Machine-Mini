@@ -6,23 +6,23 @@
     <section class="space-y-6 p-2">
         <div>
             <h1 class="text-[28px] font-semibold leading-none text-[#5E1C3D]">Etalase Produk (Penataan Produk)</h1>
-            <p class="mt-3 text-[18px] text-[#4F3970]">
+            <p class="mt-3 text-[18px] text-[#703967]">
                 Halaman ini untuk menampilkan daftar produk yang ditampilkan di Vending Machine.
             </p>
         </div>
 
-        <article class="rounded-2xl border border-[#ddd2ef] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-2xl border border-[#efd2ea] bg-white p-8 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
             <div id="productDisplaysActions" class="hidden">
                 <button id="openCreateDisplayModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Tambah Data
                 </button>
                 <button id="openRestockModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Stock In
                 </button>
                 <button id="openStockOutModal" type="button"
-                    class="rounded-lg bg-[#5A2F7E] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                    class="rounded-lg bg-[#802A76] px-5 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
                     Stock Out
                 </button>
             </div>
@@ -116,7 +116,7 @@
     <div id="createProductDisplayModal"
         class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 860px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Tambah Data Etalase Produk</h2>
 
@@ -125,7 +125,7 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createProductId">Produk</label>
                         <select id="createProductId" name="product_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="">Pilih produk</option>
                             @foreach ($products as $product)
                                 <option value="{{ $product->id }}">{{ $product->product_name }}</option>
@@ -135,7 +135,7 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createPriceId">Daftar Harga</label>
                         <select id="createPriceId" name="price_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="">Pilih harga</option>
                             @foreach ($prices as $price)
                                 <option value="{{ $price->id }}" data-product-id="{{ $price->product_id }}" hidden>
@@ -151,7 +151,7 @@
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createCellId">Sel</label>
                         <select id="createCellId" name="cell_id" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="">Pilih sel</option>
                             @foreach ($cells as $cell)
                                 <option value="{{ $cell->id }}" data-qty-current="{{ (int) $cell->qty_current }}"
@@ -165,13 +165,13 @@
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                             for="createQtyAdd">Stok yang Ingin Ditambahkan</label>
                         <input id="createQtyAdd" name="qty_add" type="number" min="0" value="0"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                             placeholder="10">
                     </div>
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="createStatus">Status</label>
                         <select id="createStatus" name="status" required
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                             <option value="active">Aktif</option>
                             <option value="inactive">Tidak Aktif</option>
                             <option value="discontinued">Dihentikan</option>
@@ -181,11 +181,11 @@
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelCreateProductDisplay" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitCreateProductDisplay" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -196,7 +196,7 @@
     <div id="restockProductDisplayModal"
         class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Restock Produk</h2>
 
@@ -205,7 +205,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="restockProductDisplayId">Produk</label>
                     <select id="restockProductDisplayId" name="product_display_id" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="">Pilih produk</option>
                         @foreach ($productDisplays as $productDisplay)
                             <option value="{{ $productDisplay->id }}"
@@ -221,17 +221,17 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="restockQtyAdd">Jumlah yang
                         Ingin Ditambahkan</label>
                     <input id="restockQtyAdd" name="qty_add" type="number" min="1" required value="10"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="10">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelRestockProductDisplay" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitRestockProductDisplay" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>
@@ -242,7 +242,7 @@
     <div id="stockOutProductDisplayModal"
         class="fixed inset-0 z-50 hidden items-center justify-center p-4 backdrop-blur-[1px]"
         style="background-color: rgba(31, 17, 48, 0.48);">
-        <div class="w-full overflow-hidden border border-[#ddd2ef] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
+        <div class="w-full overflow-hidden border border-[#efd2ea] bg-white p-8 shadow-[0_12px_28px_rgba(60,28,94,0.2)]"
             style="max-width: 560px; border-radius: 22px;">
             <h2 class="text-center text-[24px] font-semibold text-[#5E1C3D]">Stock Out Produk</h2>
 
@@ -251,7 +251,7 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]"
                         for="stockOutProductDisplayId">Produk</label>
                     <select id="stockOutProductDisplayId" name="product_display_id" required
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         <option value="">Pilih produk</option>
                         @foreach ($productDisplays as $productDisplay)
                             <option value="{{ $productDisplay->id }}">
@@ -265,17 +265,17 @@
                     <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]" for="stockOutQty">Jumlah yang
                         Ingin Dikeluarkan</label>
                     <input id="stockOutQty" name="qty_out" type="number" min="1" required value="1"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#b5a3ca] focus:border-[#6B3E93]"
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none placeholder:text-[#caa3c0] focus:border-[#933e77]"
                         placeholder="1">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <button id="cancelStockOutProductDisplay" type="button"
-                        class="h-10 rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="h-10 rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </button>
                     <button id="submitStockOutProductDisplay" type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Simpan
                     </button>
                 </div>

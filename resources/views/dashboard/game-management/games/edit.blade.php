@@ -19,14 +19,14 @@
 
             </div>
 
-            <p class="mt-2 text-[#4F3970]">
+            <p class="mt-2 text-[#703967]">
                 Perbarui konfigurasi permainan.
             </p>
 
         </div>
 
 
-        <article class="rounded-[26px] border border-[#ddd2ef] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
+        <article class="rounded-[26px] border border-[#efd2ea] bg-white p-10 shadow-[0_4px_10px_rgba(60,28,94,0.08)]">
 
             <form id="updateGameForm" class="space-y-4" enctype="multipart/form-data">
 
@@ -37,7 +37,7 @@
                     </label>
 
                     <input type="text" name="name" value="{{ $game->name }}"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
 
                 </div>
 
@@ -49,7 +49,7 @@
                     </label>
 
                     <select name="type" id="gameType"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
 
                         <option value="quiz" {{ $game->type == 'quiz' ? 'selected' : '' }}>
                             Quiz
@@ -75,14 +75,14 @@
 
                         <input type="date" name="start_date"
                             value="{{ optional($game->start_date)->format('Y-m-d') }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div>
 
                     <div>
                         <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Tanggal Selesai</label>
 
                         <input type="date" name="end_date" value="{{ optional($game->end_date)->format('Y-m-d') }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div>
 
                 </div>
@@ -98,7 +98,7 @@
                                 (detik)</label>
                             <input type="number" name="config[time_limit]"
                                 value="{{ $game->config_json['time_limit'] ?? '' }}"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         </div>
 
                         <div>
@@ -106,14 +106,14 @@
                                 (detik)</label>
                             <input type="number" name="config[cooldown]"
                                 value="{{ $game->config_json['cooldown'] ?? '' }}"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         </div>
 
                         <div>
                             <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Jumlah Soal</label>
                             <input type="number" name="config[question_count]"
                                 value="{{ $game->config_json['question_count'] ?? '' }}"
-                                class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                                class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                         </div>
 
                     </div>
@@ -125,7 +125,7 @@
                     <div id="rewardDistribution" class="space-y-3"></div>
 
                     <button type="button" id="addRewardDistribution" onclick="addRewardDistributionRow()"
-                        class="text-[#5A2F7E] text-sm font-semibold">
+                        class="text-[#802A76] text-sm font-semibold">
                         + Tambah Reward
                     </button>
 
@@ -176,7 +176,7 @@
 
                         <input type="number" name="config[spin_duration]"
                             value="{{ $game->config_json['spin_duration'] ?? '' }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div> --}}
 
 
@@ -187,7 +187,7 @@
 
                         <input type="number" name="config[max_spin_per_user]"
                             value="{{ $game->config_json['max_spin_per_user'] ?? 1 }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div>
 
 
@@ -198,7 +198,7 @@
 
                         <input type="number" name="config[cooldown_minutes]"
                             value="{{ $game->config_json['cooldown_minutes'] ?? 0 }}"
-                            class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                            class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
                     </div>
 
                 </div>
@@ -215,10 +215,10 @@
 
                                 <input type="text" name="segments[{{ $i }}][label]"
                                     value="{{ $segment->label }}" placeholder="Label"
-                                    class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                                    class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
 
                                 <select name="segments[{{ $i }}][reward_id]"
-                                    class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                                    class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
 
                                     @foreach ($rewards as $reward)
                                         <option value="{{ $reward->id }}"
@@ -231,7 +231,7 @@
 
                                 <input type="number" name="segments[{{ $i }}][weight]"
                                     value="{{ $segment->weight }}" placeholder="Weight"
-                                    class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                                    class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
 
                                 <div class="space-y-2">
                                     <input type="hidden" name="segments[{{ $i }}][image_url]"
@@ -241,7 +241,7 @@
                                             class="h-12 w-12 rounded-md object-cover border border-[#e4d9f6]">
                                     @endif
                                     <input type="file" name="segments[{{ $i }}][image]"
-                                        class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />
+                                        class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#802A76] file:text-white hover:file:bg-[#741f58] border border-[#d896c4] rounded-lg cursor-pointer" />
                                 </div>
 
                                 <button type="button" onclick="removeSegment(this)"
@@ -255,7 +255,7 @@
                     </div>
 
                     <button type="button" onclick="addSegment()"
-                        class="inline-flex items-center rounded-lg bg-[#5A2F7E] px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="inline-flex items-center rounded-lg bg-[#802A76] px-4 py-2 text-[14px] font-semibold text-white transition hover:bg-[#741f58]">
 
                         Tambah Segment
 
@@ -275,7 +275,7 @@
                     </label>
 
                     <select name="is_active"
-                        class="h-10 w-full rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">
+                        class="h-10 w-full rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">
 
                         <option value="1" {{ $game->is_active ? 'selected' : '' }}>
                             Aktif
@@ -292,12 +292,12 @@
 
                 <div class="grid grid-cols-1 gap-4 pt-8 md:grid-cols-2">
                     <a href="{{ route('dashboard.game-management.games.index') }}"
-                        class="flex h-10 items-center justify-center rounded-lg border border-[#5A2F7E] bg-white text-[15px] font-semibold text-[#4B1F74] transition hover:bg-[#f8f4ff]">
+                        class="flex h-10 items-center justify-center rounded-lg border border-[#802A76] bg-white text-[15px] font-semibold text-[#741f58] transition hover:bg-[#f8f4ff]">
                         Batal
                     </a>
 
                     <button type="submit"
-                        class="h-10 rounded-lg bg-[#5A2F7E] text-[15px] font-semibold text-white transition hover:bg-[#4B1F74]">
+                        class="h-10 rounded-lg bg-[#802A76] text-[15px] font-semibold text-white transition hover:bg-[#741f58]">
                         Update Game
                     </button>
                 </div>
@@ -355,13 +355,13 @@
                 '<div class="grid grid-cols-1 gap-3 md:grid-cols-3">' +
                 '<input placeholder="Minimal Skor" name="config[reward_distribution][' + index + '][score]" ' +
                 'value="' + safeScore + '" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">' +
                 '<select name="config[reward_distribution][' + index + '][reward_id]" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">' +
                 rewardOptions +
                 '</select>' +
                 '<button type="button" ' +
-                'class="h-10 rounded-lg border border-[#e2d8f3] bg-white px-3 text-[13px] font-semibold text-[#6B3E93] transition hover:bg-[#f8f4ff]" ' +
+                'class="h-10 rounded-lg border border-[#e2d8f3] bg-white px-3 text-[13px] font-semibold text-[#933e77] transition hover:bg-[#f8f4ff]" ' +
                 'onclick="this.parentElement.remove()">' +
                 'Hapus' +
                 '</button>' +
@@ -456,15 +456,15 @@
             var html = '' +
                 '<div class="grid grid-cols-5 gap-3 min-w-[860px] border border-[#e4d9f6] p-3 rounded-lg">' +
                 '<input type="text" name="segments[' + segmentIndex + '][label]" placeholder="Label" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">' +
                 '<select name="segments[' + segmentIndex + '][reward_id]" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">' +
                 rewardOptions +
                 '</select>' +
                 '<input type="number" name="segments[' + segmentIndex + '][weight]" placeholder="Weight" ' +
-                'class="h-10 rounded-lg border border-[#B596D8] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#6B3E93]">' +
+                'class="h-10 rounded-lg border border-[#d896c4] px-3 text-[14px] text-[#5E1C3D] outline-none focus:border-[#933e77]">' +
                 '<input type="file" name="segments[' + segmentIndex + '][image]" ' +
-                'class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#5A2F7E] file:text-white hover:file:bg-[#4B1F74] border border-[#B596D8] rounded-lg cursor-pointer" />' +
+                'class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#802A76] file:text-white hover:file:bg-[#741f58] border border-[#d896c4] rounded-lg cursor-pointer" />' +
                 '<button type="button" onclick="removeSegment(this)" ' +
                 'class="h-10 rounded-lg bg-red-500 px-3 text-[14px] font-semibold text-white">' +
                 'Hapus' +

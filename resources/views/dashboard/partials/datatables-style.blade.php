@@ -14,7 +14,7 @@
     }
 
     table.dashboard-datatable tbody tr {
-        background: #f4f1fb;
+        background: #fbf1f7;
     }
 
     table.dashboard-datatable tbody td {
@@ -77,14 +77,14 @@
     }
 
     .dashboard-datatable-wrapper .dataTables_length select {
-        border: 1px solid #d6d0e2;
+        border: 1px solid #e2d0df;
         border-radius: 999px;
         color: #1f1f1f;
         padding: 5px 24px 5px 12px;
     }
 
     .dashboard-datatable-wrapper .dataTables_filter input {
-        border: 1px solid #a7a0b5;
+        border: 1px solid #b5a0ae;
         border-radius: 999px;
         margin-left: 8px !important;
         padding: 6px 14px;
@@ -108,7 +108,7 @@
     }
 
     .dashboard-datatable-wrapper .dataTables_paginate .paginate_button.current {
-        background: #5A2F7E !important;
+        background: #802A76 !important;
         color: #ffffff !important;
         /* width: 40px; */
     }

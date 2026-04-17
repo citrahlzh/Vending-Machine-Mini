@@ -62,11 +62,49 @@ class SiteSettingSeeder extends Seeder
                 'value' => 'info@vendingmachine.com',
                 'type' => 'email',
                 'group' => 'Kontak'
+            ],
+            [
+                'key' => 'machine_name',
+                'label' => 'Nama Mesin',
+                'value' => 'NEXSELL Machine 01',
+                'type' => 'text',
+                'group' => 'Identitas Mesin'
+            ],
+            [
+                'key' => 'machine_code',
+                'label' => 'Kode Mesin',
+                'value' => 'VM-001',
+                'type' => 'text',
+                'group' => 'Identitas Mesin'
+            ],
+            [
+                'key' => 'machine_serial_number',
+                'label' => 'Nomor Seri',
+                'value' => 'SN-VM-001',
+                'type' => 'text',
+                'group' => 'Identitas Mesin'
+            ],
+            [
+                'key' => 'machine_location',
+                'label' => 'Lokasi Mesin',
+                'value' => 'Lobby Utama',
+                'type' => 'text',
+                'group' => 'Identitas Mesin'
+            ],
+            [
+                'key' => 'machine_operator_name',
+                'label' => 'PIC / Operator',
+                'value' => 'Tim Operasional',
+                'type' => 'text',
+                'group' => 'Identitas Mesin'
             ]
         ];
 
         foreach ($data as $item) {
-            SiteSetting::Create($item);
+            SiteSetting::updateOrCreate(
+                ['key' => $item['key']],
+                $item
+            );
         }
     }
 }

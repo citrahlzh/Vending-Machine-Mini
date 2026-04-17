@@ -9,14 +9,14 @@
     @stack('style')
 </head>
 
-<body class="min-h-screen bg-[#FFFFFF] flex flex-col">
+<body class="bg-[#FFFFFF] flex flex-col items-center justify-center">
 
-    <main class="flex flex-grow items-center justify-center px-4 py-10">
+    <main class="min-h-screen flex flex-grow items-center justify-center px-4 py-10">
         {{-- Main Content --}}
         @yield('content')
     </main>
 
-    <footer class="items-center justify-center py-5">
+    <footer class="absolute bottom-0 items-center justify-center py-5">
         {{-- Footer --}}
         @include('auth.partials.footer')
     </footer>
