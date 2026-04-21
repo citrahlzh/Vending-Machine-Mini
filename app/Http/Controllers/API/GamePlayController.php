@@ -71,11 +71,18 @@ class GamePlayController extends Controller
             ]);
         }
 
+        $failUrl = null;
+        if (!$reward) {
+            $failUrl = URL::signedRoute('games.result.fail', [
+                'play' => $play->id,
+            ]);
+        }
+
         return response()->json([
             'correct_answer' => $correct,
             'reward' => $reward,
             'success_url' => $successUrl,
-            'fail_url' => route('games.result.fail'),
+            'fail_url' => $failUrl,
         ]);
     }
 
@@ -152,11 +159,19 @@ class GamePlayController extends Controller
             ]);
         }
 
+        $failUrl = null;
+        if (!$result['reward']) {
+            $failUrl = URL::signedRoute('games.result.fail', [
+                'play' => $play->id,
+            ]);
+        }
+
         return response()->json([
             'segment_id' => $result['segment']->id,
             'label' => $result['segment']->label,
             'reward' => $result['reward'],
             'success_url' => $successUrl,
+            'fail_url' => $failUrl,
         ]);
 
     }

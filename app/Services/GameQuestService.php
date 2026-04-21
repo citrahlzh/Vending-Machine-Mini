@@ -40,9 +40,14 @@ class GameQuestionService
         }
 
         $imagePath = null;
+        $answerImagePath = null;
 
         if (!empty($data['image_url'])) {
             $imagePath = $data['image_url']->store('quests', 'public');
+        }
+
+        if (!empty($data['answer_image_url'])) {
+            $answerImagePath = $data['answer_image_url']->store('quests', 'public');
         }
 
         return Quest::create([
@@ -51,6 +56,7 @@ class GameQuestionService
             'option' => $options,
             'answer' => $answer,
             'image_url' => $imagePath,
+            'answer_image_url' => $answerImagePath,
             'is_active' => true
         ]);
     }
@@ -60,6 +66,7 @@ class GameQuestionService
         $options = $quest->option;
         $answer = $quest->answer;
         $imagePath = $quest->image_url;
+        $answerImagePath = $quest->answer_image_url;
 
         if (isset($data['type']) && $data['type'] === 'multiple_choice') {
 
@@ -103,12 +110,22 @@ class GameQuestionService
             $imagePath = $data['image_url']->store('quests', 'public');
         }
 
+        if (!empty($data['answer_image_url'])) {
+
+            if ($quest->answer_image_url) {
+                Storage::disk('public')->delete($quest->answer_image_url);
+            }
+
+            $answerImagePath = $data['answer_image_url']->store('quests', 'public');
+        }
+
         $quest->update([
             'type' => $data['type'] ?? $quest->type,
             'prompt' => $data['prompt'] ?? $quest->prompt,
             'option' => $options,
             'answer' => $answer,
             'image_url' => $imagePath,
+            'answer_image_url' => $answerImagePath,
             'is_active' => $data['is_active'] ?? $quest->is_active
         ]);
 

@@ -10,6 +10,7 @@ class QuestService
     public function create(array $data)
     {
         $imagePath = null;
+        $answerImagePath = null;
 
         /*
         =========================
@@ -19,6 +20,10 @@ class QuestService
 
         if (isset($data['image_url']) && $data['image_url']) {
             $imagePath = $data['image_url']->store('quests', 'public');
+        }
+
+        if (isset($data['answer_image_url']) && $data['answer_image_url']) {
+            $answerImagePath = $data['answer_image_url']->store('quests', 'public');
         }
 
         /*
@@ -69,6 +74,7 @@ class QuestService
             'option' => $options,
             'answer' => $answer,
             'image_url' => $imagePath,
+            'answer_image_url' => $answerImagePath,
             'is_active' => true
         ]);
     }
@@ -99,6 +105,14 @@ class QuestService
             }
 
             $payload['image_url'] = $data['image_url']->store('quests', 'public');
+        }
+
+        if (isset($data['answer_image_url']) && $data['answer_image_url']) {
+            if ($quest->answer_image_url) {
+                Storage::disk('public')->delete($quest->answer_image_url);
+            }
+
+            $payload['answer_image_url'] = $data['answer_image_url']->store('quests', 'public');
         }
 
         if (array_key_exists('correct_answer', $data)) {

@@ -3,21 +3,33 @@
 ])
 
 @section('content')
-    <div class="h-auto flex flex-col items-center justify-center flex-1 text-center px-6">
+    <div class="h-auto flex flex-col items-center flex-1 text-center px-6">
+        <div class="flex items-center gap-3 mb-24">
+            <img src="{{ asset('assets/images/logo/nexsell.svg') }}" alt="">
 
-        <h1 class="text-4xl md:text-4xl font-bold text-[#4B2A73] mb-20">
-            Pilih permainan yang <br> ingin Anda ikuti!
+            <div class="flex flex-col leading-none items-start">
+                <h1 class="font-bold text-[#802A76] text-[45px] m-0">
+                    NEXSELL
+                </h1>
+                <h1 class="font-bold text-[#802A76] text-[30px] m-0 mt-[2px]">
+                    GAMES AREA
+                </h1>
+            </div>
+        </div>
+
+        <h1 class="text-[33px] font-bold text-[#802A76] mb-[70px]">
+            Pilih permainan yang ingin Anda ikuti!
         </h1>
 
         @php
-            $cardClass = "bg-white rounded-2xl px-12 py-10 text-xl font-semibold
+            $cardClass = "bg-white rounded-2xl px-8 py-7 text-2xl font-semibold
         border-2 border-[#802A76]
         shadow-[8px_8px_0px_#802A76]
         hover:translate-y-1 hover:shadow-[6px_6px_0px_#802A76]
         transition duration-200 flex items-center justify-center text-center";
         @endphp
 
-        <div class="grid grid-cols-2 gap-8 max-w-xl w-full">
+        <div class="grid grid-cols-2 gap-8 max-w-xl w-full mb-36">
 
             @if ($activeTypes->contains('quiz'))
                 <a href="{{ route('games.play-type', 'quiz') }}" class="{{ $cardClass }}">
@@ -40,7 +52,7 @@
         </div>
 
         <a href="{{ route('landing.index') }}"
-            class="fixed bottom-24 left-6 sm:left-10 lg:left-[72px] inline-flex items-center gap-2 rounded-full bg-[#802A76] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+            class="fixed bottom-[110px] left-11 inline-flex items-center gap-2 rounded-full bg-[#802A76] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
             Kembali
         </a>
 

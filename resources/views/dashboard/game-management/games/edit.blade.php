@@ -204,7 +204,7 @@
                 </div>
 
                 {{-- SPIN SEGMENTS --}}
-                <div id="spinSegments" class="space-y-4">
+                <div id="spinSegments" class="space-y-4 hidden">
 
                     <h3 class="text-[18px] font-semibold text-[#5E1C3D]">Spin Segments</h3>
 
@@ -316,6 +316,7 @@
         var quiz = document.getElementById('quizConfig');
         var spin = document.getElementById('spinConfig');
         var guess = document.getElementById('guessConfig');
+        var spinSegments = document.getElementById('spinSegments')
         var rewards = @json($rewards);
         var rewardDistributionData = @json($game->config_json['reward_distribution'] ?? []);
 
@@ -324,9 +325,13 @@
             quiz.classList.add('hidden')
             spin.classList.add('hidden')
             guess.classList.add('hidden')
+            spinSegments.classList.add('hidden')
 
             if (type.value === 'quiz') quiz.classList.remove('hidden')
-            if (type.value === 'spin') spin.classList.remove('hidden')
+            if (type.value === 'spin'){
+                spin.classList.remove('hidden')
+                spinSegments.classList.remove('hidden')
+            }
             if (type.value === 'guess_image') {
                 quiz.classList.remove('hidden')
                 guess.classList.remove('hidden')

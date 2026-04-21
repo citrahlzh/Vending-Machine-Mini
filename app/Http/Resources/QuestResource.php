@@ -23,6 +23,7 @@ class QuestResource extends JsonResource
             'option' => $this->option,
             'answer' => $this->answer,
             'image_url' => $this->image_url,
+            'answer_image_url' => $this->answer_image_url,
             'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

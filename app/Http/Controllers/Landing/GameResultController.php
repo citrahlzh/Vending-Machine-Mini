@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\RewardService;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\JsonResponse;
+use App\Models\Play;
 
 class GameResultController extends Controller
 {
@@ -29,9 +30,28 @@ class GameResultController extends Controller
         return view('games.results.success', compact('reward', 'issuedReward', 'dispenseUrl', 'game', 'maxSpin', 'spinRemaining'));
     }
 
-    public function fail()
+    public function fail(?Play $play = null)
     {
-        return view('games.results.fail');
+        $game = $play?->game;
+
+        $maxSpin = (int) ($game?->config_json['max_spin_per_user'] ?? 0);
+
+        $spinMeta = $game
+            ? session()->get('spin_game_' . $game->id, ['count' => 0])
+            : ['count' => 0];
+
+        $spinUsed = (int) ($spinMeta['count'] ?? 0);
+
+        $spinRemaining = $maxSpin > 0
+            ? max(0, $maxSpin - $spinUsed)
+            : null;
+
+        return view('games.results.fail', compact(
+            'play',
+            'game',
+            'maxSpin',
+            'spinRemaining'
+        ));
     }
 
     public function dispense(IssuedReward $issuedReward, RewardService $rewardService): JsonResponse

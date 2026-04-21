@@ -83,8 +83,8 @@ function renderWheel() {
         `;
 
         path.setAttribute("d", d);
-        path.setAttribute("fill", i % 2 ? "#F7F3FF" : "#DDB1ED");
-        path.setAttribute("stroke", "#8D6B9A");
+        path.setAttribute("fill", i % 2 ? "#fff3fc" : "#edb1da");
+        path.setAttribute("stroke", "#9a6b88");
         path.setAttribute("stroke-width", "1");
 
         wheel.appendChild(path);
@@ -127,9 +127,10 @@ function renderWheel() {
             text.setAttribute("text-anchor", "middle");
             text.setAttribute("alignment-baseline", "middle");
             const label = String(segment.label || "");
-            const fontSize = label.length > 12 ? 12 : label.length > 8 ? 14 : 16;
+            const fontSize =
+                label.length > 12 ? 12 : label.length > 8 ? 14 : 16;
 
-            text.setAttribute("fill", "#572F75");
+            text.setAttribute("fill", "#752f54");
             text.setAttribute("font-size", String(fontSize));
             text.setAttribute("pointer-events", "none");
 
@@ -148,7 +149,7 @@ function renderWheel() {
     border.setAttribute("cy", center);
     border.setAttribute("r", radius);
     border.setAttribute("fill", "none");
-    border.setAttribute("stroke", "#8D6B9A");
+    border.setAttribute("stroke", "#9a6b88");
     border.setAttribute("stroke-width", "10");
 
     wheel.appendChild(border);
@@ -181,9 +182,7 @@ if (spinButton) {
                 throw error;
             }
 
-            const index = segments.findIndex(
-                (s) => s.id === result.segment_id,
-            );
+            const index = segments.findIndex((s) => s.id === result.segment_id);
 
             if (index < 0) {
                 throw new Error("Segment tidak valid.");
@@ -207,7 +206,9 @@ if (spinButton) {
             } else if (err.code === "max_spin_reached") {
                 setSpinningState(false);
                 lockSpinButton();
-                setStatusNotice(err.message || "Kesempatan spin kamu sudah habis.");
+                setStatusNotice(
+                    err.message || "Kesempatan spin kamu sudah habis.",
+                );
             } else {
                 setSpinningState(false);
                 setStatusNotice(err.message || "Terjadi kesalahan.");
@@ -224,8 +225,7 @@ function spinTo(index, result) {
     const jitter = (Math.random() * 0.4 - 0.2) * segmentAngle;
     const desiredRotation = 270 - (centerAngle + jitter);
 
-    const currentNormalized =
-        ((currentRotation % 360) + 360) % 360;
+    const currentNormalized = ((currentRotation % 360) + 360) % 360;
     let delta = desiredRotation - currentNormalized;
     if (delta < 0) delta += 360;
 
@@ -238,15 +238,24 @@ function spinTo(index, result) {
     currentRotation = rotation;
 
     setTimeout(() => {
+        // if (result.success_url) {
+        //     window.location = result.success_url;
+        // } else if (result.reward) {
+        //     window.location = "/games/result/success/" + result.reward.id;
+        // } else {
+        //     window.location = "/games/result/fail";
+        // }
         if (result.success_url) {
             window.location = result.success_url;
-        } else if (result.reward) {
-            window.location = "/games/result/success/" + result.reward.id;
+        } else if (result.fail_url) {
+            window.location = result.fail_url;
         } else {
-            window.location = "/games/result/fail";
+            console.error("Tidak ada URL redirect dari server", result);
         }
     }, spinDurationMs);
 }
+
+console.log(segments);
 
 function setSpinningState(value) {
     isSpinning = value;

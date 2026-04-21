@@ -123,6 +123,24 @@
                         @endif
 
                     </div>
+
+                    <div>
+
+                        <label class="mb-1.5 block text-[15px] font-semibold text-[#5E1C3D]">Gambar Hasil / Jawaban
+                            Benar</label>
+
+                        <input type="file" name="answer_image_url"
+                            class="block w-full text-sm text-[#5E1C3D] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#802A76] file:text-white hover:file:bg-[#741f58] border border-[#d896c4] rounded-lg cursor-pointer">
+
+                        <p class="mt-1 text-[12px] text-[#703967]">
+                            Opsional. Gambar ini akan ditampilkan setelah pemain menjawab soal.
+                        </p>
+
+                        @if ($quest->answer_image_url)
+                            <img src="{{ asset('/image/' . $quest->answer_image_url) }}" class="mt-2 h-[120px]">
+                        @endif
+
+                    </div>
                 @endif
 
 

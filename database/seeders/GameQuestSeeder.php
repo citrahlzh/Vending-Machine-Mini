@@ -102,6 +102,7 @@ class GameQuestSeeder extends Seeder
                 'game_type' => 'guess_image',
                 'prompt' => 'Gambar ini adalah hewan apa?',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/7/74/Komodo_dragon_with_tongue.jpg',
+                'answer_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/7/74/Komodo_dragon_with_tongue.jpg',
                 'answer' => ['correct_answer' => 'Komodo'],
             ],
             [
@@ -109,6 +110,7 @@ class GameQuestSeeder extends Seeder
                 'game_type' => 'guess_image',
                 'prompt' => 'Bangunan ikonik ini bernama?',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/1/19/Eiffel_Tower_at_night.jpg',
+                'answer_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/1/19/Eiffel_Tower_at_night.jpg',
                 'answer' => ['correct_answer' => 'Menara Eiffel'],
             ],
             [
@@ -116,6 +118,7 @@ class GameQuestSeeder extends Seeder
                 'game_type' => 'guess_image',
                 'prompt' => 'Buah pada gambar ini adalah?',
                 'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg',
+                'answer_image_url' => 'https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg',
                 'option' => [
                     ['key' => 'A', 'text' => 'Apel'],
                     ['key' => 'B', 'text' => 'Pisang'],
@@ -138,6 +141,7 @@ class GameQuestSeeder extends Seeder
                     'option' => $payload['option'] ?? null,
                     'answer' => $payload['answer'] ?? null,
                     'image_url' => $payload['image_url'] ?? null,
+                    'answer_image_url' => $payload['answer_image_url'] ?? null,
                     'is_active' => true,
                 ]
             );

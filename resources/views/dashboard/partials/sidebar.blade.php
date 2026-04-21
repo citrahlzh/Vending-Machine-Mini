@@ -17,6 +17,14 @@
             'roles' => ['admin', 'staff'],
         ],
         [
+            'label' => 'Audit Log',
+            'route' => 'dashboard.audit-logs.index',
+            'patterns' => ['dashboard.audit-logs.*'],
+            'icon' => 'bi-journal-text',
+            'active_icon' => 'bi-journal-check',
+            'roles' => ['admin', 'staff'],
+        ],
+        [
             'label' => 'Etalase Produk',
             'route' => 'dashboard.product-displays.index',
             'patterns' => ['dashboard.product-displays.*'],

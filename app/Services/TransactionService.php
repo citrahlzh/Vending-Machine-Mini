@@ -24,6 +24,7 @@ class TransactionService
     private const MAX_IDEMPOTENCY_KEY_LENGTH = 64;
 
     public function __construct(
+        private readonly AuditLogService $auditLogService,
         private readonly SystemNotificationService $notificationService,
         private readonly VendingDispenseService $vendingDispenseService
     ) {
@@ -37,6 +38,17 @@ class TransactionService
 
         $existing = Sale::with('salesLines')->where('idempotency_key', $orderId)->first();
         if ($existing) {
+            $this->auditLogService->logBusinessEvent(
+                'transaction.checkout.duplicate',
+                "Permintaan checkout duplikat untuk transaksi {$existing->idempotency_key}.",
+                [
+                    'sale_id' => $existing->id,
+                    'idempotency_key' => $existing->idempotency_key,
+                ],
+                $request->user(),
+                $existing
+            );
+
             return [
                 'sale' => $existing,
                 'payment' => null,
@@ -138,6 +150,16 @@ class TransactionService
         } catch (Exception $e) {
             $sale->update(['status' => 'failed', 'dispense_status' => 'failed']);
             $sale->salesLines()->update(['status' => 'failed']);
+            $this->auditLogService->logBusinessEvent(
+                'transaction.checkout.failed',
+                "Pembuatan pembayaran untuk transaksi {$sale->idempotency_key} gagal.",
+                [
+                    'sale_id' => $sale->id,
+                    'error' => $e->getMessage(),
+                ],
+                $request->user(),
+                $sale
+            );
             throw $e;
         }
 
@@ -146,6 +168,17 @@ class TransactionService
         ]);
 
         $this->notifyTransactionCreated($sale->refresh()->load('salesLines'));
+        $this->auditLogService->logBusinessEvent(
+            'transaction.checkout.created',
+            "Transaksi {$sale->idempotency_key} berhasil dibuat.",
+            [
+                'sale_id' => $sale->id,
+                'total_amount' => $sale->total_amount,
+                'item_count' => $sale->salesLines->count(),
+            ],
+            $request->user(),
+            $sale
+        );
 
         return [
             'sale' => $sale->refresh()->load('salesLines'),
@@ -183,15 +216,50 @@ class TransactionService
     {
         $orderId = $payload['order_id'] ?? null;
         if (!$orderId) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.webhook.ignored',
+                'Webhook payment diabaikan karena order_id tidak ada.',
+                [
+                    'provider' => 'midtrans',
+                    'payload' => $payload,
+                ]
+            );
+
             return null;
         }
 
         $sale = Sale::with('salesLines')->where('idempotency_key', $orderId)->first();
         if (!$sale) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.webhook.unmatched',
+                "Webhook payment diterima tetapi transaksi {$orderId} tidak ditemukan.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'payload' => $payload,
+                ]
+            );
+
             return null;
         }
 
         $mapped = $this->mapMidtransStatus($payload['transaction_status'] ?? null) ?? $sale->status;
+
+        $this->auditLogService->logBusinessEvent(
+            'payment.webhook.processed',
+            "Webhook payment diproses untuk order {$orderId}.",
+            [
+                'provider' => 'midtrans',
+                'sale_id' => $sale->id,
+                'order_id' => $orderId,
+                'transaction_id' => $payload['transaction_id'] ?? null,
+                'transaction_status' => $payload['transaction_status'] ?? null,
+                'mapped_status' => $mapped,
+                'payload' => $payload,
+            ],
+            null,
+            $sale
+        );
 
         return $this->applySaleStatus(
             $sale,
@@ -200,11 +268,59 @@ class TransactionService
         );
     }
 
+    public function handleMqttNotification(array $payload): ?Sale
+    {
+        $normalized = $this->normalizeMqttPaymentPayload($payload);
+
+        if (!$normalized) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.mqtt.ignored',
+                'Notifikasi payment MQTT diabaikan karena payload tidak dikenali.',
+                [
+                    'provider' => 'midtrans',
+                    'source' => 'mqtt',
+                    'payload' => $payload,
+                ]
+            );
+
+            return null;
+        }
+
+        $this->auditLogService->logBusinessEvent(
+            'payment.mqtt.received',
+            "Notifikasi payment MQTT diterima untuk order {$normalized['order_id']}.",
+            [
+                'provider' => 'midtrans',
+                'source' => 'mqtt',
+                'payload' => $payload,
+                'normalized_payload' => $normalized,
+            ]
+        );
+
+        return $this->handleNotification($normalized);
+    }
+
     public function syncPaymentStatus(Sale $sale, MidtransQrisService $qrisService): Sale
     {
         $status = $qrisService->status($sale->idempotency_key);
 
         $mapped = $this->mapMidtransStatus(data_get($status, 'transaction_status')) ?? $sale->status;
+
+        $this->auditLogService->logBusinessEvent(
+            'payment.sync.processed',
+            "Sinkronisasi payment diproses untuk order {$sale->idempotency_key}.",
+            [
+                'provider' => 'midtrans',
+                'sale_id' => $sale->id,
+                'order_id' => $sale->idempotency_key,
+                'transaction_id' => data_get($status, 'transaction_id'),
+                'transaction_status' => data_get($status, 'transaction_status'),
+                'mapped_status' => $mapped,
+                'response' => $status,
+            ],
+            null,
+            $sale
+        );
 
         return $this->applySaleStatus(
             $sale,
@@ -265,6 +381,19 @@ class TransactionService
         }
 
         if (in_array($sale->status, ['failed', 'expired'], true)) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.cancel.skipped',
+                "Cancel payment dilewati untuk order {$sale->idempotency_key} karena status akhir sudah tercapai.",
+                [
+                    'provider' => 'midtrans',
+                    'sale_id' => $sale->id,
+                    'order_id' => $sale->idempotency_key,
+                    'status' => $sale->status,
+                ],
+                null,
+                $sale
+            );
+
             return $sale;
         }
 
@@ -278,6 +407,18 @@ class TransactionService
             }
         }
 
+        $this->auditLogService->logBusinessEvent(
+            'payment.cancel.processed',
+            "Cancel payment diproses untuk order {$sale->idempotency_key}.",
+            [
+                'provider' => 'midtrans',
+                'sale_id' => $sale->id,
+                'order_id' => $sale->idempotency_key,
+            ],
+            null,
+            $sale
+        );
+
         return $this->applySaleStatus($sale, 'expired', null);
     }
 
@@ -290,6 +431,57 @@ class TransactionService
             'cancel', 'deny' => 'failed',
             default => null,
         };
+    }
+
+    private function normalizeMqttPaymentPayload(array $payload): ?array
+    {
+        $orderId = data_get($payload, 'order_id')
+            ?? data_get($payload, 'transaction_details.order_id')
+            ?? data_get($payload, 'data.order_id')
+            ?? data_get($payload, 'payload.order_id');
+
+        $transactionStatus = data_get($payload, 'transaction_status')
+            ?? data_get($payload, 'transaction.transaction_status')
+            ?? data_get($payload, 'status')
+            ?? data_get($payload, 'payment_status')
+            ?? data_get($payload, 'data.transaction_status')
+            ?? data_get($payload, 'payload.transaction_status');
+
+        if (!$orderId || !$transactionStatus) {
+            return null;
+        }
+
+        $grossAmount = data_get($payload, 'gross_amount')
+            ?? data_get($payload, 'transaction.gross_amount')
+            ?? data_get($payload, 'transaction_details.gross_amount')
+            ?? data_get($payload, 'data.gross_amount')
+            ?? 0;
+
+        $transactionId = data_get($payload, 'transaction_id')
+            ?? data_get($payload, 'transaction.transaction_id')
+            ?? data_get($payload, 'data.transaction_id')
+            ?? (string) $orderId;
+
+        $paymentType = data_get($payload, 'payment_type')
+            ?? data_get($payload, 'transaction.payment_type')
+            ?? data_get($payload, 'data.payment_type')
+            ?? 'qris';
+
+        $statusCode = data_get($payload, 'status_code')
+            ?? data_get($payload, 'transaction.status_code')
+            ?? data_get($payload, 'data.status_code')
+            ?? '200';
+
+        return [
+            'order_id' => (string) $orderId,
+            'transaction_id' => (string) $transactionId,
+            'transaction_status' => (string) $transactionStatus,
+            'payment_type' => (string) $paymentType,
+            'gross_amount' => (string) $grossAmount,
+            'status_code' => (string) $statusCode,
+            'source' => 'mqtt',
+            'raw_payload' => $payload,
+        ];
     }
 
     private function applySaleStatus(Sale $sale, string $status, ?string $transactionId): Sale
@@ -313,6 +505,7 @@ class TransactionService
 
             $this->notifyStockAfterSuccessfulDispense($updatedSale, $previousDispenseStatus);
             $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
+            $this->logStatusTransition($updatedSale, $previousStatus, $previousDispenseStatus);
 
             return $updatedSale;
         }
@@ -327,6 +520,7 @@ class TransactionService
 
         $updatedSale = $sale->refresh()->load('salesLines');
         $this->notifyTransactionUpdate($updatedSale, $previousStatus, $previousDispenseStatus);
+        $this->logStatusTransition($updatedSale, $previousStatus, $previousDispenseStatus);
 
         return $updatedSale;
     }
@@ -359,12 +553,28 @@ class TransactionService
             // $cellCode = (string) optional(optional($line->productDisplay)->cell)->code;
             $cellCode = $line->cell_code;
             if ($cellCode === '') {
+                $this->auditLogService->logBusinessEvent(
+                    'dispense.skipped',
+                    "Dispense transaksi {$sale->idempotency_key} dilewati karena cell kosong.",
+                    [
+                        'sale_id' => $sale->id,
+                        'sale_line_id' => $line->id,
+                        'transaction_id' => $sale->idempotency_key,
+                    ],
+                    null,
+                    $sale
+                );
                 continue;
             }
 
             $this->vendingDispenseService->dispense(
                 (string) $sale->idempotency_key,
-                $cellCode
+                $cellCode,
+                [
+                    'source' => 'sale',
+                    'sale_id' => $sale->id,
+                    'sale_line_id' => $line->id,
+                ]
             );
         }
     }
@@ -560,6 +770,27 @@ class TransactionService
                 'status' => $sale->status,
                 'dispense_status' => $sale->dispense_status,
             ]
+        );
+    }
+
+    private function logStatusTransition(Sale $sale, string $previousStatus, string $previousDispenseStatus): void
+    {
+        if ($sale->status === $previousStatus && $sale->dispense_status === $previousDispenseStatus) {
+            return;
+        }
+
+        $this->auditLogService->logBusinessEvent(
+            'transaction.status.updated',
+            "Status transaksi {$sale->idempotency_key} berubah.",
+            [
+                'sale_id' => $sale->id,
+                'previous_status' => $previousStatus,
+                'current_status' => $sale->status,
+                'previous_dispense_status' => $previousDispenseStatus,
+                'current_dispense_status' => $sale->dispense_status,
+            ],
+            null,
+            $sale
         );
     }
 }

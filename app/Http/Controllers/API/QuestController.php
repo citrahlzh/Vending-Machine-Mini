@@ -38,7 +38,9 @@ class QuestController extends Controller
 
             'correct_answer' => 'required|string',
 
-            'image_url' => 'nullable|image|max:2048'
+            'image_url' => 'nullable|image|max:2048',
+
+            'answer_image_url' => 'nullable|image|max:2048'
 
         ]);
 
@@ -67,6 +69,7 @@ class QuestController extends Controller
             'option' => 'nullable|array',
             'correct_answer' => 'sometimes|string',
             'image_url' => 'nullable|image|max:2048',
+            'answer_image_url' => 'nullable|image|max:2048',
             'is_active' => 'sometimes|boolean'
         ]);
 

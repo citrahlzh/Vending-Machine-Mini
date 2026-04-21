@@ -7,15 +7,16 @@ use App\Models\Play;
 use App\Models\Quest;
 use App\Models\PlayResponse;
 use Illuminate\Support\Str;
-use App\Services\RewardService;
 use App\Models\SpinSegment;
 
 class GamePlayService
 {
-    protected $rewardService;
+    protected RewardService $rewardService;
 
-    public function __construct(RewardService $rewardService)
-    {
+    public function __construct(
+        RewardService $rewardService,
+        protected AuditLogService $auditLogService
+    ) {
         $this->rewardService = $rewardService;
     }
 
@@ -27,12 +28,25 @@ class GamePlayService
 
     public function start(Game $game)
     {
-        return Play::create([
+        $play = Play::create([
             'idempotency_key' => (string) Str::uuid(),
             'game_id' => $game->id,
             'status' => 'started',
             'started_at' => now()
         ]);
+
+        $this->auditLogService->logBusinessEvent(
+            'game.play.started',
+            "Permainan {$game->name} dimulai.",
+            [
+                'game_id' => $game->id,
+                'play_id' => $play->id,
+            ],
+            null,
+            $play
+        );
+
+        return $play;
     }
 
 
@@ -88,7 +102,7 @@ class GamePlayService
             }
         }
 
-        return PlayResponse::updateOrCreate(
+        $response = PlayResponse::updateOrCreate(
             [
                 'play_id' => $play->id,
                 'quest_id' => $quest->id,
@@ -98,6 +112,20 @@ class GamePlayService
                 'is_correct' => $correct,
             ]
         );
+
+        $this->auditLogService->logBusinessEvent(
+            'game.play.answered',
+            "Jawaban untuk play {$play->idempotency_key} telah disimpan.",
+            [
+                'play_id' => $play->id,
+                'quest_id' => $quest->id,
+                'is_correct' => $correct,
+            ],
+            null,
+            $play
+        );
+
+        return $response;
     }
 
 
@@ -118,6 +146,17 @@ class GamePlayService
             'score' => $correctCount,
             'finished_at' => now()
         ]);
+
+        $this->auditLogService->logBusinessEvent(
+            'game.play.finished',
+            "Permainan {$play->idempotency_key} selesai.",
+            [
+                'play_id' => $play->id,
+                'score' => $correctCount,
+            ],
+            null,
+            $play
+        );
 
         return $correctCount;
     }
@@ -158,7 +197,7 @@ class GamePlayService
             return null;
         }
 
-        return $this->rewardService->issueReward($play, $reward, false);
+        return $this->rewardService->issueReward($play, $reward, true);
     }
 
     public function spin(Game $game, Play $play)
@@ -184,9 +223,22 @@ class GamePlayService
         if ($segment && $segment->reward && $segment->reward->type !== 'none') {
 
             $reward = $this->rewardService
-                ->issueReward($play, $segment->reward, false);
+                ->issueReward($play, $segment->reward, true);
 
         }
+
+        $this->auditLogService->logBusinessEvent(
+            'game.play.spun',
+            "Spin untuk permainan {$game->name} selesai.",
+            [
+                'game_id' => $game->id,
+                'play_id' => $play->id,
+                'segment_id' => $segment?->id,
+                'reward_id' => $reward?->id,
+            ],
+            null,
+            $play
+        );
 
         return [
             'segment' => $segment,

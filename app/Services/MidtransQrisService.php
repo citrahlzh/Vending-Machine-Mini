@@ -5,10 +5,13 @@ namespace App\Services;
 use Midtrans\Config;
 use Midtrans\CoreApi;
 use Midtrans\Transaction;
+use Throwable;
 
 class MidtransQrisService
 {
-    public function __construct()
+    public function __construct(
+        private readonly AuditLogService $auditLogService
+    )
     {
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = (bool) config('midtrans.is_production');
@@ -31,7 +34,53 @@ class MidtransQrisService
             ],
         ];
 
-        return CoreApi::charge($payload);
+        $this->auditLogService->logBusinessEvent(
+            'payment.charge.requested',
+            "Request charge Midtrans dibuat untuk order {$orderId}.",
+            [
+                'provider' => 'midtrans',
+                'payment_type' => 'qris',
+                'order_id' => $orderId,
+                'gross_amount' => $grossAmount,
+                'expiry_minutes' => $expiryMinutes,
+                'payload' => $payload,
+            ]
+        );
+
+        try {
+            $response = CoreApi::charge($payload);
+
+            $this->auditLogService->logBusinessEvent(
+                'payment.charge.succeeded',
+                "Charge Midtrans berhasil dibuat untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'payment_type' => 'qris',
+                    'order_id' => $orderId,
+                    'transaction_id' => data_get($response, 'transaction_id'),
+                    'transaction_status' => data_get($response, 'transaction_status'),
+                    'gross_amount' => data_get($response, 'gross_amount'),
+                    'expiry_time' => data_get($response, 'expiry_time'),
+                    'response' => $response,
+                ]
+            );
+
+            return $response;
+        } catch (Throwable $throwable) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.charge.failed',
+                "Charge Midtrans gagal untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'payment_type' => 'qris',
+                    'order_id' => $orderId,
+                    'gross_amount' => $grossAmount,
+                    'error' => $throwable->getMessage(),
+                ]
+            );
+
+            throw $throwable;
+        }
     }
 
     public function verifySignature(array $payload): bool
@@ -52,17 +101,124 @@ class MidtransQrisService
 
     public function status(string $orderId)
     {
-        return Transaction::status($orderId);
+        $this->auditLogService->logBusinessEvent(
+            'payment.status.requested',
+            "Cek status Midtrans diminta untuk order {$orderId}.",
+            [
+                'provider' => 'midtrans',
+                'order_id' => $orderId,
+            ]
+        );
+
+        try {
+            $response = Transaction::status($orderId);
+
+            $this->auditLogService->logBusinessEvent(
+                'payment.status.received',
+                "Status Midtrans diterima untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'transaction_id' => data_get($response, 'transaction_id'),
+                    'transaction_status' => data_get($response, 'transaction_status'),
+                    'response' => $response,
+                ]
+            );
+
+            return $response;
+        } catch (Throwable $throwable) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.status.failed',
+                "Cek status Midtrans gagal untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'error' => $throwable->getMessage(),
+                ]
+            );
+
+            throw $throwable;
+        }
     }
 
     public function cancel(string $orderId)
     {
-        return Transaction::cancel($orderId);
+        $this->auditLogService->logBusinessEvent(
+            'payment.cancel.requested',
+            "Cancel Midtrans diminta untuk order {$orderId}.",
+            [
+                'provider' => 'midtrans',
+                'order_id' => $orderId,
+            ]
+        );
+
+        try {
+            $response = Transaction::cancel($orderId);
+
+            $this->auditLogService->logBusinessEvent(
+                'payment.cancel.succeeded',
+                "Cancel Midtrans berhasil untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'response' => $response,
+                ]
+            );
+
+            return $response;
+        } catch (Throwable $throwable) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.cancel.failed',
+                "Cancel Midtrans gagal untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'error' => $throwable->getMessage(),
+                ]
+            );
+
+            throw $throwable;
+        }
     }
 
     public function expire(string $orderId)
     {
-        return Transaction::expire($orderId);
+        $this->auditLogService->logBusinessEvent(
+            'payment.expire.requested',
+            "Expire Midtrans diminta untuk order {$orderId}.",
+            [
+                'provider' => 'midtrans',
+                'order_id' => $orderId,
+            ]
+        );
+
+        try {
+            $response = Transaction::expire($orderId);
+
+            $this->auditLogService->logBusinessEvent(
+                'payment.expire.succeeded',
+                "Expire Midtrans berhasil untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'response' => $response,
+                ]
+            );
+
+            return $response;
+        } catch (Throwable $throwable) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.expire.failed',
+                "Expire Midtrans gagal untuk order {$orderId}.",
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $orderId,
+                    'error' => $throwable->getMessage(),
+                ]
+            );
+
+            throw $throwable;
+        }
     }
 
     public function extractQrisData($charge): array

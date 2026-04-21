@@ -3,42 +3,54 @@
 ])
 
 @section('content')
-    <div class="w-full max-w-[860px] text-center flex flex-col items-center gap-8 lg:gap-10">
-        <div class="space-y-3">
-            <h1 class="text-4xl sm:text-[32px] lg:text-[36px] font-bold text-[#4a2a6c] leading-snug">
-                Jawab pertanyaan dengan benar dan dapatkan hadiah!
-            </h1>
-            <div class="flex items-center justify-center gap-4 text-sm text-[#6b4a87] font-semibold">
-                <span id="quizProgress">Soal 1/1</span>
-                <span id="quizTimer" class="hidden">Sisa waktu: <span id="quizTimerValue">00:00</span></span>
+    @php
+        $timeLimit = (int) ($config['time_limit'] ?? 0);
+        $initialTimerText = sprintf('%02d:%02d', intdiv(max($timeLimit, 0), 60), max($timeLimit, 0) % 60);
+    @endphp
+
+    <div class="w-full max-w-[1120px] flex flex-col gap-10 lg:gap-12">
+        @include('games.partials.page-header', [
+            'mode' => 'progress',
+            'badge' => $initialTimerText,
+            'progress' => 0,
+        ])
+
+        <div class="w-full max-w-[860px] text-center flex flex-col items-center gap-8 lg:gap-10 mx-auto">
+            <div class="mt-5 px-10">
+                <h1 class="text-[28px] font-bold text-[#4a2a6c] leading-snug">
+                    Jawab pertanyaan dengan benar dan dapatkan hadiah!
+                </h1>
+                <div class="hidden items-center justify-center gap-4 text-sm text-[#6b4a87] font-semibold">
+                    <span id="quizProgress">Soal 1/1</span>
+                    <span id="quizTimer" class="hidden">Sisa waktu: <span id="quizTimerValue">00:00</span></span>
+                </div>
             </div>
-        </div>
 
-        <div class="w-full max-w-[520px]">
-            <div id="quizPrompt"
-                class="bg-[#f7f1ff] px-10 py-6 rounded-[22px] text-[22px] sm:text-[22px] font-semibold text-[#2d1b40] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] min-h-[130px] flex items-center justify-center text-center">
+            <div class="w-full max-w-[520px] mt-4">
+                <div id="quizPrompt"
+                    class="bg-[#f7f1ff] px-12 py-6 rounded-[22px] text-[22px] sm:text-[22px] font-semibold text-[#2d1b40] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] min-h-[130px] flex items-center justify-center text-center">
+                </div>
             </div>
-        </div>
 
-        <div id="quizImageWrapper" class="hidden w-full max-w-[420px] items-center justify-center">
-            <div
-                class="h-[200px] w-[200px] sm:h-[230px] sm:w-[230px] rounded-[28px] bg-[#e8def5] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] flex items-center justify-center">
-                <img id="quizImage" alt="Gambar soal" class="max-h-[170px] w-auto object-contain" />
+            <div id="quizImageWrapper" class="hidden w-full max-w-[420px] items-center justify-center">
+                <div
+                    class="h-[200px] w-[200px] sm:h-[230px] sm:w-[230px] rounded-[28px] bg-[#e8def5] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] flex items-center justify-center">
+                    <img id="quizImage" alt="Gambar soal" class="max-h-[170px] w-auto object-contain" />
+                </div>
             </div>
-        </div>
 
-        <div id="quizOptions" class="grid grid-cols-2 sm:grid-cols-2 gap-6 w-full max-w-[680px]"></div>
+            <div id="quizOptions" class="mt-5 px-4 grid grid-cols-2 sm:grid-cols-2 gap-6 w-full max-w-[680px]"></div>
 
-        <div id="quizTextAnswer" class="hidden w-full max-w-[520px]">
-            <input id="quizTextInput" type="text"
-                class="h-12 w-full rounded-[18px] border-2 border-[#802A76] bg-white px-4 text-[18px] text-[#2d1b40] shadow-[6px_6px_0px_#802A76] outline-none focus:border-[#741f58]"
-                placeholder="Masukkan jawabanmu">
-        </div>
+            <div id="quizTextAnswer" class="hidden w-full max-w-[480px]">
+                <input id="quizTextInput" type="text"
+                    class="h-12 w-full rounded-[18px] border-2 border-[#802A76] bg-white px-4 text-[18px] text-[#2d1b40] shadow-[6px_6px_0px_#802A76] outline-none focus:border-[#741f58]"
+                    placeholder="Masukkan jawabanmu">
+            </div>
 
-        <div id="quizKeyboard" class="hidden w-full max-w-[520px]">
-            <div>
+            <div id="quizKeyboard" class="hidden w-full max-w-[520px]">
+                <div>
                 {{-- class="mt-3 w-full rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 shadow-[6px_6px_0px_#802A76]"> --}}
-                <div class="flex flex-col gap-2">
+                    <div class="flex flex-col gap-2">
                     <div class="flex items-center justify-center gap-2">
                         <button type="button" data-key="Q"
                             class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Q</button>
@@ -99,20 +111,21 @@
                         <button type="button" data-action="backspace"
                             class="h-10 px-3 rounded-[10px] bg-[#3f1f60] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#2d1545]">Hapus</button>
                     </div>
-                    <div class="flex items-center justify-center gap-2">
+                    <div class="flex items-center justify-center gap-2 px-10">
                         <button type="button" data-action="space"
                             class="h-10 flex-1 rounded-[10px] bg-[#802A76] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Spasi</button>
                     </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex w-full justify-end mt-4">
-            <button id="quizNextButton" type="button"
-                class="inline-flex items-center justify-right rounded-full bg-[#802A76] px-7 py-2 text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
-                <span id="quizNextLabel">Lanjut</span>
-                <img src="{{ asset('assets/icons/landing/next.svg') }}" alt="" class="h-[30px] w-auto ml-2">
-            </button>
+            <div class="flex w-full justify-end mt-4 mr-6">
+                <button id="quizNextButton" type="button"
+                    class="inline-flex items-center justify-right rounded-full bg-[#802A76] px-7 py-2 text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                    <span id="quizNextLabel">Lanjut</span>
+                    <img src="{{ asset('assets/icons/landing/next.svg') }}" alt="" class="h-[30px] w-auto ml-2">
+                </button>
+            </div>
         </div>
     </div>
 @endsection
@@ -144,6 +157,9 @@
             const imageWrapper = document.getElementById('quizImageWrapper');
             const imageEl = document.getElementById('quizImage');
             const keyboardEl = document.getElementById('quizKeyboard');
+            const headerBadgeEl = document.querySelector('.games-header-timer');
+            const headerProgressBarEl = document.getElementById('gameHeaderProgressBar');
+            const headerProgressLabelEl = document.getElementById('gameHeaderProgressLabel');
             const storageBase = @json(asset('storage'));
 
             const apiAnswerUrl = @json(url('/api/game/answer'));
@@ -176,6 +192,9 @@
                 }
                 state.remainingSeconds -= 1;
                 timerValueEl.textContent = formatTimer(state.remainingSeconds);
+                if (headerBadgeEl) {
+                    headerBadgeEl.textContent = formatTimer(state.remainingSeconds);
+                }
             };
 
             const startTimer = () => {
@@ -184,6 +203,9 @@
                 state.remainingSeconds = limit;
                 timerEl.classList.remove('hidden');
                 timerValueEl.textContent = formatTimer(state.remainingSeconds);
+                if (headerBadgeEl) {
+                    headerBadgeEl.textContent = formatTimer(state.remainingSeconds);
+                }
                 state.timer = setInterval(updateTimer, 1000);
             };
 
@@ -238,7 +260,7 @@
                         'option-btn flex items-center gap-4 rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 text-left shadow-[6px_6px_0px_#802A76] transition';
 
                     button.innerHTML = `
-            <span class="option-key flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#802A76] border-2 border-[#802A76] transition">
+            <span class="shrink-0 option-key flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#802A76] border-2 border-[#802A76] transition">
                 ${opt.key}
             </span>
             <span class="text-[20px] font-semibold text-[#1e132b]">
@@ -276,6 +298,13 @@
 
                 const progressText = `Soal ${state.index + 1}/${state.questions.length}`;
                 progressEl.textContent = progressText;
+                const percentage = Math.round(((state.index + 1) / state.questions.length) * 100);
+                if (headerProgressBarEl) {
+                    headerProgressBarEl.style.width = `${Math.max(12, percentage)}%`;
+                }
+                if (headerProgressLabelEl) {
+                    headerProgressLabelEl.textContent = `${percentage}%`;
+                }
                 promptEl.textContent = question.prompt || '-';
 
                 const imageUrl = resolveImage(question.image_url || '');

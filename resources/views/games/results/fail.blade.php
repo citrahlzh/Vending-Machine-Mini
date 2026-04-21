@@ -29,17 +29,25 @@
                 <img src="{{ asset('assets/images/landing/games/sad-face.png') }}" alt="" class="h-[350px] w-[350px]">
             </div>
 
-            <a href="/"
-                class="inline-flex items-center justify-center rounded-full bg-[#802A76] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
-                Kembali
-            </a>
+            <div class="flex sm:flex-row items-center justify-center gap-3">
+                @if (($game?->type ?? null) === 'spin' && $maxSpin > 1 && ($spinRemaining === null || $spinRemaining > 0))
+                    <a href="{{ route('games.spin-wheel', $game->id) }}"
+                        class="inline-flex items-center justify-center rounded-full bg-[#802A76] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+                        Ulang Spin
+                    </a>
+                @endif
+                <a href="/"
+                    class="inline-flex items-center justify-center rounded-full bg-[#802A76] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+                    Kembali
+                </a>
+            </div>
         </div>
     </div>
 @endsection
 
 @push('script')
     <audio id="failAudio" src="{{ asset('assets/audio/games/failed.mp3') }}" preload="auto"></audio>
-    <script>
+    {{-- <script>
         (() => {
             const audio = document.getElementById('failAudio');
             if (!audio) return;
@@ -85,6 +93,49 @@
             document.addEventListener('click', () => {
                 tryPlay(true);
             }, { once: true });
+        })();
+    </script> --}}
+    <script>
+        (() => {
+            const audio = document.getElementById('failAudio');
+            if (!audio) return;
+
+            let hasPlayed = false;
+
+            const isBackNavigation = () => {
+                const nav = performance.getEntriesByType?.('navigation')?.[0];
+                return nav?.type === 'back_forward';
+            };
+
+            const tryPlay = async () => {
+                if (hasPlayed) return;
+                if (isBackNavigation()) return;
+
+                try {
+                    audio.currentTime = 0;
+                    await audio.play();
+                    hasPlayed = true;
+                } catch (err) {
+                    // Autoplay gagal → tunggu interaksi user
+                    document.addEventListener('click', async () => {
+                        if (hasPlayed) return;
+                        try {
+                            audio.currentTime = 0;
+                            await audio.play();
+                            hasPlayed = true;
+                        } catch (_) {}
+                    }, {
+                        once: true
+                    });
+                }
+            };
+
+            // Trigger saat halaman muncul
+            window.addEventListener('pageshow', (event) => {
+                if (event.persisted) return; // hindari bfcache
+                tryPlay();
+            });
+
         })();
     </script>
 @endpush

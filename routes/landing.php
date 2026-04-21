@@ -27,6 +27,6 @@ Route::prefix('games')->name('games.')->group(function () {
         ->middleware('signed')
         ->name('result.dispense');
 
-    Route::get('/result/fail', [GameResultController::class, 'fail'])
+    Route::get('/result/fail/{play?}', [GameResultController::class, 'fail'])
         ->name('result.fail');
 });

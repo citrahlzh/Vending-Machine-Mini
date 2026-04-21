@@ -8,12 +8,18 @@ use App\Http\Resources\SaleResource;
 use App\Models\Sale;
 use App\Services\TransactionService;
 use App\Services\MidtransQrisService;
+use App\Services\AuditLogService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class TransactionController extends Controller
 {
+    public function __construct(
+        private readonly AuditLogService $auditLogService
+    ) {
+    }
+
     public function checkout(Request $request, TransactionService $transactionService, MidtransQrisService $qrisService)
     {
         $request->validate([
@@ -68,6 +74,19 @@ class TransactionController extends Controller
     {
         $payload = $request->all();
 
+        $this->auditLogService->logBusinessEvent(
+            'payment.webhook.received',
+            'Webhook payment diterima dari Midtrans.',
+            [
+                'provider' => 'midtrans',
+                'order_id' => $payload['order_id'] ?? null,
+                'transaction_id' => $payload['transaction_id'] ?? null,
+                'transaction_status' => $payload['transaction_status'] ?? null,
+                'payment_type' => $payload['payment_type'] ?? null,
+                'payload' => $payload,
+            ]
+        );
+
         Log::info('Midtrans webhook received', [
             'order_id' => $payload['order_id'] ?? null,
             'transaction_status' => $payload['transaction_status'] ?? null,
@@ -76,6 +95,17 @@ class TransactionController extends Controller
         ]);
 
         if (!$qrisService->verifySignature($payload)) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.webhook.rejected',
+                'Webhook payment ditolak karena signature tidak valid.',
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $payload['order_id'] ?? null,
+                    'transaction_id' => $payload['transaction_id'] ?? null,
+                    'status_code' => $payload['status_code'] ?? null,
+                ]
+            );
+
             Log::warning('Midtrans webhook rejected: invalid signature', [
                 'order_id' => $payload['order_id'] ?? null,
                 'status_code' => $payload['status_code'] ?? null,
@@ -89,6 +119,17 @@ class TransactionController extends Controller
         try {
             $sale = $transactionService->handleNotification($payload);
         } catch (Throwable $e) {
+            $this->auditLogService->logBusinessEvent(
+                'payment.webhook.failed',
+                'Webhook payment gagal diproses.',
+                [
+                    'provider' => 'midtrans',
+                    'order_id' => $payload['order_id'] ?? null,
+                    'transaction_id' => $payload['transaction_id'] ?? null,
+                    'error' => $e->getMessage(),
+                ]
+            );
+
             Log::error('Midtrans webhook processing failed', [
                 'order_id' => $payload['order_id'] ?? null,
                 'error' => $e->getMessage(),

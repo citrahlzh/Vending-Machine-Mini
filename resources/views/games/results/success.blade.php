@@ -11,7 +11,7 @@
         if ($productImage) {
             if (\Illuminate\Support\Str::startsWith($productImage, ['http://', 'https://'])) {
                 $imageSrc = $productImage;
-            } elseif (\Illuminate\Support\Str::startsWith($productImage, ['/','assets/','storage/'])) {
+            } elseif (\Illuminate\Support\Str::startsWith($productImage, ['/', 'assets/', 'storage/'])) {
                 $imageSrc = $productImage[0] === '/' ? $productImage : asset($productImage);
             } else {
                 $imageSrc = asset('/image/' . $productImage);
@@ -38,7 +38,8 @@
             <div class="flex items-center justify-center py-4">
                 @if ($imageSrc)
                     <div class="flex flex-col items-center gap-3">
-                        <img src="{{ $imageSrc }}" alt="{{ $productName ?? $reward->name }}" loading="lazy" decoding="async" class="w-56 sm:w-72 md:w-80 max-h-[280px] object-contain drop-shadow-lg">
+                        <img src="{{ $imageSrc }}" alt="{{ $productName ?? $reward->name }}" loading="lazy"
+                            decoding="async" class="w-56 sm:w-72 md:w-80 max-h-[280px] object-contain drop-shadow-lg">
                         @if ($productName)
                             <div class="text-sm text-[#6b4a87]">{{ $productName }}</div>
                         @endif
@@ -61,7 +62,8 @@
                         Ulang Spin
                     </a>
                 @endif
-                <a href="/" class="inline-flex items-center justify-center rounded-full bg-[#802A76] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
+                <a href="/"
+                    class="inline-flex items-center justify-center rounded-full bg-[#802A76] px-12 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5">
                     Kembali
                 </a>
             </div>
@@ -71,12 +73,8 @@
 
 @push('overlay')
     <div class="pointer-events-none absolute inset-0">
-        <lottie-player
-            src="{{ asset('assets/lottie/confetti.json') }}"
-            background="transparent"
-            speed="1"
-            style="width: 100%; height: 100%;"
-            autoplay>
+        <lottie-player src="{{ asset('assets/lottie/confetti.json') }}" background="transparent" speed="1"
+            style="width: 100%; height: 100%;" autoplay>
         </lottie-player>
     </div>
 @endpush
@@ -88,78 +86,41 @@
             const audio = document.getElementById('successAudio');
             if (!audio) return;
 
+            let hasPlayed = false;
+
             const isBackNavigation = () => {
                 const nav = performance.getEntriesByType?.('navigation')?.[0];
                 return nav?.type === 'back_forward';
             };
 
-            const storageKey = 'vm_success_audio_played';
+            const tryPlay = async () => {
+                if (hasPlayed) return;
+                if (isBackNavigation()) return;
 
-            const tryPlay = (manual = false) => {
-                if (!manual) {
-                    if (isBackNavigation()) return;
-                    if (localStorage.getItem(storageKey) === '1') return;
-                }
                 try {
                     audio.currentTime = 0;
-                    const p = audio.play();
-                    if (p && typeof p.catch === 'function') {
-                        p.then(() => {
-                            if (!manual) {
-                                localStorage.setItem(storageKey, '1');
-                            }
-                        }).catch(() => {});
-                    } else {
-                        if (!manual) {
-                            localStorage.setItem(storageKey, '1');
-                        }
-                    }
-                } catch (_) {
-                    // ignore
-                }
-            };
-
-            window.addEventListener('pageshow', (event) => {
-                if (event.persisted) {
-                    return;
-                }
-                tryPlay();
-            });
-
-            document.addEventListener('click', () => {
-                tryPlay(true);
-            }, { once: true });
-        })();
-    </script>
-    <script>
-        (() => {
-            const dispenseUrl = @json($dispenseUrl ?? null);
-            const issuedRewardId = @json($issuedReward->id ?? null);
-            if (!dispenseUrl || !issuedRewardId) return;
-
-            const storageKey = `vm_spin_dispense_${issuedRewardId}`;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
-
-            const triggerDispense = async () => {
-                if (localStorage.getItem(storageKey) === '1') return;
-                try {
-                    await fetch(dispenseUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                        },
+                    await audio.play();
+                    hasPlayed = true;
+                } catch (err) {
+                    // fallback kalau autoplay diblok
+                    document.addEventListener('click', async () => {
+                        if (hasPlayed) return;
+                        try {
+                            audio.currentTime = 0;
+                            await audio.play();
+                            hasPlayed = true;
+                        } catch (_) {}
+                    }, {
+                        once: true
                     });
-                    localStorage.setItem(storageKey, '1');
-                } catch (_) {
-                    // ignore
                 }
             };
 
             window.addEventListener('pageshow', (event) => {
                 if (event.persisted) return;
-                setTimeout(triggerDispense, 250);
+                tryPlay();
             });
+
         })();
     </script>
 @endpush

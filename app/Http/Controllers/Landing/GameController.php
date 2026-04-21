@@ -72,9 +72,31 @@ class GameController extends Controller
             ->whereHas('reward', function ($query) {
                 $query->where('is_active', true);
             })
-            ->get();
+            ->with(['reward.productDisplay.product']) // 🔥 WAJIB
+            ->get()
+            ->map(function ($segment) {
 
-        return view('games.spin-wheel', compact('game', 'segments'));
+                $product = $segment->reward?->productDisplay?->product;
+
+                return [
+                    'id' => $segment->id,
+                    'label' => $segment->label,
+                    'weight' => $segment->weight,
+
+                    // 🔥 INI YANG PENTING
+                    'image_url' => $product?->image_url
+                        ? asset('image/' . $product->image_url)
+                        : null,
+                ];
+            });
+
+        $config = $game->config_json ?? [];
+        $maxSpin = (int) ($config['max_spin_per_user'] ?? 1);
+        $spinMeta = session()->get('spin_game_' . $game->id, ['count' => 0, 'last_spin_at' => null]);
+        $spinUsed = (int) ($spinMeta['count'] ?? 0);
+        $spinRemaining = $maxSpin > 0 ? max(0, $maxSpin - $spinUsed) : 1;
+
+        return view('games.spin-wheel', compact('game', 'segments', 'spinRemaining'));
     }
 
     public function play(Request $request, Game $game, GamePlayService $gamePlayService)

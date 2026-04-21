@@ -41,7 +41,7 @@
 
         <div class="grid gap-6 md:grid-cols-3 xl:grid-cols-4">
             @foreach ($menus as $menu)
-                @if (in_array(auth()->user()->role, $menu['roles']))
+                @if (in_array(auth()->user()->role?->slug, $menu['roles']))
                     <a href="{{ route($menu['route']) }}"
                         class="group flex min-h-[135px] items-center gap-4 rounded-2xl border border-[#efd2ea] bg-[#802A76] px-5 py-4 transition hover:-translate-y-0.5">
                         <div class="flex h-[95px] w-[95px] shrink-0 items-center justify-center rounded-xl bg-white/20">

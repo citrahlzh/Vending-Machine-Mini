@@ -1,118 +1,141 @@
 @extends('games.layouts.app', [
-    'title' => 'Guess Image Game'
+    'title' => 'Guess Image Game',
 ])
 
 @section('content')
-    <div class="w-full max-w-[860px] text-center flex flex-col items-center gap-8 lg:gap-10">
-        <div class="space-y-3">
-            <h1 class="text-[26px] sm:text-[32px] lg:text-[36px] font-semibold text-[#4a2a6c] leading-snug">
-                Tebak gambar berikut dengan benar dan dapatkan hadiahnya!
-            </h1>
-            <div class="flex items-center justify-center gap-4 text-sm text-[#6b4a87] font-semibold">
-                <span id="quizProgress">Soal 1/1</span>
-                <span id="quizTimer" class="hidden">Sisa waktu: <span id="quizTimerValue">00:00</span></span>
+    @php
+        $timeLimit = (int) ($config['time_limit'] ?? 0);
+        $initialTimerText = sprintf('%02d:%02d', intdiv(max($timeLimit, 0), 60), max($timeLimit, 0) % 60);
+    @endphp
+
+    <div class="w-full max-w-[1120px] flex flex-col gap-10 lg:gap-12">
+        @include('games.partials.page-header', [
+            'mode' => 'progress',
+            'badge' => $initialTimerText,
+            'progress' => 0,
+        ])
+
+        <div class="w-full max-w-[860px] text-center flex flex-col items-center gap-8 lg:gap-10 mx-auto">
+            <div id="pageTitleText" class="mt-3 px-8">
+                <h1 class="text-[28px] font-bold text-[#4a2a6c] leading-snug">
+                    Tebak gambar berikut dengan benar dan dapatkan hadiahnya!
+                </h1>
+                <div class="hidden items-center justify-center gap-4 text-sm text-[#6b4a87] font-semibold">
+                    <span id="quizProgress">Soal 1/1</span>
+                    <span id="quizTimer" class="hidden">Sisa waktu: <span id="quizTimerValue">00:00</span></span>
+                </div>
             </div>
-        </div>
 
-        <div class="w-full max-w-[520px]">
-            <div id="quizPrompt"
-                class="bg-[#f7f1ff] px-10 py-6 rounded-[22px] text-[20px] sm:text-[22px] font-semibold text-[#2d1b40] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] min-h-[110px] flex items-center justify-center text-center">
+            <div class="w-full max-w-[520px] hidden">
+                <div id="quizPrompt"
+                    class="bg-[#f7f1ff] px-10 py-6 rounded-[22px] text-[20px] sm:text-[22px] font-semibold text-[#2d1b40] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] min-h-[110px] flex items-center justify-center text-center">
+                </div>
             </div>
-        </div>
 
-        <div class="w-full max-w-[420px] flex items-center justify-center">
-            <div
-                class="h-[200px] w-[200px] sm:h-[230px] sm:w-[230px] rounded-[28px] bg-[#e8def5] border-2 border-[#802A76] shadow-[8px_8px_0px_#802A76] flex items-center justify-center">
-                <img id="quizImage" alt="Gambar soal" class="max-h-[170px] w-auto object-contain" />
+            <div id="imageArea" class="w-full max-w-[420px] flex items-center justify-center">
+                <div class="h-[180px] w-[180px] flex items-center justify-center">
+                    <img id="quizImage" alt="Gambar soal" class="max-h-[170px] w-auto object-contain" />
+                </div>
             </div>
-        </div>
 
-        <div id="quizOptions" class="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-[680px]"></div>
-
-        <div id="quizTextAnswer" class="hidden w-full max-w-[520px]">
-            <input id="quizTextInput" type="text"
-                class="h-12 w-full rounded-[18px] border-2 border-[#802A76] bg-white px-4 text-[18px] text-[#2d1b40] shadow-[6px_6px_0px_#802A76] outline-none focus:border-[#741f58]"
-                placeholder="Masukkan jawabanmu">
-        </div>
-
-        <div id="quizKeyboard" class="hidden w-full max-w-[520px]">
-            <div
-                class="mt-3 w-full rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 shadow-[6px_6px_0px_#802A76]">
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center justify-center gap-2">
-                        <button type="button" data-key="Q"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Q</button>
-                        <button type="button" data-key="W"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">W</button>
-                        <button type="button" data-key="E"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">E</button>
-                        <button type="button" data-key="R"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">R</button>
-                        <button type="button" data-key="T"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">T</button>
-                        <button type="button" data-key="Y"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Y</button>
-                        <button type="button" data-key="U"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">U</button>
-                        <button type="button" data-key="I"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">I</button>
-                        <button type="button" data-key="O"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">O</button>
-                        <button type="button" data-key="P"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">P</button>
-                    </div>
-                    <div class="flex items-center justify-center gap-2">
-                        <button type="button" data-key="A"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">A</button>
-                        <button type="button" data-key="S"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">S</button>
-                        <button type="button" data-key="D"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">D</button>
-                        <button type="button" data-key="F"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">F</button>
-                        <button type="button" data-key="G"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">G</button>
-                        <button type="button" data-key="H"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">H</button>
-                        <button type="button" data-key="J"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">J</button>
-                        <button type="button" data-key="K"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">K</button>
-                        <button type="button" data-key="L"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">L</button>
-                    </div>
-                    <div class="flex items-center justify-center gap-2">
-                        <button type="button" data-key="Z"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Z</button>
-                        <button type="button" data-key="X"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">X</button>
-                        <button type="button" data-key="C"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">C</button>
-                        <button type="button" data-key="V"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">V</button>
-                        <button type="button" data-key="B"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">B</button>
-                        <button type="button" data-key="N"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">N</button>
-                        <button type="button" data-key="M"
-                            class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">M</button>
-                        <button type="button" data-action="backspace"
-                            class="h-10 px-3 rounded-[10px] bg-[#3f1f60] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#2d1545]">Hapus</button>
-                    </div>
-                    <div class="flex items-center justify-center gap-2">
-                        <button type="button" data-action="space"
-                            class="h-10 flex-1 rounded-[10px] bg-[#802A76] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Spasi</button>
+            <div id="answerReview"
+                class="hidden w-full h-[250px] justify-center items-center">
+                {{-- Jawaban benar --}}
+                <div class="w-full max-w-[520px] rounded-[24px] border-2 border-[#802A76] bg-white shadow-[8px_8px_0px_#802A76] overflow-hidden justify-center items-center mx-8">
+                    <div class="px-6 pb-5 border-t border-[#ede6f8] pt-4">
+                        <p class="text-[18px] font-semibold uppercase tracking-widest text-[#9b7ab5] mb-1">Jawaban Benar</p>
+                        <p id="answerReviewText" class="text-[28px] font-bold text-[#2d1b40]">-</p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex w-full justify-end mt-4">
-            <button id="quizNextButton" type="button"
-                class="inline-flex items-center justify-right rounded-full bg-[#802A76] px-7 py-2 text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
-                <span id="quizNextLabel">Lanjut</span>
-                <img src="{{ asset('assets/icons/landing/next.svg') }}" alt="" class="h-[30px] w-auto ml-2">
-            </button>
+            <div id="quizOptions" class="grid grid-cols-2 sm:grid-cols-2 gap-5 w-full max-w-[680px] mt-8 mb-3"></div>
+
+            <div id="quizTextAnswer" class="hidden w-full max-w-[520px]">
+                <input id="quizTextInput" type="text"
+                    class="h-12 w-full rounded-[18px] border-2 border-[#802A76] bg-white px-4 text-[18px] text-[#2d1b40] shadow-[6px_6px_0px_#802A76] outline-none focus:border-[#741f58]"
+                    placeholder="Masukkan jawabanmu">
+            </div>
+
+            <div id="quizKeyboard" class="hidden w-full max-w-[520px]">
+                <div>
+                    {{-- class="mt-3 w-full rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 shadow-[6px_6px_0px_#802A76]"> --}}
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-center gap-2">
+                            <button type="button" data-key="Q"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Q</button>
+                            <button type="button" data-key="W"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">W</button>
+                            <button type="button" data-key="E"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">E</button>
+                            <button type="button" data-key="R"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">R</button>
+                            <button type="button" data-key="T"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">T</button>
+                            <button type="button" data-key="Y"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Y</button>
+                            <button type="button" data-key="U"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">U</button>
+                            <button type="button" data-key="I"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">I</button>
+                            <button type="button" data-key="O"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">O</button>
+                            <button type="button" data-key="P"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">P</button>
+                        </div>
+                        <div class="flex items-center justify-center gap-2">
+                            <button type="button" data-key="A"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">A</button>
+                            <button type="button" data-key="S"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">S</button>
+                            <button type="button" data-key="D"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">D</button>
+                            <button type="button" data-key="F"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">F</button>
+                            <button type="button" data-key="G"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">G</button>
+                            <button type="button" data-key="H"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">H</button>
+                            <button type="button" data-key="J"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">J</button>
+                            <button type="button" data-key="K"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">K</button>
+                            <button type="button" data-key="L"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">L</button>
+                        </div>
+                        <div class="flex items-center justify-center gap-2">
+                            <button type="button" data-key="Z"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Z</button>
+                            <button type="button" data-key="X"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">X</button>
+                            <button type="button" data-key="C"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">C</button>
+                            <button type="button" data-key="V"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">V</button>
+                            <button type="button" data-key="B"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">B</button>
+                            <button type="button" data-key="N"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">N</button>
+                            <button type="button" data-key="M"
+                                class="h-10 w-10 rounded-[10px] bg-[#802A76] text-white text-[16px] font-semibold shadow-[3px_3px_0px_#3f1f60]">M</button>
+                            <button type="button" data-action="backspace"
+                                class="h-10 px-3 rounded-[10px] bg-[#3f1f60] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#2d1545]">Hapus</button>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 px-10">
+                            <button type="button" data-action="space"
+                                class="h-10 flex-1 rounded-[10px] bg-[#802A76] text-white text-[14px] font-semibold shadow-[3px_3px_0px_#3f1f60]">Spasi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex w-full justify-end mt-4 mr-6">
+                <button id="quizNextButton" type="button"
+                    class="inline-flex items-center justify-right rounded-full bg-[#802A76] px-7 py-2 text-white shadow-[0_10px_24px_rgba(90,47,126,0.25)] transition hover:-translate-y-0.5 ml-auto disabled:opacity-60 disabled:cursor-not-allowed">
+                    <span id="quizNextLabel">Lanjut</span>
+                    <img src="{{ asset('assets/icons/landing/next.svg') }}" alt="" class="h-[30px] w-auto ml-2">
+                </button>
+            </div>
         </div>
     </div>
 @endsection
@@ -128,6 +151,7 @@
                 index: 0,
                 answers: {},
                 finishing: false,
+                reviewing: false,
                 timer: null,
                 remainingSeconds: 0,
             };
@@ -143,6 +167,18 @@
             const timerValueEl = document.getElementById('quizTimerValue');
             const imageEl = document.getElementById('quizImage');
             const keyboardEl = document.getElementById('quizKeyboard');
+            const answerReviewEl = document.getElementById('answerReview');
+            const answerReviewTitleEl = document.getElementById('answerReviewTitle');
+            const answerReviewBadgeEl = document.getElementById('answerReviewBadge');
+            const answerReviewTextEl = document.getElementById('answerReviewText');
+            const answerReviewImageWrapperEl = document.getElementById('answerReviewImageWrapper');
+            const answerReviewImageEl = document.getElementById('answerReviewImage');
+            const answerReviewHeader = document.getElementById('answerReviewHeader');
+            const pageTitleText = document.getElementById('pageTitleText');
+            const imageArea = document.getElementById('imageArea');
+            const headerBadgeEl = document.querySelector('.games-header-timer');
+            const headerProgressBarEl = document.getElementById('gameHeaderProgressBar');
+            const headerProgressLabelEl = document.getElementById('gameHeaderProgressLabel');
             const storageBase = @json(asset('storage'));
 
             const apiAnswerUrl = @json(url('/api/game/answer'));
@@ -175,6 +211,9 @@
                 }
                 state.remainingSeconds -= 1;
                 timerValueEl.textContent = formatTimer(state.remainingSeconds);
+                if (headerBadgeEl) {
+                    headerBadgeEl.textContent = formatTimer(state.remainingSeconds);
+                }
             };
 
             const startTimer = () => {
@@ -183,11 +222,78 @@
                 state.remainingSeconds = limit;
                 timerEl.classList.remove('hidden');
                 timerValueEl.textContent = formatTimer(state.remainingSeconds);
+                if (headerBadgeEl) {
+                    headerBadgeEl.textContent = formatTimer(state.remainingSeconds);
+                }
                 state.timer = setInterval(updateTimer, 1000);
             };
 
             const setNextDisabled = (disabled) => {
                 nextButton.disabled = disabled;
+            };
+
+            const normalizeText = (value) => String(value ?? '').trim().toLowerCase();
+
+            const getCorrectAnswerText = (question) => {
+                const correctAnswer = question.answer?.correct_answer ?? '';
+                if (question.type === 'text') {
+                    return correctAnswer || '-';
+                }
+
+                const options = Array.isArray(question.option) ? question.option : [];
+                const match = options.find((opt) => String(opt.key) === String(correctAnswer));
+                return match ? `${match.key}. ${match.text}` : (correctAnswer || '-');
+            };
+
+            const isAnswerCorrect = (question) => {
+                const userAnswer = state.answers[question.id];
+                const correctAnswer = question.answer?.correct_answer;
+                if (question.type === 'text') {
+                    return normalizeText(userAnswer) === normalizeText(correctAnswer);
+                }
+
+                return String(userAnswer ?? '') === String(correctAnswer ?? '');
+            };
+
+            const showAnswerReview = (question) => {
+                const correct = isAnswerCorrect(question);
+                const answerImageUrl = resolveImage(question.answer_image_url || question.image_url || '');
+
+                // ubah judul
+                pageTitleText.textContent = correct ? 'Jawaban kamu benar!' : 'Jawaban kamu belum tepat';
+                pageTitleText.className = correct ?
+                    'text-[28px] font-bold text-[#17914f] leading-snug' :
+                    'text-[28px] font-bold text-[#c0392b] leading-snug';
+
+                // ganti gambar soal → gambar jawaban
+                if (answerImageUrl) {
+                    imageEl.src = answerImageUrl;
+                }
+
+                // isi jawaban benar
+                answerReviewTextEl.textContent = getCorrectAnswerText(question);
+
+                // sembunyikan input/keyboard/options
+                textWrapper.classList.add('hidden');
+                keyboardEl.classList.add('hidden');
+                optionsEl.classList.add('hidden');
+
+                answerReviewEl.classList.remove('hidden');
+                answerReviewEl.classList.add('flex');
+                state.reviewing = true;
+                nextLabel.textContent = (state.index + 1) === state.questions.length ? 'Lihat Hasil' :
+                    'Soal Berikutnya';
+                setNextDisabled(false);
+            };
+
+            const hideAnswerReview = () => {
+                answerReviewEl.classList.add('hidden');
+                answerReviewEl.classList.remove('flex');
+                state.reviewing = false;
+
+                // kembalikan judul asli
+                pageTitleText.textContent = 'Tebak gambar berikut dengan benar dan dapatkan hadiahnya!';
+                pageTitleText.className = 'text-[28px] font-bold text-[#4a2a6c] leading-snug';
             };
 
             const insertAtCursor = (input, text) => {
@@ -231,24 +337,36 @@
                     const button = document.createElement('button');
                     button.type = 'button';
                     button.dataset.key = opt.key;
+
                     button.className =
-                        'flex items-center gap-4 rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-5 py-4 text-left shadow-[6px_6px_0px_#802A76] transition hover:-translate-y-1 hover:shadow-[4px_4px_0px_#802A76]';
+                        'option-btn flex items-center gap-4 rounded-[20px] border-2 border-[#802A76] bg-[#f7f1ff] px-4 py-4 text-left shadow-[6px_6px_0px_#802A76] transition';
+
                     button.innerHTML = `
-                        <span class="flex h-12 w-12 items-center justify-center rounded-[12px] text-[18px] font-semibold bg-[#f7f1ff] text-[#802A76] border-2 border-[#802A76]">
-                            ${opt.key}
-                        </span>
-                        <span class="text-[18px] font-semibold text-[#1e132b]">
-                            ${opt.text}
-                        </span>
-                    `;
+            <span class="shrink-0 option-key flex h-14 w-14 items-center justify-center rounded-[12px] text-[22px] font-semibold bg-[#f7f1ff] text-[#802A76] border-2 border-[#802A76] transition">
+                ${opt.key}
+            </span>
+            <span class="text-[20px] font-semibold text-[#1e132b]">
+                ${opt.text}
+            </span>
+        `;
+
                     button.addEventListener('click', () => {
                         state.answers[question.id] = opt.key;
-                        optionsEl.querySelectorAll('button').forEach((btn) => {
-                            btn.classList.remove('ring-4', 'ring-[#802A76]');
+
+                        // reset semua key
+                        optionsEl.querySelectorAll('.option-key').forEach((el) => {
+                            el.classList.remove('bg-[#802A76]', 'text-white');
+                            el.classList.add('bg-[#f7f1ff]', 'text-[#802A76]');
                         });
-                        button.classList.add('ring-4', 'ring-[#802A76]');
+
+                        // aktifkan yang dipilih
+                        const keyEl = button.querySelector('.option-key');
+                        keyEl.classList.remove('bg-[#f7f1ff]', 'text-[#802A76]');
+                        keyEl.classList.add('bg-[#802A76]', 'text-white');
+
                         setNextDisabled(false);
                     });
+
                     optionsEl.appendChild(button);
                 });
             };
@@ -260,8 +378,17 @@
                     return;
                 }
 
+                hideAnswerReview();
+
                 const progressText = `Soal ${state.index + 1}/${state.questions.length}`;
                 progressEl.textContent = progressText;
+                const percentage = Math.round(((state.index + 1) / state.questions.length) * 100);
+                if (headerProgressBarEl) {
+                    headerProgressBarEl.style.width = `${Math.max(12, percentage)}%`;
+                }
+                if (headerProgressLabelEl) {
+                    headerProgressLabelEl.textContent = `${percentage}%`;
+                }
                 promptEl.textContent = question.prompt || '-';
 
                 const imageUrl = resolveImage(question.image_url || '');
@@ -353,16 +480,20 @@
                     return;
                 }
 
-                nextButton.disabled = true;
-                await submitAnswer(question);
+                if (state.reviewing) {
+                    if (state.index + 1 >= state.questions.length) {
+                        finishGame();
+                        return;
+                    }
 
-                if (state.index + 1 >= state.questions.length) {
-                    finishGame();
+                    state.index += 1;
+                    renderQuestion();
                     return;
                 }
 
-                state.index += 1;
-                renderQuestion();
+                nextButton.disabled = true;
+                await submitAnswer(question);
+                showAnswerReview(question);
             });
 
             keyboardEl.addEventListener('click', (event) => {

@@ -21,6 +21,7 @@ use App\Http\Controllers\Dashboard\QuestController;
 use App\Http\Controllers\Dashboard\RewardController;
 use App\Http\Controllers\Dashboard\GameHistoryController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\AuditLogController;
 
 Route::middleware(['auth', 'role:admin,staff,operator'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -35,6 +36,11 @@ Route::middleware(['auth', 'role:admin,staff,operator'])->prefix('dashboard')->n
     Route::prefix('transactions')->middleware('role:admin,staff')->name('transactions.')->group(function () {
         Route::get('/', [TransactionController::class, 'index'])->name('index');
         Route::get('/{id}', [TransactionController::class, 'show'])->name('show');
+    });
+
+    Route::prefix('audit-logs')->middleware('role:admin,staff')->name('audit-logs.')->group(function () {
+        Route::get('/', [AuditLogController::class, 'index'])->name('index');
+        Route::get('/{id}', [AuditLogController::class, 'show'])->name('show');
     });
 
     Route::prefix('product-displays')->middleware('role:admin,staff,operator')->name('product-displays.')->group(function () {

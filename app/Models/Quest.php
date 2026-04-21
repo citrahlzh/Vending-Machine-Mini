@@ -17,6 +17,7 @@ class Quest extends Model
         'option',
         'answer',
         'image_url',
+        'answer_image_url',
         'is_active',
     ];
 

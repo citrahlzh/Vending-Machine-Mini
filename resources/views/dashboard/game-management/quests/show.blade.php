@@ -65,6 +65,22 @@
                             </div>
                         @endif
                     </div>
+
+                    <div class="md:col-span-2">
+                        <p class="text-[13px] font-semibold text-[#7a6798]">Gambar Hasil / Jawaban Benar</p>
+
+                        @if ($quest->answer_image_url)
+                            <div class="mt-3 overflow-hidden rounded-2xl border border-[#d8ccee] bg-[#f7f3ff] p-4">
+                                <img src="{{ asset('/image/' . $quest->answer_image_url) }}"
+                                    class="h-[260px] w-full object-contain">
+                            </div>
+                        @else
+                            <div
+                                class="mt-3 flex h-[260px] items-center justify-center rounded-2xl border border-dashed border-[#d8ccee] bg-[#fbf9ff] text-[14px] text-[#7a6798]">
+                                Gambar hasil belum diunggah.
+                            </div>
+                        @endif
+                    </div>
                 @endif
 
 

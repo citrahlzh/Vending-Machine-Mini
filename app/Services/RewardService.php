@@ -10,18 +10,18 @@ use Illuminate\Support\Str;
 
 class RewardService
 {
-
     protected $dispenseService;
 
-    public function __construct(VendingDispenseService $dispenseService)
-    {
+    public function __construct(
+        VendingDispenseService $dispenseService,
+        protected AuditLogService $auditLogService
+    ) {
         $this->dispenseService = $dispenseService;
     }
 
     public function issueReward(Play $play, Reward $reward, bool $dispenseNow = true): ?IssuedReward
     {
-
-        $issued = DB::transaction(function () use ($play, $reward) {
+        $result = DB::transaction(function () use ($play, $reward) {
 
             $reward = Reward::lockForUpdate()->find($reward->id);
 
@@ -61,32 +61,62 @@ class RewardService
                 }
             }
 
-            return $issued;
-
+            return [
+                'issued' => $issued,
+                'reward' => $reward->load('productDisplay.cell'),
+            ];
         });
 
-        if (!$issued) {
+        if (!$result) {
             return null;
         }
+
+        $issued = $result['issued'];
+        $reward = $result['reward'];
+
+        \Log::info('RewardService::issueReward check', [
+            'dispenseNow' => $dispenseNow,
+            'reward_type' => $reward->type,
+            'reward_id' => $reward->id,
+            'productDisplay' => $reward->productDisplay?->id,
+            'cell' => $reward->productDisplay?->cell?->code,
+        ]);
 
         if ($dispenseNow && $reward->type === 'product' && $reward->productDisplay) {
 
             $cellCode = $reward->productDisplay->cell?->code;
 
             if (!$cellCode) {
+                $this->auditLogService->logBusinessEvent(
+                    'dispense.skipped',
+                    "Dispense hadiah {$issued->code} dilewati karena cell tidak tersedia.",
+                    [
+                        'source' => 'reward',
+                        'issued_reward_id' => $issued->id,
+                        'reward_id' => $reward->id,
+                    ],
+                    null,
+                    $issued
+                );
+
                 return $issued;
             }
 
             $this->dispenseService->dispense(
                 $issued->code,
-                $cellCode
+                $cellCode,
+                [
+                    'source' => 'reward',
+                    'issued_reward_id' => $issued->id,
+                    'reward_id' => $reward->id,
+                    'play_id' => $play->id,
+                ]
             );
 
             $issued->update([
                 'status' => 'redeemed',
                 'redeemed_at' => now(),
             ]);
-
         }
 
         return $issued;
@@ -110,12 +140,30 @@ class RewardService
 
             $cellCode = $reward->productDisplay?->cell?->code;
             if (!$cellCode) {
+                $this->auditLogService->logBusinessEvent(
+                    'dispense.skipped',
+                    "Dispense hadiah {$lockedIssued->code} dilewati karena cell tidak tersedia.",
+                    [
+                        'source' => 'reward',
+                        'issued_reward_id' => $lockedIssued->id,
+                        'reward_id' => $reward?->id,
+                    ],
+                    null,
+                    $lockedIssued
+                );
+
                 return $lockedIssued;
             }
 
             $this->dispenseService->dispense(
                 $lockedIssued->code,
-                $cellCode
+                $cellCode,
+                [
+                    'source' => 'reward',
+                    'issued_reward_id' => $lockedIssued->id,
+                    'reward_id' => $reward->id,
+                    'play_id' => $lockedIssued->play_id,
+                ]
             );
 
             $lockedIssued->update([
@@ -128,5 +176,4 @@ class RewardService
 
         return (bool) ($issued && $issued->status === 'redeemed');
     }
-
 }
