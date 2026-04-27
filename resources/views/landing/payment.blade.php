@@ -130,6 +130,26 @@
             }, 2200);
         };
 
+        const parseApiResponse = async (response, fallbackMessage) => {
+            const contentType = response.headers.get('content-type') || '';
+            const isJson = contentType.includes('application/json');
+            const payload = isJson ? await response.json() : null;
+
+            if (!response.ok) {
+                const message = payload?.error || payload?.message || (response.status === 419
+                    ? 'Sesi sudah habis. Muat ulang halaman lalu coba lagi.'
+                    : fallbackMessage);
+
+                throw new Error(message);
+            }
+
+            if (!isJson) {
+                throw new Error(fallbackMessage);
+            }
+
+            return payload;
+        };
+
         const clearPaymentContext = () => {
             sessionStorage.removeItem(paymentContextKey);
         };
@@ -199,12 +219,7 @@
                 },
             });
 
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data?.error || data?.message || 'Gagal sinkron status pembayaran.');
-            }
-
-            return data;
+            return parseApiResponse(response, 'Gagal sinkron status pembayaran.');
         };
 
         const cancelPayment = async () => {
@@ -215,12 +230,7 @@
                 },
             });
 
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data?.error || data?.message || 'Gagal membatalkan pembayaran.');
-            }
-
-            return data;
+            return parseApiResponse(response, 'Gagal membatalkan pembayaran.');
         };
 
         const applyDispenseResultToCart = (sale) => {

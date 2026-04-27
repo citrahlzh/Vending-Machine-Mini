@@ -13,6 +13,7 @@ use App\Models\Reward;
 use App\Services\MidtransQrisService;
 use App\Services\SystemNotificationService;
 use App\Services\VendingDispenseService;
+use App\Models\SiteSetting;
 use Carbon\Carbon;
 use Exception;
 
@@ -189,27 +190,25 @@ class TransactionService
 
     private function generateUniqueIdempotencyKey(): string
     {
-        $length = (int) config('app.transaction_idempotency_key_length', self::DEFAULT_IDEMPOTENCY_KEY_LENGTH);
-        $length = max(self::MIN_IDEMPOTENCY_KEY_LENGTH, min($length, self::MAX_IDEMPOTENCY_KEY_LENGTH));
+        $vm_code = SiteSetting::where('key', 'machine_code')->value('value') ?? 'VM-XXX';
+        $split_code = explode('-', $vm_code);
+        $prefix = count($split_code) > 1 ? strtoupper($split_code[1]) : 'VM';
 
-        do {
-            $candidate = $this->randomUppercaseAlphanumeric($length);
-        } while (Sale::where('idempotency_key', $candidate)->exists());
+        $year = Carbon::now()->format('y');
+        $month = Carbon::now()->format('m');
+        $date = Carbon::now()->format('d');
+
+        $randomDigits = random_int(1, 999999);
+
+        $candidate = "{$prefix}{$year}{$month}{$date}{$randomDigits}";
+        // $length = (int) config('app.transaction_idempotency_key_length', self::DEFAULT_IDEMPOTENCY_KEY_LENGTH);
+        // $length = max(self::MIN_IDEMPOTENCY_KEY_LENGTH, min($length, self::MAX_IDEMPOTENCY_KEY_LENGTH));
+
+        // do {
+        //     $candidate = $this->randomUppercaseAlphanumeric($length);
+        // } while (Sale::where('idempotency_key', $candidate)->exists());
 
         return $candidate;
-    }
-
-    private function randomUppercaseAlphanumeric(int $length): string
-    {
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $charactersLength = strlen($characters);
-        $result = '';
-
-        for ($i = 0; $i < $length; $i++) {
-            $result .= $characters[random_int(0, $charactersLength - 1)];
-        }
-
-        return $result;
     }
 
     public function handleNotification(array $payload): ?Sale

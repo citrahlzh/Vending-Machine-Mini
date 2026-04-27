@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -25,8 +26,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (HttpException $exception) {
+        $exceptions->render(function (HttpException $exception, Request $request) {
             if ($exception->getStatusCode() === 419) {
+                if ($request->expectsJson() || $request->is('api/*')) {
+                    return response()->json([
+                        'message' => 'Sesi sudah habis.',
+                        'error' => 'CSRF token mismatch.',
+                    ], 419);
+                }
+
                 return redirect()->route('login')->with(
                     'error',
                     'Sesi kamu sudah habis. Silakan login ulang.'

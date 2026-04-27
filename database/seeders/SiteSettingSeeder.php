@@ -73,14 +73,14 @@ class SiteSettingSeeder extends Seeder
             [
                 'key' => 'machine_code',
                 'label' => 'Kode Mesin',
-                'value' => 'VM-001',
+                'value' => 'VM-AAA',
                 'type' => 'text',
                 'group' => 'Identitas Mesin'
             ],
             [
                 'key' => 'machine_serial_number',
                 'label' => 'Nomor Seri',
-                'value' => 'SN-VM-001',
+                'value' => 'SN-VM-AAA',
                 'type' => 'text',
                 'group' => 'Identitas Mesin'
             ],
