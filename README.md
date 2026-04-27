@@ -450,3 +450,4 @@ Lalu cek:
 
 - Webhook, MQTT, dan polling bisa aktif bersamaan. Sistem menahan penurunan status yang tidak valid, jadi notifikasi ganda masih aman secara dasar.
 - Jika broker MQTT tidak sepenuhnya trusted, sebaiknya tambahkan validasi payload di level publisher/subscriber.
+# Vending-Machine-Mini-Encrypted
