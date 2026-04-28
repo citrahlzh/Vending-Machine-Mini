@@ -29,7 +29,7 @@ use App\Http\Controllers\API\RoleController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware(['web'])->group(function () {
+Route::middleware(['web', 'license'])->group(function () {
     Route::group(['prefix' => 'user'], function () {
         Route::get('/list', [UserController::class, 'index']);
         Route::post('/store', [UserController::class, 'store']);
@@ -186,7 +186,7 @@ Route::middleware(['web'])->group(function () {
     });
 });
 
-Route::group(['prefix' => 'transaction'], function () {
+Route::group(['prefix' => 'transaction', 'middleware' => 'license'], function () {
     Route::post('/checkout', [TransactionController::class, 'checkout']);
     Route::post('/notify', [TransactionController::class, 'notify']);
     Route::get('/show/{id}', [TransactionController::class, 'show']);
@@ -194,7 +194,7 @@ Route::group(['prefix' => 'transaction'], function () {
     Route::post('/cancel/{id}', [TransactionController::class, 'cancel']);
 });
 
-Route::prefix('game')->middleware('throttle:30,1')->group(function () {
+Route::prefix('game')->middleware(['license', 'throttle:30,1'])->group(function () {
     Route::post('/start/{game}', [GamePlayController::class, 'start']);
     Route::post('/answer', [GamePlayController::class, 'answer']);
     Route::post('/finish', [GamePlayController::class, 'finish']);

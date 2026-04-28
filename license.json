@@ -1,0 +1,9 @@
+{
+    "data": {
+        "app": "NEXSELL Vending Machine",
+        "machine_code": "VM-AAA",
+        "usb_serial": "0101021ea2c26d839659",
+        "expired": "2026-04-30"
+    },
+    "signature": "j3aT4+G9eJMG1iA9H02uLdhh01OkrOqF0ndTcnNS+42lZIjoqJXmSptSLzPJax9zVgRdeRMcf9hNtuzIMehnp5BS5osSq7j+\/n9OMNgeCekFxAFM0CZnvko2+Vj2wpDDgJS683VKmcTRP8m2jawgd4wwfcgd8eTt6t4RSyHa1WWA7ecp4VCI9TBVfqEVjZxw2Pqm8TzoDXTKXMVwdS3pLgrAzUneWSUWNkkKA8I24cbKEOQZ5S49mwAoa9uVM4bBMcI3A+prcIe8kLlCsiA4CMxBIJppCthjeWi0X8QuZ7B+J3X92jywJQ8j\/fwIx3I3GCKLSrqW72Ws1EkijMW3Kw=="
+}

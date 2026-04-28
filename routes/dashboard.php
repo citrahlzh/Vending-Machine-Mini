@@ -23,7 +23,7 @@ use App\Http\Controllers\Dashboard\GameHistoryController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\AuditLogController;
 
-Route::middleware(['auth', 'role:admin,staff,operator'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'license', 'role:admin,staff,operator'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::prefix('notifications')->name('notifications.')->group(function () {
