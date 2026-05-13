@@ -200,7 +200,7 @@
         <div class="bg-white w-full max-w-[560px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="flex items-center justify-between gap-3">
                 <div class="text-[18px] font-semibold text-[#431a39]">Panduan Pembelian</div>
-                <button id="btn-close-guide" type="button" aria-label="Tutup panduan pembelian"
+                <button id="btn-close-guide"    type="button" aria-label="Tutup panduan pembelian"
                     class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#802A76] items-center justify-center">
                     <img src="{{ asset('assets/icons/landing/close.svg') }}" alt="">
                 </button>

@@ -92,9 +92,9 @@
     </div>
 
     <div class="flex flex-col justify-left ml-1">
-        <img src="{{ asset('assets/images/logo/nexsell.svg') }}" alt="Logo NEXSELL" title="Vending Machine NEXSELL"
+        <img src="{{ setting_asset_url('logo_url', asset('assets/images/logo/nexsell.svg')) }}" alt="Logo {{ setting('site_name', 'Vending Machine') }}" title="{{ setting('machine_name', 'Vending Machine') }}"
             class="mt-5 w-[40px]" />
-        <p class="text-[25px] font-bold text-[#802A76]">NEXSELL</p>
+        <p class="text-[25px] font-bold text-[#802A76]">{{ setting('site_name', 'NEXSELL') }}</p>
     </div>
 
     @php

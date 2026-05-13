@@ -43,6 +43,13 @@ class SiteSettingSeeder extends Seeder
                 'group' => 'Umum'
             ],
             [
+                'key' => 'game_logo_url',
+                'label' => 'Logo Games',
+                'value' => null,
+                'type' => 'file',
+                'group' => 'Umum'
+            ],
+            [
                 'key' => 'call_center_number',
                 'label' => 'Nomor Call Center',
                 'value' => '0800123456',

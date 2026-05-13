@@ -3,7 +3,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <title>{{ $title }} - Vending Machine Mini</title>
-<link rel="shortcut icon" href="{{ asset("assets/images/logo/nexsell.svg") }}" type="image/x-icon" />
+<link rel="shortcut icon" href="{{ setting_asset_url('logo_url', asset('assets/images/logo/nexsell.svg')) }}" type="image/x-icon" />
 
 <!--Regular Datatables CSS-->
 <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
