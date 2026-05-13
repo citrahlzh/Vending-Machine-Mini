@@ -8,11 +8,11 @@
             <span class="h-[14px] w-[14px] rounded-full bg-[#50BE41]"></span>
             <div class="hidden md:block">
                 <p class="text-[15px] font-regular leading-none text-[#6a2a57]">
-                    {{ setting('machine_name', 'Mesin sedang aktif beroperasi') }}
+                    {{ machine_setting('name', 'Mesin sedang aktif beroperasi') }}
                 </p>
                 <p class="mt-1 text-[12px] leading-none text-[#9e6f91]">
-                    {{ setting('machine_code', 'Kode belum diatur') }} •
-                    {{ setting('machine_location', 'Lokasi belum diatur') }}
+                    {{ machine_setting('code', 'Kode belum diatur') }} •
+                    {{ machine_setting('location', 'Lokasi belum diatur') }}
                 </p>
             </div>
         </div>

@@ -42,11 +42,17 @@ class DashboardController extends Controller
         }
 
         $machineIdentity = [
-            'name' => setting('machine_name', '-'),
-            'code' => setting('machine_code', '-'),
-            'serial_number' => setting('machine_serial_number', '-'),
-            'location' => setting('machine_location', '-'),
-            'operator_name' => setting('machine_operator_name', '-'),
+            'name' => machine_setting('name', '-'),
+            'code' => machine_setting('code', '-'),
+            'serial_number' => machine_setting('serial_number', '-'),
+            'location' => machine_setting('location', '-'),
+            'operator_name' => machine_setting('operator_name', '-'),
+            'category' => machine_setting('category', '-'),
+            'size' => machine_setting('size', '-'),
+            'is_android' => machine_setting('is_android', false),
+            'status' => machine_setting('status', 'inactive'),
+            'condition_status' => machine_setting('condition_status', 'good'),
+            'photo_url' => machine_asset_url('photo_url'),
         ];
 
         return view('dashboard.index', compact(
