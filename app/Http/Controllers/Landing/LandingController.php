@@ -20,8 +20,9 @@ class LandingController extends Controller
         $products = collect($payload['products']);
         $callCenterPhone = $payload['call_center_phone'];
         $callCenterWhatsapp = $payload['call_center_whatsapp'];
+        $machineAlert = $payload['machine_alert'];
 
-        return view('landing.index', compact('ads', 'products', 'callCenterPhone', 'callCenterWhatsapp'));
+        return view('landing.index', compact('ads', 'products', 'callCenterPhone', 'callCenterWhatsapp', 'machineAlert'));
     }
 
     public function snapshot(): JsonResponse
@@ -129,7 +130,49 @@ class LandingController extends Controller
                 ->all(),
             'call_center_phone' => $callCenterPhone,
             'call_center_whatsapp' => $callCenterWhatsapp,
+            'machine_alert' => $this->buildMachineAlert(),
             'generated_at' => now()->toIso8601String(),
+        ];
+    }
+
+    private function buildMachineAlert(): array
+    {
+        $status = (string) machine_setting('status', 'active');
+        $condition = (string) machine_setting('condition_status', 'good');
+        $machineName = (string) machine_setting('name', 'Vending Machine');
+
+        if ($status !== 'active') {
+            return [
+                'is_blocked' => true,
+                'type' => 'inactive',
+                'title' => 'Mesin Sedang Tidak Aktif',
+                'message' => "{$machineName} sedang tidak aktif. Pemesanan sementara tidak tersedia.",
+            ];
+        }
+
+        if ($condition === 'maintenance') {
+            return [
+                'is_blocked' => true,
+                'type' => 'maintenance',
+                'title' => 'Mesin Sedang Maintenance',
+                'message' => "{$machineName} sedang dalam perawatan. Silakan coba lagi beberapa saat lagi.",
+            ];
+        }
+
+        if ($condition === 'damaged') {
+            return [
+                'is_blocked' => true,
+                'type' => 'damaged',
+                'title' => 'Mesin Sedang Bermasalah',
+                'message' => "{$machineName} sedang mengalami gangguan atau kerusakan. Pemesanan dinonaktifkan sementara.",
+            ];
+        }
+
+        return [
+            'is_blocked' => false,
+            'type' => 'normal',
+            'title' => null,
+            'message' => null,
         ];
     }
 }
