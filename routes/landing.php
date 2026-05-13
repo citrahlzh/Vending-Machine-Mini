@@ -7,6 +7,7 @@ use App\Http\Controllers\Landing\GameController;
 use App\Http\Controllers\Landing\GameResultController;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+Route::get('/landing/snapshot', [LandingController::class, 'snapshot'])->name('landing.snapshot');
 Route::get('/produk/{productDisplay}', [LandingController::class, 'product'])->name('landing.product');
 Route::get('/pembayaran/{saleId}', [LandingController::class, 'payment'])->name('landing.payment');
 

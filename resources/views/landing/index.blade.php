@@ -216,11 +216,11 @@
                 <div class="font-semibold text-[#5E1C3D]">Call Center</div>
                 <div class="flex mt-2 items-center gap-2">
                     <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="">
-                    <p class="font-semibold text-[#802A76] items-center">{{ $callPhoneDisplay }}</p>
+                    <p id="call-center-phone" class="font-semibold text-[#802A76] items-center">{{ $callPhoneDisplay }}</p>
                 </div>
                 <div class="flex mt-2 items-center gap-2">
                     <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="">
-                    <p class="font-semibold text-[#802A76] items-center">{{ $callWaDisplay }}</p>
+                    <p id="call-center-whatsapp" class="font-semibold text-[#802A76] items-center">{{ $callWaDisplay }}</p>
                 </div>
             </div>
         </div>
@@ -252,7 +252,8 @@
 
 @push('script')
     <script>
-        const products = @json($products);
+        let products = @json($products);
+        let landingSnapshotKey = JSON.stringify(products);
 
         // Initializations
         const rupiah = (value) => new Intl.NumberFormat('id-ID').format(value);
@@ -282,8 +283,13 @@
         const btnOpenGuide = document.querySelector('#btn-open-guide, #btn-open-guide-floating');
         const btnCloseGuide = document.getElementById('btn-close-guide');
         const failMessage = document.getElementById('fail-message');
+        const callCenterPhoneText = document.getElementById('call-center-phone');
+        const callCenterWhatsappText = document.getElementById('call-center-whatsapp');
         const paymentPageTemplate = @json(route('landing.payment', ['saleId' => '__SALE_ID__']));
+        const landingSnapshotUrl = @json(route('landing.snapshot'));
         const paymentContextKey = 'vm_payment_context';
+        const landingPollIntervalMs = 3000;
+        let isSyncingLandingData = false;
         let isCheckoutMinimized = true;
 
         const defaultQrisImage = '{{ asset('assets/images/transaction/QR_code.svg') }}';
@@ -291,6 +297,44 @@
         // Cart
         const saveCart = () => {
             localStorage.setItem(cartKey, JSON.stringify(cart));
+        };
+
+        const syncCartWithProducts = () => {
+            const nextProducts = new Map(products.map((product) => [String(product.id), product]));
+            let hasChanges = false;
+
+            Object.keys(cart).forEach((productId) => {
+                const latestProduct = nextProducts.get(String(productId));
+                if (!latestProduct || latestProduct.stock <= 0) {
+                    delete cart[productId];
+                    hasChanges = true;
+                    return;
+                }
+
+                const cappedQty = Math.min(Number(cart[productId].qty || 0), Number(latestProduct.stock || 0));
+                if (cappedQty <= 0) {
+                    delete cart[productId];
+                    hasChanges = true;
+                    return;
+                }
+
+                if (
+                    cart[productId].qty !== cappedQty ||
+                    cart[productId].price !== latestProduct.price ||
+                    cart[productId].name !== latestProduct.name
+                ) {
+                    cart[productId] = {
+                        name: latestProduct.name,
+                        price: latestProduct.price,
+                        qty: cappedQty,
+                    };
+                    hasChanges = true;
+                }
+            });
+
+            if (hasChanges) {
+                saveCart();
+            }
         };
 
         // Show Products
@@ -488,6 +532,53 @@
             modal?.classList.remove('flex');
         };
 
+        const applyLandingSnapshot = (payload) => {
+            const nextProducts = Array.isArray(payload?.products) ? payload.products : [];
+            const nextSnapshotKey = JSON.stringify(nextProducts);
+
+            if (nextSnapshotKey !== landingSnapshotKey) {
+                products = nextProducts;
+                landingSnapshotKey = nextSnapshotKey;
+                syncCartWithProducts();
+                renderProducts();
+                renderCart();
+            }
+
+            if (typeof payload?.call_center_phone === 'string' && callCenterPhoneText) {
+                callCenterPhoneText.textContent = payload.call_center_phone;
+            }
+
+            if (typeof payload?.call_center_whatsapp === 'string' && callCenterWhatsappText) {
+                callCenterWhatsappText.textContent = payload.call_center_whatsapp;
+            }
+        };
+
+        const syncLandingData = async () => {
+            if (isSyncingLandingData) return;
+            isSyncingLandingData = true;
+
+            try {
+                const response = await fetch(landingSnapshotUrl, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache',
+                    },
+                    cache: 'no-store',
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const result = await response.json();
+                applyLandingSnapshot(result?.data || {});
+            } catch (error) {
+                console.error('Gagal sinkron landing data:', error);
+            } finally {
+                isSyncingLandingData = false;
+            }
+        };
+
         productsCarousel?.addEventListener('click', (event) => {
             const target = event.target;
             const wrapper = target?.closest('[data-product]');
@@ -577,6 +668,8 @@
 
         renderProducts();
         renderCart();
+        syncLandingData();
+        window.setInterval(syncLandingData, landingPollIntervalMs);
     </script>
 
     <script>
