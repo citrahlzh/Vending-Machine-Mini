@@ -4,11 +4,14 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Models\Sale;
+use App\Services\TMS\IssuePusherService;
 
 class VendingDispenseService
 {
     public function __construct(
-        private readonly AuditLogService $auditLogService
+        private readonly AuditLogService $auditLogService,
+        private readonly IssuePusherService $issuePusherService
     ) {
     }
 
@@ -17,12 +20,17 @@ class VendingDispenseService
         $endpoint = (string) env('VENDING_DISPENSE_URL', 'http://127.0.0.1:9000/dispense');
         $timeout = (float) env('VENDING_DISPENSE_TIMEOUT_SECONDS', 0.25);
         $timeout = $timeout > 0 ? $timeout : 0.25;
+        $saleId = isset($context['sale_id']) ? (int) $context['sale_id'] : null;
 
         $baseContext = array_merge($context, [
             'transaction_id' => $transactionId,
             'cell_id' => $cellCode,
             'endpoint' => $endpoint,
         ]);
+
+        $sale = isset($context['sale_id'])
+            ? Sale::find($context['sale_id'])
+            : null;
 
         $this->auditLogService->logBusinessEvent(
             'dispense.requested',
@@ -45,8 +53,8 @@ class VendingDispenseService
             $this->auditLogService->logBusinessEvent(
                 $response->successful() ? 'dispense.succeeded' : 'dispense.failed',
                 $response->successful()
-                    ? "Dispense untuk cell {$cellCode} berhasil dipanggil."
-                    : "Dispense untuk cell {$cellCode} merespons gagal.",
+                ? "Dispense untuk cell {$cellCode} berhasil dipanggil."
+                : "Dispense untuk cell {$cellCode} merespons gagal.",
                 $payload
             );
 
@@ -69,6 +77,23 @@ class VendingDispenseService
                     'error' => $e->getMessage(),
                 ])
             );
+
+            if ($saleId !== null) {
+                $this->issuePusherService->push(
+                    $saleId,
+                    'dispense_failed',
+                    [
+                        'qris_id' => $sale?->qris_id,
+                        'total_amount' => $sale?->total_amount,
+                    ]
+                );
+            } else {
+                Log::warning('Skipping TMS issue push because sale_id is missing.', [
+                    'transaction_id' => $transactionId,
+                    'cell_id' => $cellCode,
+                    'error' => $e->getMessage(),
+                ]);
+            }
 
             return [
                 'ok' => false,

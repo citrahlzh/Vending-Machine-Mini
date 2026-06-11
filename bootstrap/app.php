@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'tms.license' => \App\Http\Middleware\CheckTmsLicense::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -129,4 +131,13 @@ return [
 
     'transaction_idempotency_key_length' => env('TRANSACTION_IDEMPOTENCY_KEY_LENGTH', 12),
 
+    'providers' => ServiceProvider::defaultProviders()->merge([
+    /*
+    |--------------------------------------------------------------------------
+    | Application Service Providers
+    |--------------------------------------------------------------------------
+    */
+
+    App\Providers\TmsServiceProvider::class,
+])->toArray(),
 ];

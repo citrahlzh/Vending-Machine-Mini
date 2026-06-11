@@ -186,7 +186,7 @@ Route::middleware(['web'])->group(function () {
     });
 });
 
-Route::group(['prefix' => 'transaction'], function () {
+Route::middleware(['tms.license'])->prefix('transaction')->group(function () {
     Route::post('/checkout', [TransactionController::class, 'checkout']);
     Route::post('/notify', [TransactionController::class, 'notify']);
     Route::get('/show/{id}', [TransactionController::class, 'show']);
