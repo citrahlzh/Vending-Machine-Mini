@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\GamePlayController;
+use App\Http\Controllers\API\GamePlayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Landing\GameController;
