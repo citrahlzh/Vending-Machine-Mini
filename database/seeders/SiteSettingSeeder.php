@@ -43,6 +43,13 @@ class SiteSettingSeeder extends Seeder
                 'group' => 'Umum'
             ],
             [
+                'key' => 'game_logo_url',
+                'label' => 'Logo Games',
+                'value' => null,
+                'type' => 'file',
+                'group' => 'Umum'
+            ],
+            [
                 'key' => 'call_center_number',
                 'label' => 'Nomor Call Center',
                 'value' => '0800123456',
@@ -63,41 +70,6 @@ class SiteSettingSeeder extends Seeder
                 'type' => 'email',
                 'group' => 'Kontak'
             ],
-            [
-                'key' => 'machine_name',
-                'label' => 'Nama Mesin',
-                'value' => 'NEXSELL Machine 01',
-                'type' => 'text',
-                'group' => 'Identitas Mesin'
-            ],
-            [
-                'key' => 'machine_code',
-                'label' => 'Kode Mesin',
-                'value' => 'VM-AAA',
-                'type' => 'text',
-                'group' => 'Identitas Mesin'
-            ],
-            [
-                'key' => 'machine_serial_number',
-                'label' => 'Nomor Seri',
-                'value' => 'SN-VM-AAA',
-                'type' => 'text',
-                'group' => 'Identitas Mesin'
-            ],
-            [
-                'key' => 'machine_location',
-                'label' => 'Lokasi Mesin',
-                'value' => 'Lobby Utama',
-                'type' => 'text',
-                'group' => 'Identitas Mesin'
-            ],
-            [
-                'key' => 'machine_operator_name',
-                'label' => 'PIC / Operator',
-                'value' => 'Tim Operasional',
-                'type' => 'text',
-                'group' => 'Identitas Mesin'
-            ]
         ];
 
         foreach ($data as $item) {

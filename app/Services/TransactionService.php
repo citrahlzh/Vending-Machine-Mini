@@ -13,7 +13,6 @@ use App\Models\Reward;
 use App\Services\MidtransQrisService;
 use App\Services\SystemNotificationService;
 use App\Services\VendingDispenseService;
-use App\Models\SiteSetting;
 use Carbon\Carbon;
 use Exception;
 
@@ -190,9 +189,9 @@ class TransactionService
 
     private function generateUniqueIdempotencyKey(): string
     {
-        $vm_code = SiteSetting::where('key', 'machine_code')->value('value') ?? 'VM-XXX';
-        $split_code = explode('-', $vm_code);
-        $prefix = count($split_code) > 1 ? strtoupper($split_code[1]) : 'VM';
+        $prefix = strtoupper((string) machine_setting('code', 'AAA'));
+        $prefix = preg_replace('/[^A-Z]/', '', $prefix) ?: 'AAA';
+        $prefix = substr(str_pad($prefix, 3, 'A'), 0, 3);
 
         $year = Carbon::now()->format('y');
         $month = Carbon::now()->format('m');

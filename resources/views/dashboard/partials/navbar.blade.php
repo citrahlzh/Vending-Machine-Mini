@@ -8,16 +8,23 @@
             <span class="h-[14px] w-[14px] rounded-full bg-[#50BE41]"></span>
             <div class="hidden md:block">
                 <p class="text-[15px] font-regular leading-none text-[#6a2a57]">
-                    {{ setting('machine_name', 'Mesin sedang aktif beroperasi') }}
+                    {{ machine_setting('name', 'Mesin sedang aktif beroperasi') }}
                 </p>
                 <p class="mt-1 text-[12px] leading-none text-[#9e6f91]">
-                    {{ setting('machine_code', 'Kode belum diatur') }} •
-                    {{ setting('machine_location', 'Lokasi belum diatur') }}
+                    {{ machine_setting('code', 'Kode belum diatur') }} •
+                    {{ machine_setting('location', 'Lokasi belum diatur') }}
                 </p>
             </div>
         </div>
 
         <div class="flex items-center gap-3">
+            <button id="dashboardRefreshButton" type="button"
+                class="inline-flex h-[38px] items-center gap-2 rounded-full border border-[#ead7e5] bg-[#fff7fc] px-4 text-[13px] font-medium text-[#802A76] transition hover:border-[#d9bfd0] hover:bg-[#fceef8]"
+                aria-label="Refresh halaman dashboard">
+                <i class='bx bx-refresh text-[18px]'></i>
+                <span class="hidden sm:inline">Refresh</span>
+            </button>
+
             <div class="relative">
                 <button id="notificationButton" type="button"
                     class="relative text-[#7e376f] transition hover:text-[#6a2a60]" aria-label="Notifikasi"
@@ -82,6 +89,7 @@
         const notificationList = document.getElementById('notificationList');
         const markAllReadButton = document.getElementById('markAllNotificationsRead');
         const logoutForm = document.getElementById('logoutForm');
+        const refreshButton = document.getElementById('dashboardRefreshButton');
 
         if (!profileButton || !profileMenu || !notificationButton || !notificationPanel || !notificationBadge || !
             notificationList || !markAllReadButton) return;
@@ -287,6 +295,15 @@
                 if (result.isConfirmed) {
                     logoutForm.submit();
                 }
+            });
+        }
+
+        if (refreshButton) {
+            refreshButton.addEventListener('click', () => {
+                refreshButton.setAttribute('disabled', 'disabled');
+                refreshButton.classList.add('pointer-events-none', 'opacity-60');
+                refreshButton.querySelector('i')?.classList.add('animate-spin');
+                window.location.reload();
             });
         }
 

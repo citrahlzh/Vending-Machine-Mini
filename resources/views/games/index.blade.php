@@ -3,13 +3,17 @@
 ])
 
 @section('content')
+    @php
+        $gameLogoUrl = setting_asset_url('game_logo_url', asset('assets/images/logo/nexsell-games.svg'));
+    @endphp
+
     <div class="h-auto flex flex-col items-center flex-1 text-center px-6">
         <div class="flex items-center gap-3 mb-24">
-            <img src="{{ asset('assets/images/logo/nexsell.svg') }}" alt="">
+            <img src="{{ $gameLogoUrl }}" alt="{{ setting('site_name', 'NEXSELL') }}">
 
             <div class="flex flex-col leading-none items-start">
                 <h1 class="font-bold text-[#802A76] text-[45px] m-0">
-                    NEXSELL
+                    {{ setting('site_name', 'NEXSELL') }}
                 </h1>
                 <h1 class="font-bold text-[#802A76] text-[30px] m-0 mt-[2px]">
                     GAMES AREA

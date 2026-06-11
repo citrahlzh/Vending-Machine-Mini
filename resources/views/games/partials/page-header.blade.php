@@ -4,10 +4,14 @@
     'progress' => null,
 ])
 
+@php
+    $gameLogoUrl = setting_asset_url('game_logo_url', asset('assets/images/logo/nexsell-games.svg'));
+@endphp
+
 <div class="w-full max-w-[1120px] px-6">
     <div class="flex items-start justify-between gap-6 sm:items-center">
         <div class="flex items-center gap-3 sm:gap-5">
-            <img src="{{ asset('assets/images/logo/nexsell-games.svg') }}" alt="Nexsell Games Area"
+            <img src="{{ $gameLogoUrl }}" alt="{{ setting('site_name', 'NEXSELL') }} Games Area"
                 class="h-[58px] w-auto sm:h-[78px] lg:h-[92px]">
         </div>
 

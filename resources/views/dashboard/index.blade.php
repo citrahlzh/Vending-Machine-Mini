@@ -82,11 +82,17 @@
                     </div>
 
                     <dl class="mt-6 space-y-4">
+                        @if ($machineIdentity['photo_url'])
+                            <div class="overflow-hidden rounded-xl border border-[#ede5f5] bg-[#faf7fd]">
+                                <img src="{{ $machineIdentity['photo_url'] }}" alt="{{ $machineIdentity['name'] }}"
+                                    class="h-[160px] w-full object-cover">
+                            </div>
+                        @endif
                         <div class="rounded-xl bg-[#faf7fd] px-4 py-3">
                             <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Nama Mesin</dt>
                             <dd class="mt-1 text-[16px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['name'] }}</dd>
                         </div>
-                        {{-- <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+                        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
                             <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
                                 <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Kode Mesin</dt>
                                 <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['code'] }}</dd>
@@ -103,7 +109,37 @@
                         <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
                             <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">PIC / Operator</dt>
                             <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['operator_name'] }}</dd>
-                        </div> --}}
+                        </div>
+                        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+                            <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
+                                <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Kategori</dt>
+                                <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['category'] }}</dd>
+                            </div>
+                            <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
+                                <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Ukuran</dt>
+                                <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['size'] }}</dd>
+                            </div>
+                        </div>
+                        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+                            <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
+                                <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Sistem</dt>
+                                <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['is_android'] ? 'Android' : 'Bukan Android' }}</dd>
+                            </div>
+                            <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
+                                <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Status</dt>
+                                <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">{{ $machineIdentity['status'] === 'active' ? 'Aktif' : 'Tidak Aktif' }}</dd>
+                            </div>
+                        </div>
+                        <div class="rounded-xl border border-[#ede5f5] px-4 py-3">
+                            <dt class="text-[12px] font-medium uppercase tracking-[0.18em] text-[#8b7699]">Kondisi</dt>
+                            <dd class="mt-1 text-[15px] font-semibold text-[#5E1C3D]">
+                                {{ match ($machineIdentity['condition_status']) {
+                                    'maintenance' => 'Maintenance',
+                                    'damaged' => 'Rusak',
+                                    default => 'Baik',
+                                } }}
+                            </dd>
+                        </div>
                     </dl>
                 </aside>
 

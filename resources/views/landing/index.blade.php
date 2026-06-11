@@ -200,7 +200,7 @@
         <div class="bg-white w-full max-w-[560px] rounded-[20px] p-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <div class="flex items-center justify-between gap-3">
                 <div class="text-[18px] font-semibold text-[#431a39]">Panduan Pembelian</div>
-                <button id="btn-close-guide" type="button" aria-label="Tutup panduan pembelian"
+                <button id="btn-close-guide"    type="button" aria-label="Tutup panduan pembelian"
                     class="h-[30px] w-[30px] flex rounded-full border border-[#d2c6e6] text-[#802A76] items-center justify-center">
                     <img src="{{ asset('assets/icons/landing/close.svg') }}" alt="">
                 </button>
@@ -216,11 +216,11 @@
                 <div class="font-semibold text-[#5E1C3D]">Call Center</div>
                 <div class="flex mt-2 items-center gap-2">
                     <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="">
-                    <p class="font-semibold text-[#802A76] items-center">{{ $callPhoneDisplay }}</p>
+                    <p id="call-center-phone" class="font-semibold text-[#802A76] items-center">{{ $callPhoneDisplay }}</p>
                 </div>
                 <div class="flex mt-2 items-center gap-2">
                     <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="">
-                    <p class="font-semibold text-[#802A76] items-center">{{ $callWaDisplay }}</p>
+                    <p id="call-center-whatsapp" class="font-semibold text-[#802A76] items-center">{{ $callWaDisplay }}</p>
                 </div>
             </div>
         </div>
@@ -248,11 +248,54 @@
             <div class="mt-[4px] text-[12px] text-[#6b5a84]">Mohon tunggu sebentar.</div>
         </div>
     </div>
+
+    <div id="machine-alert-overlay"
+        @class([
+            'fixed inset-0 z-[60] items-center justify-center bg-[rgba(48,16,32,0.72)] p-5 backdrop-blur-sm',
+            'flex' => ($machineAlert['is_blocked'] ?? false),
+            'hidden' => !($machineAlert['is_blocked'] ?? false),
+        ])>
+        <div
+            class="w-full max-w-[560px] rounded-[24px] border border-[#f3cdcd] bg-white px-6 py-7 text-center shadow-[0_28px_80px_rgba(42,14,31,0.28)] sm:px-8">
+            <div class="mx-auto flex h-[76px] w-[76px] items-center justify-center rounded-full bg-[#fff0f0]">
+                <img src="{{ asset('assets/icons/landing/warning.svg') }}" alt="" class="h-[28px] brightness-0 saturate-100 sepia-[.9] hue-rotate-[-25deg]">
+            </div>
+            <div id="machine-alert-title" class="mt-5 text-[24px] font-semibold leading-tight text-[#7e1f2f]">
+                {{ $machineAlert['title'] ?? '' }}
+            </div>
+            <p id="machine-alert-message" class="mt-3 text-[14px] leading-6 text-[#6f4a5d]">
+                {{ $machineAlert['message'] ?? '' }}
+            </p>
+            <div class="mt-5 rounded-[16px] bg-[#fff5fa] px-4 py-4 text-left">
+                <div class="text-[13px] font-semibold uppercase tracking-[0.16em] text-[#9b627b]">Call Center</div>
+                <div class="mt-3 flex items-center gap-3">
+                    <img src="{{ asset('assets/icons/landing/phone.svg') }}" alt="" class="h-[18px]">
+                    <p id="machine-alert-phone" class="text-[14px] font-semibold text-[#802A76]">{{ $callPhoneDisplay }}</p>
+                </div>
+                <div class="mt-2 flex items-center gap-3">
+                    <img src="{{ asset('assets/icons/landing/whatsapp.svg') }}" alt="" class="h-[18px]">
+                    <p id="machine-alert-whatsapp" class="text-[14px] font-semibold text-[#802A76]">{{ $callWaDisplay }}</p>
+                </div>
+            </div>
+            <p class="mt-5 text-[12px] text-[#8f6f80]">Silakan hubungi call center untuk bantuan lebih lanjut.</p>
+        </div>
+    </div>
 @endsection
 
 @push('script')
+    @php
+        $initialMachineAlert = $machineAlert ?? [
+            'is_blocked' => false,
+            'type' => 'normal',
+            'title' => null,
+            'message' => null,
+        ];
+    @endphp
+
     <script>
-        const products = @json($products);
+        let products = @json($products);
+        let landingSnapshotKey = JSON.stringify(products);
+        let machineAlertState = @json($initialMachineAlert);
 
         // Initializations
         const rupiah = (value) => new Intl.NumberFormat('id-ID').format(value);
@@ -282,15 +325,74 @@
         const btnOpenGuide = document.querySelector('#btn-open-guide, #btn-open-guide-floating');
         const btnCloseGuide = document.getElementById('btn-close-guide');
         const failMessage = document.getElementById('fail-message');
+        const callCenterPhoneText = document.getElementById('call-center-phone');
+        const callCenterWhatsappText = document.getElementById('call-center-whatsapp');
+        const machineAlertOverlay = document.getElementById('machine-alert-overlay');
+        const machineAlertTitle = document.getElementById('machine-alert-title');
+        const machineAlertMessage = document.getElementById('machine-alert-message');
+        const machineAlertPhone = document.getElementById('machine-alert-phone');
+        const machineAlertWhatsapp = document.getElementById('machine-alert-whatsapp');
         const paymentPageTemplate = @json(route('landing.payment', ['saleId' => '__SALE_ID__']));
+        const landingSnapshotUrl = @json(route('landing.snapshot'));
         const paymentContextKey = 'vm_payment_context';
+        const landingPollIntervalMs = 3000;
+        let isSyncingLandingData = false;
         let isCheckoutMinimized = true;
 
         const defaultQrisImage = '{{ asset('assets/images/transaction/QR_code.svg') }}';
+        const isMachineBlocked = () => Boolean(machineAlertState?.is_blocked);
 
         // Cart
         const saveCart = () => {
             localStorage.setItem(cartKey, JSON.stringify(cart));
+        };
+
+        const renderMachineAlert = () => {
+            if (!machineAlertOverlay || !machineAlertTitle || !machineAlertMessage) return;
+
+            const isBlocked = isMachineBlocked();
+            machineAlertOverlay.classList.toggle('hidden', !isBlocked);
+            machineAlertOverlay.classList.toggle('flex', isBlocked);
+            machineAlertTitle.textContent = machineAlertState?.title || '';
+            machineAlertMessage.textContent = machineAlertState?.message || '';
+        };
+
+        const syncCartWithProducts = () => {
+            const nextProducts = new Map(products.map((product) => [String(product.id), product]));
+            let hasChanges = false;
+
+            Object.keys(cart).forEach((productId) => {
+                const latestProduct = nextProducts.get(String(productId));
+                if (!latestProduct || latestProduct.stock <= 0) {
+                    delete cart[productId];
+                    hasChanges = true;
+                    return;
+                }
+
+                const cappedQty = Math.min(Number(cart[productId].qty || 0), Number(latestProduct.stock || 0));
+                if (cappedQty <= 0) {
+                    delete cart[productId];
+                    hasChanges = true;
+                    return;
+                }
+
+                if (
+                    cart[productId].qty !== cappedQty ||
+                    cart[productId].price !== latestProduct.price ||
+                    cart[productId].name !== latestProduct.name
+                ) {
+                    cart[productId] = {
+                        name: latestProduct.name,
+                        price: latestProduct.price,
+                        qty: cappedQty,
+                    };
+                    hasChanges = true;
+                }
+            });
+
+            if (hasChanges) {
+                saveCart();
+            }
         };
 
         // Show Products
@@ -314,17 +416,19 @@
                 rowItems.forEach((product) => {
                     const qty = cart[product.id]?.qty || 0;
                     const isOutOfStock = product.stock <= 0;
+                    const isMachineUnavailable = isMachineBlocked();
                     const isSelected = qty > 0;
                     const isMaxed = qty >= product.stock;
                     const card = document.createElement('div');
                     card.className =
                         `bg-white rounded-[16px] p-[10px] w-[170px] my-2 transition duration-200 ${
                         isSelected ? 'border-2 border-[#802A76] shadow-[0_10px_24px_rgba(92,42,148,0.18)]' : 'border border-[#e1d7f0] shadow-[0_6px_18px_rgba(60,34,97,0.08)]'
-                    } ${isOutOfStock ? 'opacity-70 grayscale' : 'hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(92,42,148,0.16)]'}`;
+                    } ${(isOutOfStock || isMachineUnavailable) ? 'opacity-70 grayscale' : 'hover:-translate-y-1 hover:shadow-[0_14px_28px_rgba(92,42,148,0.16)]'}`;
                     card.innerHTML = `
                     <div class="bg-cover h-[150px] w-full rounded-[14px] bg-gradient-to-b from-[#f4efff] via-[#f9f6ff] to-white border border-[#ece4f7] flex items-center justify-center relative overflow-hidden"
                         style="background-image: url('${product.image}');">
                         ${isOutOfStock ? '<div class="absolute inset-0 bg-white/70 flex items-center justify-center text-[12px] font-semibold text-[#c0392b]">HABIS</div>' : ''}
+                        ${(!isOutOfStock && isMachineUnavailable) ? '<div class="absolute inset-0 bg-white/75 flex items-center justify-center px-3 text-center text-[11px] font-semibold text-[#8f1d1d]">MESIN TIDAK SIAP</div>' : ''}
                     </div>
                     <div class="flex flex-col mt-[12px] h-[110px]">
                         <div class="text-[16px] font-semibold text-[#431a39] leading-tight">${product.name}</div>
@@ -333,7 +437,7 @@
                             ${isOutOfStock ? 'Stok habis' : `Stok ${product.stock}`}
                         </div> --}}
                         <div class="mt-auto w-full">
-                            <a href="${product.detail_url}" class="btn-buy flex h-[35px] w-full items-center justify-center rounded-full bg-[#802A76] text-[14px] font-semibold text-white">
+                            <a href="${isMachineUnavailable ? '#' : product.detail_url}" class="btn-buy flex h-[35px] w-full items-center justify-center rounded-full ${isMachineUnavailable ? 'bg-[#c8b8cf] pointer-events-none' : 'bg-[#802A76]'} text-[14px] font-semibold text-white">
                                 Beli
                             </a>
                         </div>
@@ -406,19 +510,19 @@
                 const previewText = firstTwo.join(' • ');
                 cartItemsPreview.textContent = remain > 0 ? `${previewText} • +${remain} lainnya` : previewText;
             }
-            const hasCheckout = total > 0;
+            const hasCheckout = total > 0 && !isMachineBlocked();
             payButtons.forEach((button) => {
                 button.toggleAttribute('disabled', !hasCheckout);
                 button.classList.toggle('opacity-50', !hasCheckout);
                 button.classList.toggle('cursor-not-allowed', !hasCheckout);
             });
-            checkoutFloat?.classList.toggle('hidden', !hasCheckout);
+            checkoutFloat?.classList.toggle('hidden', total <= 0);
             clearCartButtons.forEach((button) => {
-                button.classList.toggle('hidden', !hasCheckout);
+                button.classList.toggle('hidden', total <= 0);
             });
-            btnGuideFloating?.classList.toggle('hidden', hasCheckout);
+            btnGuideFloating?.classList.toggle('hidden', total > 0);
 
-            if (!hasCheckout) {
+            if (total <= 0) {
                 isCheckoutMinimized = true;
             }
             checkoutExpanded?.classList.toggle('hidden', isCheckoutMinimized);
@@ -488,6 +592,66 @@
             modal?.classList.remove('flex');
         };
 
+        const applyLandingSnapshot = (payload) => {
+            const nextProducts = Array.isArray(payload?.products) ? payload.products : [];
+            const nextSnapshotKey = JSON.stringify(nextProducts);
+
+            if (nextSnapshotKey !== landingSnapshotKey) {
+                products = nextProducts;
+                landingSnapshotKey = nextSnapshotKey;
+                syncCartWithProducts();
+                renderProducts();
+                renderCart();
+            }
+
+            if (typeof payload?.call_center_phone === 'string' && callCenterPhoneText) {
+                callCenterPhoneText.textContent = payload.call_center_phone;
+                if (machineAlertPhone) {
+                    machineAlertPhone.textContent = payload.call_center_phone;
+                }
+            }
+
+            if (typeof payload?.call_center_whatsapp === 'string' && callCenterWhatsappText) {
+                callCenterWhatsappText.textContent = payload.call_center_whatsapp;
+                if (machineAlertWhatsapp) {
+                    machineAlertWhatsapp.textContent = payload.call_center_whatsapp;
+                }
+            }
+
+            if (payload?.machine_alert) {
+                machineAlertState = payload.machine_alert;
+                renderMachineAlert();
+                renderProducts();
+                renderCart();
+            }
+        };
+
+        const syncLandingData = async () => {
+            if (isSyncingLandingData) return;
+            isSyncingLandingData = true;
+
+            try {
+                const response = await fetch(landingSnapshotUrl, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Cache-Control': 'no-cache',
+                    },
+                    cache: 'no-store',
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const result = await response.json();
+                applyLandingSnapshot(result?.data || {});
+            } catch (error) {
+                console.error('Gagal sinkron landing data:', error);
+            } finally {
+                isSyncingLandingData = false;
+            }
+        };
+
         productsCarousel?.addEventListener('click', (event) => {
             const target = event.target;
             const wrapper = target?.closest('[data-product]');
@@ -503,6 +667,13 @@
 
         const onCheckout = async () => {
             if (!Object.keys(cart).length) return;
+            if (isMachineBlocked()) {
+                if (failMessage) {
+                    failMessage.textContent = machineAlertState?.message || 'Mesin sedang tidak tersedia untuk transaksi.';
+                }
+                openModal(modalFail);
+                return;
+            }
 
             openModal(modalLoading);
             try {
@@ -575,8 +746,11 @@
             }
         });
 
+        renderMachineAlert();
         renderProducts();
         renderCart();
+        syncLandingData();
+        window.setInterval(syncLandingData, landingPollIntervalMs);
     </script>
 
     <script>
